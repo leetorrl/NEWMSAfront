@@ -261,12 +261,9 @@ if(!phoneAvailable.value){
 
     router.push({name:'joincomplete'})
 
-
      alert("회원가입 완료")
 
-
 }
-
 
 const cansel = () => {
 

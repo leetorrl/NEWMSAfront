@@ -66,7 +66,7 @@
                 </td>
                 <td class="p-1 border border-gray-300">
                   <a v-if="vacation.accept === '허가됨'" 
-                     :href="`http://greencomart.kro.kr:716/vacation/download/hwp/${vacation.idx}`" 
+                     :href="`${url}/vacation/download/hwp/${vacation.idx}`" 
                      class="px-2 py-1 text-white bg-blue-800 rounded hover:opacity-80" 
                      target="_blank">다운로드</a>
                   <span v-else>—</span>
@@ -94,10 +94,16 @@
 
 <script setup>
 import { ref, onMounted, computed } from 'vue';
-import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useRouter } from 'vue-router';
+import { GLOBAL_URL } from "./utils"
+import { mngunCheckedapi } from "@/api/manager"
+import { mngnameSearchapi } from '@/api/manager';
+import { mngfetchVacationsapi } from '@/api/manager';
+import { mnghandleApproveapi } from '@/api/manager';
+import { mnghandleDenyapi } from '@/api/manager';
 
+const url = `${GLOBAL_URL}`
 const router = useRouter()
 
 const vacationList = ref([]);
@@ -117,7 +123,7 @@ const unChecked = async (pageNum = 1) => {
   unchecking.value = true;
   try {
 
-    const response = await axios.get(`http://greencomart.kro.kr:716/vacation/managerunchecked?pageNum=${pageNum - 1}`);
+    const response =await mngunCheckedapi(pageNum)
 
     console.log(response)
 
@@ -131,6 +137,7 @@ const unChecked = async (pageNum = 1) => {
   }
 };
 
+
 const nameSearch = async (pageNum = 1) => {
   unchecking.value = false;
   if (username.value === '') {
@@ -138,7 +145,7 @@ const nameSearch = async (pageNum = 1) => {
     return;
   }
   try {
-    const response = await axios.get(`http://greencomart.kro.kr:716/vacation/managersearch?pageNum=${pageNum -1}&size=10&name=${username.value}`);
+    const response = mngnameSearchapi(pageNum , username.value)
     vacationList.value = response.data.list; 
     vacationList.value.sort((a, b) => b.idx - a.idx);
     totalElements.value = response.data.totalElements;
@@ -154,7 +161,7 @@ const nameSearch = async (pageNum = 1) => {
 const fetchVacations = async (pageNum = 1) => {
   unchecking.value = false;
   try {
-    const response = await axios.get(`http://greencomart.kro.kr:716/vacation/manager?pageNum=${pageNum - 1}`);
+    const response = mngfetchVacationsapi(pageNum)
     vacationList.value = response.data.list; 
     vacationList.value.sort((a, b) => b.idx - a.idx);
     totalElements.value = response.data.totalElements;
@@ -202,7 +209,7 @@ const approveAll = async () => {
 
 const handleApprove = async (idx) => {
   try {
-    await axios.post(`http://greencomart.kro.kr:716/vacation/accept/${idx}`);
+    await mnghandleApproveapi(idx)
     getPage(currentPage.value); // 현재 페이지로 목록 새로고침
   } catch (error) {
     console.error('승인 중 오류 발생:', error);
@@ -211,7 +218,7 @@ const handleApprove = async (idx) => {
 
 const handleDeny = async (idx) => {
   try {
-    await axios.post(`http://greencomart.kro.kr:716/vacation/deny/${idx}`);
+   await mnghandleDenyapi(idx)
     getPage(currentPage.value); // 현재 페이지로 목록 새로고침
   } catch (error) {
     console.error('거절 중 오류 발생:', error);

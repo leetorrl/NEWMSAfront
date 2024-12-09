@@ -127,6 +127,14 @@ import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
 import router from '@/router';
 import Cookies from 'js-cookie';
+import { mngdesclectrueapi } from '@/api/manager';
+import { mnggetlectureapi } from '@/api/manager';
+import { mnggetmonthattapi } from '@/api/manager';
+// import { mngapproveapi } from '@/api/manager';
+import { GLOBAL_URL } from "./utils"
+
+const url = `${GLOBAL_URL}`
+
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -242,7 +250,7 @@ const update = () => {
 
 const getlecture = async () => {
   try {
-    const res = await axios.get(`http://greencomart.kro.kr:716/lecture/list`);
+    const res = await mnggetlectureapi()
     lecturelist.value = res.data.sort((a, b) => b.idx - a.idx);
     console.log(lecturelist.value);
   } catch (e) {
@@ -252,7 +260,7 @@ const getlecture = async () => {
 
 const desclecture = async () => {
   try {
-    const res = await axios.get(`http://greencomart.kro.kr:716/lecture/list`);
+    const res = await mngdesclectrueapi()
     lecturelist.value = res.data.sort((a, b) => a.idx - b.idx);
     console.log(lecturelist.value);
   } catch (e) {
@@ -264,9 +272,7 @@ const getmonthatt = async (lecture, month) => {
   try {
     selectedtitle.value = lecture.title;
     selectedlecture.value = lecture;
-    const res = await axios.get(
-      `http://greencomart.kro.kr:716/attendance/monthview?idx=${lecture.idx}&month=${month}`
-    );
+    const res = await mnggetmonthattapi(lecture.idx, month)
     console.log(res.data);
     monthatt.value = processAttendanceData(res.data); // 데이터를 가공하는 함수를 호출
   } catch (e) {
@@ -274,7 +280,7 @@ const getmonthatt = async (lecture, month) => {
   }
 };
 
-const getAttendanceType = (useridx, day) => {
+const getAttendanceType =async (useridx, day) => {
   // studentAttendance를 찾을 때 useridx를 정수로 변환하여 비교합니다.
   const studentAttendance = monthatt.value.find((student) => student.useridx === Number(useridx));
 
@@ -282,7 +288,7 @@ const getAttendanceType = (useridx, day) => {
   if (!studentAttendance) return '-'; // 학생이 존재하지 않으면 '-'
 
   // 주말인지 확인
-  const dayName = getDayName(day); // 날짜 이름 가져오기
+  const dayName =await getDayName(day); // 날짜 이름 가져오기
   const isWeekendDay = /\((일|토)\)/.test(dayName);
 
 
@@ -355,17 +361,19 @@ const approve = async (useridx, day, isApproved) => {
   if (studentAttendance && studentAttendance.attendance[day]) {
     studentAttendance.attendance[day].approval = isApproved;
 
+
     try {
-      await axios.post('http://greencomart.kro.kr:716/attendance/updateApproval', {
-        useridx: useridx, // useridx도 전송할 수 있음
-        adate: dayjs()
-          .year(currentYear.value)
-          .month(currentMonth.value)
-          .date(day + 1)
-          .format('YYYY-MM-DD'), // day를 날짜 형식으로 변환
-        type: studentAttendance.attendance[day].type,
-        approval: isApproved
-      });
+      await axios.post(`${url}/attendance/updateApproval`, {
+            useridx: useridx, // useridx도 전송할 수 있음
+            adate: dayjs()
+              .year(currentYear.value)
+              .month(currentMonth.value)
+              .date(day + 1)
+              .format('YYYY-MM-DD'), // day를 날짜 형식으로 변환
+            type: studentAttendance.attendance[day].type,
+            approval: isApproved
+          });
+
     } catch (e) {
       console.error('Approval update failed:', e);
     }
@@ -408,8 +416,8 @@ const getNotAbsentOrEmptyCount = (useridx) => {
   return count;
 };
 
-const getAttendanceSummary = (useridx) => {
-  const absentCount = getAbsentCount(useridx);
+const getAttendanceSummary =  (useridx) => {
+  const absentCount =  getAbsentCount(useridx);
   const notAbsentOrEmptyCount = getNotAbsentOrEmptyCount(useridx);
 
   const totalAbsent = absentCount + Math.floor(notAbsentOrEmptyCount / 3);

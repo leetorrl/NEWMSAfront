@@ -65,10 +65,16 @@ import { ref, onMounted, computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { mnggetlectureapi3 } from '@/api/manager';
+import { mngfetchannounceForAllapi } from '@/api/manager';
+import { mngfetchannounceForAlldescapi } from '@/api/manager';
+import { mngfetchannounceByLectureapi } from '@/api/manager';
+import { mngfetchannounceapi } from '@/api/manager';
+import { mngfetchannounceByLecturedescapi } from '@/api/manager';
+import { mngfetchannouncedescapi } from '@/api/manager';
 
 const route = useRoute()
 const router = useRouter();
-
 
 const announcelist = ref([]);
 const totalElements = ref(0);
@@ -90,8 +96,7 @@ const resetSort = (pageNum) => {
 
 const getlecture = async () => {
   try {
-    const res = await axios.get(`http://greencomart.kro.kr:716/lecture/availlist`);
-
+    const res = mnggetlectureapi3()
     lecturelist.value = res.data.sort((a, b) => {
       return a.title.localeCompare(b.title);
     });
@@ -143,7 +148,7 @@ watch(selectedlecture, async (newVal, oldVal) => {
 
 const fetchannounceForAll = async (pageNum = 1) => {
   try {
-    const response = await axios.get(`http://greencomart.kro.kr:716/announce/searchforall?pageNum=${pageNum - 1}`);
+    const response = await mngfetchannounceForAllapi(pageNum)
     announcelist.value = response.data.list;
     announcelist.value.sort((a, b) => b.idx - a.idx);
     totalElements.value = response.data.totalElements;
@@ -156,7 +161,7 @@ const fetchannounceForAll = async (pageNum = 1) => {
 
 const fetchannounceForAlldesc = async (pageNum = 1) => {
   try {
-    const response = await axios.get(`http://greencomart.kro.kr:716/announce/searchforalldesc?pageNum=${pageNum - 1}`);
+    const response =await mngfetchannounceForAlldescapi(pageNum)
     announcelist.value = response.data.list;
     announcelist.value.sort((a, b) =>  a.idx - b.idx);
     totalElements.value = response.data.totalElements;
@@ -170,7 +175,7 @@ const fetchannounceForAlldesc = async (pageNum = 1) => {
 // 특정 강의를 선택했을 때의 요청
 const fetchannounceByLecture = async (lectureIdx, pageNum = 1) => {
   try {
-    const response = await axios.get(`http://greencomart.kro.kr:716/announce/lecturesearch/${lectureIdx}?pageNum=${pageNum - 1}`);
+    const response = await mngfetchannounceByLectureapi(lectureIdx, pageNum)
     announcelist.value = response.data.list;
     announcelist.value.sort((a, b) => b.idx - a.idx);
     totalElements.value = response.data.totalElements;
@@ -183,7 +188,7 @@ const fetchannounceByLecture = async (lectureIdx, pageNum = 1) => {
 
 const fetchannounceByLecturedesc = async (lectureIdx, pageNum = 1) => {
   try {
-    const response = await axios.get(`http://greencomart.kro.kr:716/announce/lecturesearchdesc/${lectureIdx}?pageNum=${pageNum - 1}`);
+    const response = mngfetchannounceByLecturedescapi(lectureIdx, pageNum)
     announcelist.value = response.data.list;
     announcelist.value.sort((a, b) =>  a.idx - b.idx);
     totalElements.value = response.data.totalElements;
@@ -196,7 +201,7 @@ const fetchannounceByLecturedesc = async (lectureIdx, pageNum = 1) => {
 
 const fetchannounce = async (pageNum = 1) => {
   try {
-    const response = await axios.get(`http://greencomart.kro.kr:716/announce/manager?pageNum=${pageNum - 1}`);
+    const response = await mngfetchannounceapi(pageNum)
     announcelist.value = response.data.list;
     announcelist.value.sort((a, b) => b.idx - a.idx);
     totalElements.value = response.data.totalElements;
@@ -210,7 +215,7 @@ const fetchannounce = async (pageNum = 1) => {
 
 const fetchannouncedesc = async (pageNum = 1) => {
   try {
-    const response = await axios.get(`http://greencomart.kro.kr:716/announce/managerdesc?pageNum=${pageNum - 1}`);
+    const response = await mngfetchannouncedescapi(pageNum)
     announcelist.value = response.data.list;
     announcelist.value.sort((a, b) =>  a.idx  -b.idx);
     totalElements.value = response.data.totalElements;

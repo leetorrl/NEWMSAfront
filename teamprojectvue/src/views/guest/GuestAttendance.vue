@@ -170,7 +170,6 @@ import { guattdeleteapi } from '@/api/guestapi';
 import dayjs from 'dayjs';
 import Cookies from 'js-cookie';
 
-
 const now = ref(dayjs());
 const columns = ref([]);
 const groupColumns = ref([]);
@@ -186,8 +185,6 @@ const addMonth = () => {
     now.value = dayjs(now.value).add(1, 'month');
     showuser();
 };
-
-
 
 // 상태 초기화를 위한 함수
 const resetAttendanceFields = () => {

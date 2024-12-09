@@ -49,10 +49,12 @@
 </template>
 
 <script setup>
-import axios from 'axios';
 import Cookies from 'js-cookie';
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import { mnggetlectureapi2 } from '@/api/manager';
+import { mngsubapi } from '@/api/manager';
+
 const lecturelist = ref([]);
 const title = ref('');
 const body = ref('');
@@ -61,8 +63,7 @@ const router = useRouter();
 
 const getlecture = async () => {
   try {
-    const res = await axios.get(`http://greencomart.kro.kr:716/lecture/availlist`);
-
+    const res = await mnggetlectureapi2()
     lecturelist.value = res.data.sort((a, b) => {
       return a.title.localeCompare(b.title);
     });
@@ -71,6 +72,30 @@ const getlecture = async () => {
     console.error(e);
   }
 };
+
+
+
+const goback = ()=>{
+  router.go(-1)
+}
+
+const sub = async () => {
+
+  const data = {
+    "title": title.value,
+    "body": body.value,
+    "lecture": (selectedlecture.value == "전체") ? null : lecturelist.value.find(lecture => lecture.title == selectedlecture.value).idx
+}
+
+  try {
+    const res = await mngsubapi(data)
+    console.log(res)
+    router.push({name:'deskannouncelist'})
+  } catch (e) {
+    console.log(e)
+    alert('에러')
+  }
+}
 
 onMounted(() => {
   getlecture();
@@ -81,35 +106,6 @@ onMounted(() => {
   }
 });
 
-const goback = ()=>{
-
-  router.go(-1)
-
-}
-
-const sub = async () => {
-
-  const token = Cookies.get('token')
-  // const token = localStorage.getItem('token')
-  const data = {
-    "title": title.value,
-    "body": body.value,
-    "lecture": (selectedlecture.value == "전체") ? null : lecturelist.value.find(lecture => lecture.title == selectedlecture.value).idx
-}
-
-  try {
-    const res = await axios.post('http://greencomart.kro.kr:716/announce/save', data, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      }
-    })
-    console.log(res)
-    router.push({name:'deskannouncelist'})
-  } catch (e) {
-    console.log(e)
-    alert('에러')
-  }
-}
 </script>
 
 <style lang="scss" scoped></style>
