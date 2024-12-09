@@ -58,7 +58,7 @@ export const logincontrol = async (data) => {
   try {
     const response = await axios.post(`${url}/sign/login`, data);
 
-    Cookies.set('token', response.data )
+    Cookies.set('token', response.data ,{ sameSite: 'Strict' })
 
 
     // localStorage.setItem('token', response.data);
