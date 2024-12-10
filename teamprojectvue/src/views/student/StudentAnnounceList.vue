@@ -54,6 +54,9 @@
           <button @click="nextPageGroup" :disabled="currentPageGroup >= maxPageGroup"
             class="px-3 py-1 bg-white border border-gray-300 hover:bg-gray-100">&gt;</button>
         </div>
+        <router-link to="questionboard">
+        <button type="button" class="absolute right-24 bg-indigo-300 hover:scale-110"> 문의 게시판</button>
+      </router-link>
       </section>
     </main>
   </div>
