@@ -66,7 +66,7 @@
                 </td>
                 <td class="p-1 border border-gray-300">
                   <a v-if="vacation.accept === '허가됨'" 
-                     :href="`${url}/vacation/download/hwp/${vacation.idx}`" 
+                     :href="`http://greencomart.kro.kr:716/vacation/download/hwp/${vacation.idx}`" 
                      class="px-2 py-1 text-white bg-blue-800 rounded hover:opacity-80" 
                      target="_blank">다운로드</a>
                   <span v-else>—</span>
@@ -96,14 +96,14 @@
 import { ref, onMounted, computed } from 'vue';
 import Cookies from 'js-cookie';
 import { useRouter } from 'vue-router';
-import { GLOBAL_URL } from "./utils"
+// import { GLOBAL_URL } from "@api/utils"
 import { mngunCheckedapi } from "@/api/manager"
 import { mngnameSearchapi } from '@/api/manager';
 import { mngfetchVacationsapi } from '@/api/manager';
 import { mnghandleApproveapi } from '@/api/manager';
 import { mnghandleDenyapi } from '@/api/manager';
 
-const url = `${GLOBAL_URL}`
+// const url = `${GLOBAL_URL}`
 const router = useRouter()
 
 const vacationList = ref([]);

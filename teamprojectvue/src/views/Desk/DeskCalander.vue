@@ -16,7 +16,7 @@
           <hr class="my-2 border-blue-500" />
           <div :class="{
             'bg-[#e7e7e7]':
-              selectedlecture !== null && selectedlecture.title == lecture.title
+              selectedlecture !== null && selectedlecture.title === lecture.title
           }" class="cursor-pointer hover:bg-[#e7e7e7] my-2" @click="getmonthatt(lecture, nowDat)"
             v-for="(lecture) in lecturelist" :key="lecture.idx">
             - {{ lecture.title }}
@@ -131,9 +131,9 @@ import { mngdesclectrueapi } from '@/api/manager';
 import { mnggetlectureapi } from '@/api/manager';
 import { mnggetmonthattapi } from '@/api/manager';
 // import { mngapproveapi } from '@/api/manager';
-import { GLOBAL_URL } from "./utils"
+// import { GLOBAL_URL } from "@/api/utils"
 
-const url = `${GLOBAL_URL}`
+// const url = `${GLOBAL_URL}`
 
 
 dayjs.extend(utc);
@@ -363,7 +363,7 @@ const approve = async (useridx, day, isApproved) => {
 
 
     try {
-      await axios.post(`${url}/attendance/updateApproval`, {
+      await axios.post(`http://greencomart.kro.kr:716/attendance/updateApproval`, {
             useridx: useridx, // useridx도 전송할 수 있음
             adate: dayjs()
               .year(currentYear.value)
