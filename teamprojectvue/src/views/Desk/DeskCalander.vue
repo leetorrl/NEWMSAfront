@@ -131,9 +131,9 @@ import { mngdesclectrueapi } from '@/api/manager';
 import { mnggetlectureapi } from '@/api/manager';
 import { mnggetmonthattapi } from '@/api/manager';
 // import { mngapproveapi } from '@/api/manager';
-// import { GLOBAL_URL } from "@/api/utils"
+import { GLOBAL_URL } from "@/api/utils"
 
-// const url = `${GLOBAL_URL}`
+const url = ref(`${GLOBAL_URL}`)
 
 
 dayjs.extend(utc);
@@ -280,7 +280,7 @@ const getmonthatt = async (lecture, month) => {
   }
 };
 
-const getAttendanceType =async (useridx, day) => {
+const getAttendanceType = (useridx, day) => {
   // studentAttendance를 찾을 때 useridx를 정수로 변환하여 비교합니다.
   const studentAttendance = monthatt.value.find((student) => student.useridx === Number(useridx));
 
@@ -288,7 +288,7 @@ const getAttendanceType =async (useridx, day) => {
   if (!studentAttendance) return '-'; // 학생이 존재하지 않으면 '-'
 
   // 주말인지 확인
-  const dayName =await getDayName(day); // 날짜 이름 가져오기
+  const dayName =getDayName(day); // 날짜 이름 가져오기
   const isWeekendDay = /\((일|토)\)/.test(dayName);
 
 
@@ -363,7 +363,7 @@ const approve = async (useridx, day, isApproved) => {
 
 
     try {
-      await axios.post(`http://greencomart.kro.kr:716/attendance/updateApproval`, {
+      await axios.post(`${url.value}:716/attendance/updateApproval`, {
             useridx: useridx, // useridx도 전송할 수 있음
             adate: dayjs()
               .year(currentYear.value)
