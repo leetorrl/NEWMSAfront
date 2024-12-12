@@ -73,12 +73,25 @@
               </div>
             </li>
           </RouterLink>
+          <hr class="border-gray-300"/>
+          <RouterLink to="/studentqnaborad">
+            <li>
+              <div
+                @click="setActiveItem('studentQnA')"
+                :class="{ 'bg-blue-200 rounded-md': activeItem === 'studentQnA' }"
+                class="my-2 py-1 text-sm flex items-center"
+              >
+                <img src="../images/announ.png" alt="" class="mr-2" />
+                문의사항
+              </div>
+            </li>
+          </RouterLink>
         </ul>
         <div class="mt-20 text-xs">
 
         </div>
       </aside>
-      <div @click="logout" class=" font-[GmarketSansMedium] mt-24 border-gray-300 bg-slate-100 m-3 rounded-md cursor-pointer hover:bg-red-400"><span class="p-2 pb-1 flex justify-center ">로그아웃</span></div>
+      <div @click="logout" class=" font-[GmarketSansMedium] mt-18 border-gray-300 bg-slate-100 m-3 rounded-md cursor-pointer hover:bg-red-400"><span class="p-2 pb-1 flex justify-center ">로그아웃</span></div>
     </div>
   </div>
 </template>
