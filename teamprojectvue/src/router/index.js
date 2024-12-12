@@ -25,6 +25,7 @@ import TeacherAnnounceList from '@/views/teacher/TeacherAnnounceList.vue'
 import StudentAnnounceList from '@/views/student/StudentAnnounceList.vue'
 import TeacherVacation from '@/views/teacher/TeacherVacation.vue'
 import TeacherAnnouncewrite from '@/views/teacher/TeacherAnnouncewrite.vue'
+import StudentDashBoard from '@/views/student/StudentDashBoard.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -38,6 +39,11 @@ const router = createRouter({
       path: '/announceview/:idx',
       name: 'announceview',
       component: Announceview
+    },
+    {
+      path: '/studentmain',
+      name: 'studentmain',
+      component: StudentDashBoard
     },
     {
       path: '/teacherannouncewrite',

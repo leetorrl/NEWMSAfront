@@ -1,11 +1,14 @@
 <template>
-  <div class="ml-5 m-3 border border-gray-400 w-full p-10">
-    <div class="">
-      <h1 class="py-4 font-bold text-blue-800 mx-60">마이페이지</h1>
-      <hr class="w-full mx-auto border-blue-900" />
+  <div class="p-10 mt-10 ml-3">
+    <div>
+      <h1 class="text-3xl font-bold text-blue-900">마이페이지
+      </h1>
+    </div>
+    <hr class="border-b border-[#eee] mt-4" />
 
-      <div class="flex items-center justify-center p-6">
-        <div class="bg-white flex p-3 rounded-xl">
+    <div class="w-[68rem] p-5">
+      <div class="flex items-center justify-center p-3">
+        <div class="flex p-3 bg-white rounded-xl">
           <!-- 사진 영역 -->
           <aside>
             <img v-if="role === '학원생'" src="../images/stude.jpg" alt="Student Image" class="w-40" />
@@ -34,16 +37,24 @@
           </div>
         </div>
       </div>
-
-      <hr class="w-full mx-auto border-blue-900" />
-      <h1 class="py-4 font-bold text-blue-800 mx-60 mt-5">내 강좌</h1>
-      <div class="flex flex-col items-center justify-center mx-60 mb-5">
-        <div v-if="lecturecheck" v-for="(lecture, index) in lecturelist" :key="lecture.idx" class="flex my-3">
-          <h v-if="lecture.state == '수강중'" class="flex items-center justify-center w-20 text-sm text-center bg-blue-400 border rounded">
-            수강 중</h>
-          <h v-else class="flex items-center justify-center w-20 text-sm text-center text-white bg-gray-500 border rounded">
-            강좌{{ index }}</h>
-          <div class="h-10 mx-3 text-xs border w-96 rounded p-3">{{ lecture.title }}</div>
+    </div>
+    <hr class="my-3 border-b-4 border-blue-900" />
+    <div>
+      <h1 class="mt-1 text-3xl font-bold text-blue-900">내 강좌
+      </h1>
+    </div>
+    <div class="w-[68rem] p-5">
+      <div class="flex flex-col mb-5 mx-60">
+        <div v-if="lecturecheck">
+          <div v-for="(lecture, index) in lecturelist" :key="lecture.idx" class="flex">
+            <h v-if="lecture.state == '수강중'"
+              class="flex items-center justify-center w-20 text-center bg-blue-400 border rounded">
+              수강 중</h>
+            <h v-else
+              class="flex items-center justify-center w-20 text-center text-white bg-gray-500 border rounded">
+              강좌{{ index }}</h>
+            <div class="p-3 mx-3 border rounded w-96">{{ lecture.title }}</div>
+          </div>
         </div>
 
         <div v-else-if="managercheck">
@@ -106,9 +117,9 @@ onMounted(async () => {
 
     lecturecheck.value = true;
   }
-if(Cookies.get('token')==null){
-  // if(localStorage.getItem('token')==null){
-    router.push({name:'loginview'})
+  if (Cookies.get('token') == null) {
+    // if(localStorage.getItem('token')==null){
+    router.push({ name: 'loginview' })
   }
 
 });

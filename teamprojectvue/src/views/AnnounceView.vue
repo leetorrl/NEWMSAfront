@@ -1,44 +1,35 @@
 <template>
-    <div class="ml-2 w-[1500px]">
-    <div class="m-3 border border-gray-400  h-full w-full">
-    <div class="">
-      <div class="m-10">
-        <div class="flex justify-between">
-          <h1 class="m-3 inline-block" >
-            <span class="font-bold"></span>
-          </h1>
-          <h1 class="m-3 inline-block" >
-            -공지사항-
-          </h1>
-        </div>
-        <div class="w-full ">
-        <div class="border p-5 w-full  border-gray-400 inline-block">
-        <hr class="m-1 mr-2 ml-2 border border-blue-500" />
+  <div class="p-10 mt-10 ml-3">
+    <div>
+      <h1 class="text-3xl font-bold text-blue-900">공지사항
+      </h1>
+    </div>
+    <hr class="border-b border-[#eee] mt-4" />
+    <hr class="mt-3 border-b-4 border-blue-900" />
+
+    <div class="ml-2 w-[68rem]">
+      <div class="m-10 border border-gray-300">
+        <hr class="m-1 ml-2 mr-2 border border-blue-500" />
         <div class="overflow-x-auto">
-          <h1 class="font-bold m-2 ml-5 text-2xl ">{{title}} <span class="text-sm">({{lecture}})</span> <span class="text-sm mt-2 mr-5 float-end inline-block">{{user}} {{wdate}} </span> </h1>
-        
-          <hr class="m-1 mr-2 ml-2 border border-blue-500" />
+          <h1 class="m-2 ml-5 text-2xl font-bold ">{{ title }} <span class="text-sm">({{ lecture }})</span> <span
+              class="inline-block mt-2 mr-5 text-sm float-end">{{ user }} {{ wdate }} </span> </h1>
+          <hr class="m-1 ml-2 mr-2 border border-blue-500" />
           <div class="p-5">
-          <div class=" mt-8 mb-10">
-            {{body}}
+            <div class="mt-8 mb-10 ">
+              {{ body }}
+            </div>
           </div>
         </div>
-    </div>  
-    </div>
-    </div>
-    <div @click="godeskannouncelist"
-             class="flex text-xl border-2  border-blue-300 pl-3 pr-3 my-8
-             hover:bg-blue-300 hover:opacity-80
-              hover:text-white cursor-pointer float-left rounded p-1"
-          >
-             공지사항 리스트 
-          </div>
+        <div @click="godeskannouncelist"
+          class="flex float-left p-1 pl-3 pr-3 my-8 text-xl border-2 border-blue-300 rounded cursor-pointer hover:bg-blue-300 hover:opacity-80 hover:text-white">
+          공지사항 리스트
+        </div>
       </div>
       <div class="">
       </div>
+
     </div>
   </div>
-</div>
 </template>
 
 <script setup>
@@ -61,27 +52,25 @@ const lecture = ref('')
 
 const godeskannouncelist = () => {
 
-    router.go(-1)
+  router.go(-1)
 }
 
-onMounted( async()=>{
+onMounted(async () => {
 
-   const res =  await getAnnounceview(route.params.idx)
+  const res = await getAnnounceview(route.params.idx)
 
-   title.value = res.data.title
-   body.value = res.data.body
-   wdate.value = res.data.wdate
-   user.value = res.data.user
-   lecture.value = res.data.lecture
+  title.value = res.data.title
+  body.value = res.data.body
+  wdate.value = res.data.wdate
+  user.value = res.data.user
+  lecture.value = res.data.lecture
 
-if(Cookies.get('token')==null){
-  //  if(localStorage.getItem('token')==null){
-    router.push({name:'loginview'})
+  if (Cookies.get('token') == null) {
+    //  if(localStorage.getItem('token')==null){
+    router.push({ name: 'loginview' })
   }
 })
 
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

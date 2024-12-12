@@ -1,22 +1,14 @@
 <template>
-  <div class="mx-auto p-10 w-full">
+  <div class="w-full p-10 mx-auto">
     <div class="mb-4">
-      <h1 class="text-2xl font-bold mb-2">과정 선택</h1>
+      <h1 class="mb-2 text-2xl font-bold">과정 선택</h1>
 
       <hr class="border-t-2 border-blue-600" />
     </div>
 
-    <!-- Main Section -->
+    <div class="p-6 bg-white rounded-lg shadow">
+      <h2 class="inline-block mb-4 text-xl font-bold">강좌 선택</h2>
 
-    <div class="bg-white shadow p-6 rounded-lg">
-      <h2 class="text-xl font-bold mb-4 inline-block">강좌 선택</h2>
-
-      <!-- <button @click="golectureinsert()" class="ml-10 inline-block bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-700">
-        강좌 생성
-      </button>
-      <button @click="golecturelist()" class="ml-10 inline-block bg-red-300 text-white py-2 px-4 rounded-lg hover:bg-yellow-700">강좌 리스트</button> -->
-
-      <!-- Search Bar -->
       <div class="mb-4">
         <input
           v-model="search"
@@ -26,16 +18,14 @@
         />
       </div>
 
-      <!-- Course Buttons -->
-      <div class="mx-auto grid grid-cols-4 gap-4">
+      <div class="grid grid-cols-4 gap-4 mx-auto">
         <button v-for="course in filteredCourses" :key="course" class="px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700">
           {{ course }}
         </button>
       </div>
     </div>
 
-    <!-- Duplicate Section (Optional) -->
-    <div class="mx-auto p-6 mt-10 bg-white rounded-lg shadow">
+    <div class="p-6 mx-auto mt-10 bg-white rounded-lg shadow">
       <div class="grid grid-cols-4 gap-4">
         <button v-for="course in courses" :key="course + '-dup'" class="px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700">
           {{ course }}

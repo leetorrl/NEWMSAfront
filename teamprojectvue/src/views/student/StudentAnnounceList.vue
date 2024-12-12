@@ -1,11 +1,16 @@
 <template>
-  <div class="ml-4 font-sans flex justify-center">
-    <main class="flex justify-center w-[74.5rem]">
-      <section class="flex-1 p-6 m-2 bg-white border border-gray-500">
-        <h1 class="mb-5 text-2xl font-semibold">공지사항</h1>
+  <div class="p-10 mt-10 ml-3">
+    <div>
+      <h1 class="text-3xl font-bold text-blue-900">공지사항
+      </h1>
+    </div>
+    <hr class="border-b border-[#eee] mt-4" />
+    <hr class="mt-3 border-b-4 border-blue-900" />
 
+    <main class="flex justify-center w-[68rem]">
+      <section class="flex-1 p-6 m-2 bg-white">
         <div v-if="lecturelist.length > 0">
-          <select class="border border-gray-500 mr-3" v-model="selectedlecture" name="" id="">
+          <select class="mr-3 border border-gray-500" v-model="selectedlecture" name="" id="">
             <option value="전체">전체</option>
             <option v-for="lecture in lecturelist" :key="lecture.idx" :value="lecture.idx">
               {{ lecture.title }}
@@ -19,8 +24,8 @@
           <table class="w-full mb-5 border border-collapse border-gray-300">
             <thead>
               <tr class="bg-gray-100">
-                <th class="p-1 border border-gray-300">제목</th>
-                <th class="p-1 border border-gray-300">강좌</th>
+                <th class="p-1 border border-gray-300 w-[30vw]">제목</th>
+                <th class="p-1 border border-gray-300">대상</th>
                 <th class="p-1 border border-gray-300">글쓴이</th>
                 <th class="p-1 border border-gray-300">작성일</th>
               </tr>
@@ -28,8 +33,9 @@
             <tbody>
               <tr v-for="(announce, index) in announcelist" :key="index" class="text-center">
                 <td @click="viewPage(announce.idx)"
-                  class="p-1 border border-gray-300 hover:underline hover:cursor-pointer hover:bg-gray-200">{{
-                    announce.title }}</td>
+                  class="p-1 pl-4 text-left border border-gray-300 hover:underline hover:cursor-pointer hover:bg-gray-200">
+                  {{ announce.title.length > 35 ? announce.title.substring(0, 35) + '...' : announce.title }}
+                </td>
                 <td @click="lectureclick(announce.lecture)"
                   class="p-1 border border-gray-300 hover:underline hover:cursor-pointer hover:bg-gray-200">{{
                     announce.lecture }}</td>
@@ -40,7 +46,7 @@
           </table>
         </div>
 
-        <button @click="sortAsc" class="px-4 py-2 text-white bg-green-600 rounded hover:opacity-80 mr-3">최신순</button>
+        <button @click="sortAsc" class="px-4 py-2 mr-3 text-white bg-green-600 rounded hover:opacity-80">최신순</button>
         <button @click="sortDesc" class="px-4 py-2 text-white bg-blue-600 rounded hover:opacity-80">과거순</button>
 
         <div class="flex justify-center mt-5 space-x-2">
@@ -96,9 +102,9 @@ const resetSort = (pageNum) => {
 
 const getlecture = async () => {
   try {
-    
+
     const res = stgetlectureapi()
-    lecturelist.value = res.data.sort((a, b) => {
+    lecturelist.value = (await res).data.sort((a, b) => {
       return a.title.localeCompare(b.title);
     });
 
@@ -163,7 +169,7 @@ const fetchannounceForAll = async (pageNum = 1) => {
 };
 
 const fetchannounceForAlldesc = async (pageNum = 1) => {
-  try { 
+  try {
     const response = await stfetchannounceForAlldescapi(pageNum)
     announcelist.value = response.data.list;
     announcelist.value.sort((a, b) => b.idx - a.idx);
@@ -178,7 +184,7 @@ const fetchannounceForAlldesc = async (pageNum = 1) => {
 // 특정 강의를 선택했을 때의 요청
 const fetchannounceByLecture = async (lectureIdx, pageNum = 1) => {
   try {
-    const response = await stfetchannounceByLectureapi(lectureIdx ,pageNum  )
+    const response = await stfetchannounceByLectureapi(lectureIdx, pageNum)
     announcelist.value = response.data.list;
     announcelist.value.sort((a, b) => b.idx - a.idx);
     totalElements.value = response.data.totalElements;
@@ -220,7 +226,7 @@ const fetchannouncedesc = async (pageNum = 1) => {
   try {
     const response = await stfetchannouncedescapi(pageNum)
     announcelist.value = response.data.list;
-    announcelist.value.sort((a, b) =>   a.idx -b.idx);
+    announcelist.value.sort((a, b) => a.idx - b.idx);
     totalElements.value = response.data.totalElements;
     totalPages.value = response.data.totalPages;
     currentPage.value = pageNum;
@@ -285,9 +291,9 @@ onMounted(() => {
   fetchannounce(currentPage.value);
   getlecture();
 
-  if(Cookies.get('token')==null){
-  // if(localStorage.getItem('token')==null){
-    router.push({name:'loginview'})
+  if (Cookies.get('token') == null) {
+    // if(localStorage.getItem('token')==null){
+    router.push({ name: 'loginview' })
   }
 });
 </script>
