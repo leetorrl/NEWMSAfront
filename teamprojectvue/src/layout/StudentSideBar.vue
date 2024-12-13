@@ -84,13 +84,14 @@
             </li>
           </RouterLink>
         </ul>
+        <div @click="logout"
+        class=" font-[GmarketSansMedium] mt-10 text-black border-gray-300 bg-slate-100 m-3 rounded-md cursor-pointer hover:bg-red-400">
+        <span class="flex justify-center p-2 pb-1 ">로그아웃</span></div>
         <div class="mt-20 text-xs">
 
         </div>
       </aside>
-      <div @click="logout"
-        class=" font-[GmarketSansMedium] mt-24 border-gray-300 bg-slate-100 m-3 rounded-md cursor-pointer hover:bg-red-400">
-        <span class="flex justify-center p-2 pb-1 ">로그아웃</span></div>
+     
     </div>
   </div>
 </template>
