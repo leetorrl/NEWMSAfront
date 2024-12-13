@@ -1,8 +1,11 @@
 import axios from 'axios';
 import { useloginStore } from '@/stores/loginpinia';
 import { GLOBAL_URL } from './utils';
+import { useRouter } from 'vue-router';
 import Cookies from 'js-cookie';
 
+
+const router = useRouter()
 const url = `${GLOBAL_URL}`;
 
 export const userdata = async () => {

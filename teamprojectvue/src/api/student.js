@@ -279,3 +279,21 @@ export const stfetchannouncedescapi = async(pageNum) => {
         console.log(e)
     }
 }
+
+export const stQnAlistapi = async ()=> {
+
+    const token = Cookies.get('token')
+
+    try{
+        const res = await axios.get(`${url}/announce/student?pageNum=0&size=10`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+
+        return res.data
+    }catch(e){
+        console.log(e)
+    }
+
+}

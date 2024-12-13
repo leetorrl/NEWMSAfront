@@ -2,7 +2,7 @@
       <div class="ml-4 font-sans flex justify-center">
     <main class="flex justify-center w-[74.5rem]">
       <section class="flex-1 p-6 m-2 bg-white border border-gray-500">
-        <h1 class="mb-5 text-2xl font-semibold">공지사항</h1>
+        <h1 class="mb-5 text-2xl font-semibold">a문의사항</h1>
 
         <div >
           <select class="border border-gray-500 mr-3" v-model="selectedlecture" name="" id="">
@@ -30,13 +30,13 @@
               <tr v-for="item in arr" :key="item.idx" class="text-center">
                 <td 
                   class="p-1 border border-gray-300 hover:underline hover:cursor-pointer hover:bg-gray-200">{{
-                    item.type }}</td>
+                    item.idx }}</td>
                 <td 
                   class="p-1 border border-gray-300 hover:underline hover:cursor-pointer hover:bg-gray-200">{{
-                    itme.title }}</td>
-                <td class="p-1 border border-gray-300">{{ item.state }}</td>
+                    item.title }}</td>
+                <td class="p-1 border border-gray-300">{{ item.user }}</td>
                 <td class="p-1 border border-gray-300">{{ item.wdate }}</td>
-                <td class="p-1 border border-gray-300">{{ item.views }}</td>
+                <td class="p-1 border border-gray-300">{{ item.lecture }}</td>
               </tr>
             </tbody>
           </table>
@@ -63,12 +63,32 @@
 
 <script setup>
 import { ref } from 'vue';
-
+import { stQnAlistapi } from '../../api/student';
+import { onMounted } from 'vue';
 
 const arr = ref([])
+const body = ref('')
+const title = ref('')
 
 
+const QnAlist = async ()=> {
 
+  try{
+
+    const res = await stQnAlistapi()
+
+    arr.value = res.list
+
+    console.log( arr.value)
+    console.log("arrtitle" + arr.value[0].title)
+  }catch(e){
+    console.log(e)
+  }
+}
+
+onMounted(()=>{
+  QnAlist()
+})
 
 </script>
 

@@ -46,7 +46,7 @@ const router = useRouter();
 const loginStore = useloginStore();
 const { userrl } = storeToRefs(loginStore);
 const { logincheckfalse } = loginStore;
-const { userL,} = loginStore;
+const { userL} = loginStore;
 
 const userrlvalue = computed(() => loginStore.userrl);
 
@@ -88,22 +88,23 @@ if(await Cookies.get('token') !== null){
   }
 };
 
+
 onMounted(async () => {
+ 
+  if(!Cookies.get("token")){
+    router.push({name:'loginview'})
+  }
+
   userdata();
 
-if(await Cookies.get('token')!== null){
+if( Cookies.get('token')){
   // if (localStorage.getItem('token') !== null) {
     userdata();
     //토큰 체크
     logincheckfalse();
     //권한 체크
-
     //사이드바 체크
   }
-  //  else{
-  //   router.push({name:'loginview'})
-  //    console.log("에러"+logincheckpinia )
-  //  }
   homelogin();
 });
 </script>
