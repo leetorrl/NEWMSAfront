@@ -1,16 +1,16 @@
 <template>
   <div class="bg-[#eee] font-[GmarketSansMedium]">
     <nav class="mx-0 shadow-md">
-      <div class="bg-blue-300 h-12 p-2 fixed bottom-0 left-0 right-0">
-        <div class="flex justify-between items-start">
-          <div class="text-xs">
+      <div class="fixed bottom-0 left-0 right-0 h-12 p-2 text-gray-100 bg-blue-900">
+        <div class="flex items-start justify-between">
+          <div class="text-xs text-gray-400">
             <p>주소 : 대구광역시 중구 중앙대로 394, 제일빌딩 5F</p>
             <p>전화 : 053-572-1005 / FAX : 053-422-9122</p>
           </div>
           <div>
             <a href="https://greenart.co.kr/" target="_blank">
               <div class="absolute flex items-center left-[41%]">
-                <img src="../images/LOGO.png" alt="" class="h-8 max-md:w-28 cover cursor-pointer" />
+                <img src="../images/LOGO.png" alt="" class="h-8 cursor-pointer max-md:w-28 cover" />
                 <!-- @click="logoclick" -->
                 그린컴퓨터아트학원(대구지점)
               </div>
@@ -21,21 +21,21 @@
 
           <template v-else>
             <div class="flex space-x-5">
-              <div class="text-2xl mr-10">
+              <div class="mr-10 text-2xl">
                 {{ username }} {{ mapUserRole(userrl) }}님 반갑습니다.
               </div>
-              <!-- <div class="text-xl rounded hover:bg-blue-800 px-3 pt-1" @click="logout">
+              <!-- <div class="px-3 pt-1 text-xl rounded hover:bg-blue-800" @click="logout">
                 <RouterLink to="/loginview" class="flex text-white items-center font-[GmarketSansMedium]"> 로그아웃 </RouterLink>
               </div> -->
             </div>
           </template>
           <button
             @click.stop="handleInstallClick"
-            class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-lg flex items-center space-x-2 -mt-1"
+            class="flex items-center px-4 py-2 -mt-1 space-x-2 font-semibold text-white bg-blue-500 rounded-lg shadow-lg hover:bg-blue-600"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5"
+              class="w-5 h-5"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"

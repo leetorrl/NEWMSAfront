@@ -1,65 +1,62 @@
 <template>
-  <div class="ml-3 border p-10">
-    <div id="user" class="">
-      <h1 class="text-3xl font-bold" v-if="user">{{ user.name }} 학생 출결 관리</h1>
-      
+  <div class="p-10 mt-10 ml-3">
+    <div id="user">
+      <h1 class="text-3xl font-bold text-blue-900" v-if="user">출결 관리
+        <span v-if="useravail" class="text-2xl font-bold text-green-700">◆ {{ attlist.at(0).lecture }}</span>
+        <span v-if="!useravail" class="text-2xl font-bold text-red-700">◆ {{ usererror }}</span>
+      </h1>
+
     </div>
-    <hr class="border-b border-blue-400 mt-4" />
-    <div id="main" class="items-center justify-center mt-10 w-[68rem]">
-      <p v-if="useravail" class="text-green-600 text-2xl font-bold">◆ {{ attlist.at(0).lecture }}</p>
-      <p v-if="!useravail" class="text-red-600 text-2xl font-bold">◆ {{ usererror }}</p>
+    <hr class="border-b border-[#eee] mt-4" />
+    <div id="main" class="items-center justify-center mt-3 w-[68rem]">
+      <hr class="border-b-4 border-blue-900" />
+      <h1 class="my-4 text-xl font-bold text-center text-blue-900">
+        <button @click="subMonth()" class="mr-2">
+          <p class="fas fa-arrow-left">◀</p>
+        </button>
+        {{ now.format('YYYY.MM') }}
+        <button @click="addMonth()" class="ml-2">
+          <p class="fas fa-arrow-right">▶</p>
+        </button>
+      </h1>
+      <hr class="border-b-4 border-blue-900" />
 
       <div v-if="useravail" id="attendance" class="flex">
-        <div id="calander" class="w-full p-4 bg-white rounded-lg shadow-md min-w-72">
-          <h1 class="mb-4 text-xl font-bold text-center">
-            <button @click="subMonth()" class="mr-2">
-              <i class="fas fa-arrow-left">&lt;&lt;</i>
-            </button>
-            {{ now.format('YYYY년 MM월') }}
-            <button @click="addMonth()" class="ml-2">
-              <i class="fas fa-arrow-right">&gt;&gt;</i>
-            </button>
-          </h1>
-          <div class="grid grid-cols-7 gap-2 text-center text-gray-600">
-            <div class="p-2 px-4 text-red-600">일</div>
-            <div class="p-2 px-4">월</div>
-            <div class="p-2 px-4">화</div>
-            <div class="p-2 px-4">수</div>
-            <div class="p-2 px-4">목</div>
-            <div class="p-2 px-4">금</div>
-            <div class="p-2 px-4 text-blue-500">토</div>
+        <div id="calander" class="w-full p-4 bg-white rounded-lg ">
+          <div class="grid grid-cols-7 text-center text-gray-500">
+            <div class="p-2 px-4 pb-4 text-xl text-red-500 border-r border-[#eee]">일</div>
+            <div class="p-2 px-4 pb-4 text-xl border-x border[#eee]">월</div>
+            <div class="p-2 px-4 pb-4 text-xl border-x border[#eee]">화</div>
+            <div class="p-2 px-4 pb-4 text-xl border-x border[#eee]">수</div>
+            <div class="p-2 px-4 pb-4 text-xl border-x border[#eee]">목</div>
+            <div class="p-2 px-4 pb-4 text-xl border-x border[#eee]">금</div>
+            <div class="p-2 px-4 pb-4 text-xl border-l border-[#eee] text-blue-500">토</div>
           </div>
-          <div class="grid grid-cols-7 border border-black" v-for="group in groupColumns" :key="group.length">
-            <div
-              @click="selectDateFn(column, index)"
-              v-for="(column, index) in group"
+          <div class="grid grid-cols-7 " v-for="group in groupColumns" :key="group.length">
+            <div @click="selectDateFn(column, index)" v-for="(column, index) in group"
               :key="column.format('YYYY-MM-DD')"
-              class="p-2 text-center cursor-pointer hover:bg-blue-200 min-h-24 max-h-36 border-x border-black"
+              class="p-2 text-center cursor-pointer hover:bg-blue-200 min-h-24 max-h-36 border-t-2 border-[#eee] text-gray-500"
               :class="{
-                'text-red-600': index % 7 == 0,
-                'text-blue-600': index % 7 == 6,
-                'bg-gray-200': index % 7 == 0 || index % 7 == 6,
+                'text-red-500 border-r border-[#eee]': index % 7 == 0,
+                'text-blue-500 border-l border-[#eee]': index % 7 == 6,
+                'border-x border-[#eee]': index % 7 != 0 && index % 7 != 6,
+                '[background-color:rgba(238,238,238,0.3)]': index % 7 == 0 || index % 7 == 6,
                 'bg-red-200': column.format('YYYY-MM-DD') == dayjs().format('YYYY-MM-DD'),
                 'opacity-20': !column.isSame(now, 'month')
-              }"
-            >
+              }">
               <span>{{ column.get('date') }}</span>
               <template v-for="items in attlist" :key="items.adate">
                 <div v-if="items.adate == column.format('YYYY-MM-DD')">
                   <div class="mt-2 text-green-600">
-                    <button
-                      @click="(event) => selectAttFn(event, items, column)"
-                      class="w-full font-semibold text-white rounded hover:bg-green-700 focus:outline-none focus:shadow-outline"
-                      :class="{
-                        'bg-green-500':
-                          items.approval == null &&
-                          (items.type === '조퇴' || items.type === '외출' || items.type === '지각'),
-                        'bg-red-500': items.approval == null && items.type === '결석',
-                        'bg-blue-500': items.approval != null
-                      }"
-                    >
+                    <div class="w-full font-semibold text-white rounded focus:outline-none focus:shadow-outline" :class="{
+                      'bg-green-500':
+                        items.approval == null &&
+                        (items.type === '조퇴' || items.type === '외출' || items.type === '지각'),
+                      'bg-red-500': items.approval == null && items.type === '결석',
+                      'bg-blue-500': items.approval != null
+                    }">
                       {{ items.type }}
-                    </button>
+                    </div>
                   </div>
                 </div>
               </template>
@@ -67,158 +64,122 @@
           </div>
         </div>
 
-        <div id="attadd" v-show="selectDate" class="mx-6 w-2/5 bg-blue-300 rounded-lg p-2">
-          <h1>{{ selectDate }} 출결 등록</h1>
-          <div class="">
-            <label for="attendance" class="text-xs"
-              >1. 해당하는 출결 변동 사항을 선택 해 주세요.</label
-            >
-            <form action="">
-              <input
-                type="radio"
-                value="지각"
-                id="type-1"
-                name="attendance"
-                v-model="type"
-                checked
-              />
-              <label for="type-1" class="p-1 pr-3 text-sm">지각</label>
+        <div id="attadd" v-show="selectDate" class="p-2 bg-blue-900 w-[17.5vw] mt-2 rounded-lg">
+          <h1 class="text-xl text-gray-100">{{ selectDate }}</h1>
+          <div v-for="items in attlist" :key="items.adate">
+            <div v-if="items.adate == selectDate">
+              <div @click="(event) => selectAttFn(event, items, column)"
+                class="w-full py-2 my-2 font-semibold text-center text-white rounded focus:outline-none focus:shadow-outline"
+                :class="{
+                  'bg-green-500 hover:bg-green-700 hover:cursor-pointer':
+                    items.approval == null &&
+                    (items.type === '조퇴' || items.type === '외출' || items.type === '지각'),
+                  'bg-red-500 hover:bg-red-700 hover:cursor-pointer': items.approval == null && items.type === '결석',
+                  'bg-blue-500': items.approval != null
+                }">{{ items.type }}<span v-if="items.type != '휴가'"> - 상세 보기</span></div>
+            </div>
+          </div>
+          <div @click="AttAdd()"
+            class="w-full py-2 my-2 font-semibold text-center text-gray-600 bg-white rounded hover:bg-gray-200 focus:outline-none focus:shadow-outline hover:cursor-pointer">
+            +
+          </div>
+          <div id="attadd" v-show="selectAttAdd" class="p-3 text-gray-600 rounded bg-slate-100">
+            <h1>추가하기</h1>
+            <div>
+              <label for="attendance">1. 출결 변동 사항 선택</label>
+              <form action="">
+                <input type="radio" value="지각" id="type-1" name="attendance" v-model="type" checked />
+                <label for="type-1" class="p-1 pr-3 text-sm">지각</label>
 
-              <input type="radio" value="조퇴" id="type-2" name="attendance" v-model="type" />
-              <label for="type-2" class="p-1 pr-3 text-sm">조퇴</label>
+                <input type="radio" value="조퇴" id="type-2" name="attendance" v-model="type" />
+                <label for="type-2" class="p-1 pr-3 text-sm">조퇴</label>
+                <br>
+                <input type="radio" value="외출" id="type-3" name="attendance" v-model="type" />
+                <label for="type-3" class="p-1 pr-3 text-sm">외출</label>
 
-              <input type="radio" value="외출" id="type-3" name="attendance" v-model="type" />
-              <label for="type-3" class="p-1 pr-3 text-sm">외출</label>
+                <input type="radio" value="결석" id="type-4" name="attendance" v-model="type" />
+                <label for="type-4" class="p-1 pr-3 text-sm">결석</label>
+              </form>
+            </div>
 
-              <input type="radio" value="결석" id="type-4" name="attendance" v-model="type" />
-              <label for="type-4" class="p-1 pr-3 text-sm">결석</label>
-            </form>
+            <p class="mt-1">2. 출결 변동의 원인</p>
+            <p>
+              <input type="text" placeholder="예시) 병원, 예비군 등" class="pl-1 border border-gray-500" v-model="reason" />
+            </p>
+            <div class="mt-2">
+              <label for="approval">3. 출석 인정 사유에 해당</label>
+              <form action="">
+                <input type="radio" value="false" id="approval-1" name="approval" v-model="approval" required />
+                <label for="approval-1" class="p-1 pr-3">예</label>
+                <input type="radio" value="null" id="approval-2" name="approval" v-model="approval" required />
+                <label for="approval-2" class="p-1 pr-3">아니오</label>
+              </form>
+            </div>
+            <button @click="attupdate"
+              class="px-4 py-2 mt-6 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline"
+              type="button">
+              제출하기
+            </button>
           </div>
 
-          <p class="text-xs">2. 출결 변동의 원인을 적어주세요.</p>
-          <p>
-            <input
-              type="text"
-              placeholder="예시) 병원, 예비군 등"
-              class="border border-gray-500"
-              v-model="reason"
-            />
-          </p>
-          <div>
-            <label for="approval" class="text-xs">3. 출석 인정 사유에 해당됩니까?</label>
-            <form action="">
-              <input
-                type="radio"
-                value="false"
-                id="approval-1"
-                name="approval"
-                v-model="approval"
-                required
-              />
-              <label for="approval-1" class="p-1 pr-3">예</label>
-              <input
-                type="radio"
-                value="null"
-                id="approval-2"
-                name="approval"
-                v-model="approval"
-                required
-              />
-              <label for="approval-2" class="p-1 pr-3">아니오</label>
-            </form>
-          </div>
-          <button
-            @click="attupdate"
-            class="px-4 py-2 font-bold mt-6 text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline"
-            type="button"
-          >
-            제출하기
-          </button>
-        </div>
-        <div id="attupdate" v-show="selectAtt" class="mx-1 w-2/5 bg-blue-300 rounded-lg p-2">
-          <h1>{{ attDate }} 출결 수정</h1>
-          <div>
-            <label for="attendance" class="text-xs"
-              >1. 해당하는 출결 변동 사항을 선택 해 주세요.</label
-            >
-            <form action="">
-              <input type="radio" value="지각" id="type-1" name="attendance" v-model="type" />
-              <label for="type-1" class="p-1 pr-3 text-sm">지각</label>
+          <div id="attupdate" v-show="selectAtt" class="p-3 text-gray-600 rounded bg-slate-100">
+            <h1 v-if="selectAtt">{{ selectAtt.type }}</h1>
+            <div>
+              <label for="attendance">1. 출결 변동 사항 선택</label>
+              <form action="">
+                <input type="radio" value="지각" id="type-1" name="attendance" v-model="type" />
+                <label for="type-1" class="p-1 pr-3 text-sm">지각</label>
 
-              <input type="radio" value="조퇴" id="type-2" name="attendance" v-model="type" />
-              <label for="type-2" class="p-1 pr-3 text-sm">조퇴</label>
+                <input type="radio" value="조퇴" id="type-2" name="attendance" v-model="type" />
+                <label for="type-2" class="p-1 pr-3 text-sm">조퇴</label>
+                <br>
+                <input type="radio" value="외출" id="type-3" name="attendance" v-model="type" />
+                <label for="type-3" class="p-1 pr-3 text-sm">외출</label>
 
-              <input type="radio" value="외출" id="type-3" name="attendance" v-model="type" />
-              <label for="type-3" class="p-1 pr-3 text-sm">외출</label>
-
-              <input type="radio" value="결석" id="type-4" name="attendance" v-model="type" />
-              <label for="type-4" class="p-1 pr-3 text-sm">결석</label>
-            </form>
+                <input type="radio" value="결석" id="type-4" name="attendance" v-model="type" />
+                <label for="type-4" class="p-1 pr-3 text-sm">결석</label>
+              </form>
+            </div>
+            <p class="mt-1">2. 출결 변동의 원인</p>
+            <p>
+              <input type="text" placeholder="예시) 병원, 예비군 등" class="pl-1 border border-gray-500" v-model="reason" />
+            </p>
+            <div class="mt-2">
+              <label for="approval">3. 출석 인정 사유에 해당</label>
+              <form action="">
+                <input type="radio" :value="false" id="approval-1" name="approval" v-model="approval" required />
+                <label for="approval-1" class="p-1 pr-3">예</label>
+                <input type="radio" :value="null" id="approval-2" name="approval" v-model="approval" required />
+                <label for="approval-2" class="p-1 pr-3">아니오</label>
+              </form>
+            </div>
+            <button @click="attupdate"
+              class="px-3 py-2 mt-6 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline"
+              type="button">
+              수정하기
+            </button>
+            <button @click="attdelete"
+              class="px-3 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700 focus:outline-none focus:shadow-outline"
+              type="button">
+              삭제하기
+            </button>
           </div>
-          <p class="text-xs">2. 출결 변동의 원인을 적어주세요.</p>
-          <p>
-            <input
-              type="text"
-              placeholder="예시) 병원, 예비군 등"
-              class="border border-gray-500"
-              v-model="reason"
-            />
-          </p>
-          <div>
-            <label for="approval" class="text-xs">3. 출석 인정 사유에 해당됩니까?</label>
-            <form action="">
-              <input
-                type="radio"
-                :value="false"
-                id="approval-1"
-                name="approval"
-                v-model="approval"
-                required
-              />
-              <label for="approval-1" class="p-1 pr-3">예</label>
-              <input
-                type="radio"
-                :value="null"
-                id="approval-2"
-                name="approval"
-                v-model="approval"
-                required
-              />
-              <label for="approval-2" class="p-1 pr-3">아니오</label>
-            </form>
-          </div>
-          <button
-            @click="attupdate"
-            class="px-3 py-2 mt-6 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline"
-            type="button"
-          >
-            수정하기
-          </button>
-          <button
-            @click="attdelete"
-            class="px-3 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700 focus:outline-none focus:shadow-outline"
-            type="button"
-          >
-            삭제하기
-          </button>
         </div>
       </div>
 
       <div v-else class="mt-44">
-        <h1 class="flex justify-center"><< 먼저 강좌를 선택하여 주시길 바랍니다. >></h1>
+        <h1 class="flex justify-center">
+          << 먼저 강좌를 선택하여 주시길 바랍니다.>>
+        </h1>
         <div class="flex justify-center">
-          <button
-            class="border-2 border-blue-800 m-5 p-2 pl-8 pr-8 rounded-md bg-blue-800 text-white"
-            @click="golectureselect"
-          >
+          <button class="p-2 pl-8 pr-8 m-5 text-white bg-blue-800 border-2 border-blue-800 rounded-md"
+            @click="golectureselect">
             강좌 리스트 보러가기
           </button>
         </div>
       </div>
     </div>
   </div>
-  <!-- </div> -->
-  <div class="mb-64"></div>
 </template>
 
 <script setup>
@@ -238,8 +199,9 @@ const now = ref(dayjs());
 const columns = ref([]);
 const groupColumns = ref([]);
 
-const selectDate = ref(null);
+const selectDate = ref(dayjs().format('YYYY-MM-DD'));
 const selectAtt = ref(null);
+const selectAttAdd = ref(false);
 
 const subMonth = () => {
   now.value = dayjs(now.value).subtract(1, 'month');
@@ -252,6 +214,7 @@ const addMonth = () => {
 
 // 상태 초기화를 위한 함수
 const resetAttendanceFields = () => {
+  type.value = '지각';
   reason.value = null;
   approval.value = null;
   oldtype.value = null;
@@ -355,8 +318,6 @@ const attupdate = async () => {
     alert(
       `${selectDate.value == null ? attDate.value : selectDate.value}, ${type.value} 요청 완료!`
     );
-    selectAtt.value = null;
-    selectDate.value = null;
     await showuser();
   } catch (e) {
     console.log(e);
@@ -390,15 +351,10 @@ const selectDateFn = (date, index) => {
 
   const formattedDate = dayjs(date).format('YYYY-MM-DD');
 
-  // 이미 선택된 날짜를 클릭하면 선택 취소
-  if (selectDate.value === formattedDate) {
-    selectDate.value = null;
-  } else {
-    // 새로운 날짜를 선택할 경우 상태 초기화
-    selectDate.value = formattedDate;
-    selectAtt.value = null; // 출결 수정용 선택 비활성화
-    resetAttendanceFields();
-  }
+  selectDate.value = formattedDate;
+  selectAtt.value = null; // 출결 수정용 선택 비활성화
+  selectAttAdd.value = false;
+  resetAttendanceFields();
 };
 
 const selectAttFn = (event, items, date) => {
@@ -415,7 +371,7 @@ const selectAttFn = (event, items, date) => {
   } else {
     // 새로운 출결 항목을 선택할 경우 상태 초기화 및 설정
     selectAtt.value = items;
-    selectDate.value = null; // 날짜 선택 비활성화
+    selectAttAdd.value = false;
     type.value = items.type;
     reason.value = items.reason;
     oldtype.value = items.type;
@@ -424,16 +380,28 @@ const selectAttFn = (event, items, date) => {
   }
 };
 
+const AttAdd = () => {
+  selectAtt.value = null;
+
+  if (selectAttAdd.value) {
+    selectAttAdd.value = false;
+    resetAttendanceFields();
+  } else {
+    selectAttAdd.value = true;
+    resetAttendanceFields();
+  }
+}
+
 const golectureselect = () => {
   router.push({ name: 'lectureselect' });
 };
 
-onMounted( async () => {
+onMounted(async () => {
   await showuser();
 
-  if( Cookies.get('token')==null){
-  // if(localStorage.getItem('token')==null){  
-    router.push({name:'loginview'})
+  if (Cookies.get('token') == null) {
+    // if(localStorage.getItem('token')==null){  
+    router.push({ name: 'loginview' })
   }
 });
 </script>

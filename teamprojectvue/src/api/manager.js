@@ -1,5 +1,6 @@
 import axios from "axios"
 import { GLOBAL_URL } from "./utils"
+import Cookies from "js-cookie"
 
 const url = `${GLOBAL_URL}`
 
