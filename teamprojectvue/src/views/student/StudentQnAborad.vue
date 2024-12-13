@@ -16,7 +16,7 @@
               {{  }}
             </option>
           </select>
-          <button @click="resetSort(1)" class="px-2 py-1 mr-1 text-white bg-blue-600 rounded hover:opacity-80">
+          <button  class="px-2 py-1 mr-1 text-white bg-blue-600 rounded hover:opacity-80">
             초기화
           </button>
         </div>
@@ -32,7 +32,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="item in arr" :key="item.idx" class="text-center">
+              <tr v-for=" item in arr " :key="item.idx" class="text-center">
                
                 <td 
                   class="p-1 border border-gray-300 hover:underline hover:cursor-pointer hover:bg-gray-200">{{ item.idx }}</td>
@@ -48,18 +48,18 @@
           </table>
         </div>
 
-        <button @click="sortAsc" class="px-4 py-2 mr-3 text-white bg-green-600 rounded hover:opacity-80">최신순</button>
-        <button @click="sortDesc" class="px-4 py-2 text-white bg-blue-600 rounded hover:opacity-80">과거순</button>
+        <button  class="px-4 py-2 mr-3 text-white bg-green-600 rounded hover:opacity-80">최신순</button>
+        <button  class="px-4 py-2 text-white bg-blue-600 rounded hover:opacity-80">과거순</button>
 
         <div class="flex justify-center mt-5 space-x-2">
-          <button @click="prevPageGroup" :disabled="currentPageGroup === 0"
+          <button 
             class="px-3 py-1 bg-white border border-gray-300 hover:bg-gray-100">&lt;</button>
           <span v-for="page in currentPageNumbers" :key="page"
             class="px-3 py-1 border border-gray-300 cursor-pointer hover:bg-gray-100"
-            @click="(ascdesc) ? getPage(page) : getdescPage(page)">
-            {{ page }}
+            >
+            {{  }}
           </span>
-          <button @click="nextPageGroup" :disabled="currentPageGroup >= maxPageGroup"
+          <button
             class="px-3 py-1 bg-white border border-gray-300 hover:bg-gray-100">&gt;</button>
         </div>
       </section>
@@ -73,8 +73,6 @@ import { stQnAlistapi } from '../../api/student';
 import { onMounted } from 'vue';
 
 const arr = ref([])
-const body = ref('')
-const title = ref('')
 
 
 const QnAlist = async ()=> {
@@ -85,8 +83,8 @@ const QnAlist = async ()=> {
 
     arr.value = res.list
 
-    console.log( arr.value)
-    console.log("arrtitle" + arr.value[0].title)
+    console.log(arr.value)
+    
   }catch(e){
     console.log(e)
   }

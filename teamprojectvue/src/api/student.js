@@ -280,12 +280,12 @@ export const stfetchannouncedescapi = async(pageNum) => {
     }
 }
 
-export const stQnAlistapi = async ()=> {
+export const stQnAlistapi = async (pageNum=1)=> {
 
     const token = Cookies.get('token')
 
     try{
-        const res = await axios.get(`${url}/announce/student?pageNum=0&size=10`, {
+        const res = await axios.get(`${url}/announce/student?pageNum=${pageNum - 1}`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
