@@ -26,9 +26,9 @@ import StudentAnnounceList from '@/views/student/StudentAnnounceList.vue'
 import TeacherVacation from '@/views/teacher/TeacherVacation.vue'
 import TeacherAnnouncewrite from '@/views/teacher/TeacherAnnouncewrite.vue'
 import StudentDashBoard from '@/views/student/StudentDashBoard.vue'
-
-import StudentQnAborad from '@/views/student/StudentQnAborad.vue'
-
+import QnAborad from '@/views/QnAborad.vue'
+import QnAboradView from '@/views/QnAboradView.vue'
+import QnAboardsave from '@/views/QnAboardsave.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -39,9 +39,19 @@ const router = createRouter({
     //   component: LoginHome
     // },
     {
-      path: '/studentqnaborad',
-      name: 'studentqnaborad',
-      component: StudentQnAborad
+      path: '/qnaboradsave',
+      name: 'qnaboradsave',
+      component: QnAboardsave
+    },
+    {
+      path: '/qnaborad',
+      name: 'qnaborad',
+      component: QnAborad
+    },
+    {
+      path: '/qnaboradview/:idx',
+      name: 'qnaboradview',
+      component: QnAboradView
     },
     {
       path: '/announceview/:idx',

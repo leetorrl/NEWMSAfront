@@ -71,7 +71,7 @@
           </RouterLink>
 
           <hr class="border-gray-300"/>
-          <RouterLink to="/studentqnaborad">
+          <RouterLink to="/qnaborad">
             <li>
               <div
                 @click="setActiveItem('studentQnA')"

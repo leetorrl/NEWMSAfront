@@ -280,16 +280,107 @@ export const stfetchannouncedescapi = async(pageNum) => {
     }
 }
 
-export const stQnAlistapi = async (pageNum=1)=> {
+export const stQnAlistapi = async ()=> {
 
-    const token = Cookies.get('token')
+    const dat = {
+        userid : "userid1",
+        password : "password"
+    }
 
     try{
-        const res = await axios.get(`${url}/announce/student?pageNum=${pageNum - 1}`, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
+
+        const ress = await axios.post(`http://192.168.0.69:8080/sign/login`, dat)
+
+        console.log(ress.data )
+
+        Cookies.set('ttk', ress.data)
+    
+        const ttk = Cookies.get('ttk')
+    
+        const resss = await axios.get(`http://192.168.0.69:8080/QnA/list`, {
+            headers: {
+              Authorization: `Bearer ${ttk}`
+            }
+          });
+    
+        console.log(resss)
+    
+        return resss.data
+
+    }catch(e){
+        console.log(e)
+    }
+
+   
+
+    // const token = Cookies.get('token')
+
+    // try{
+    //     const res = await axios.get(`${url}/announce/student?pageNum=${pageNum - 1}`, {
+    //       headers: {
+    //         Authorization: `Bearer ${token}`
+    //       }
+    //     });
+
+    //     return res.data
+    // }catch(e){
+    //     console.log(e)
+    // }
+
+}
+
+export const stQnAviewapi = async(idx)=>{
+
+    const ttk = Cookies.get('ttk')
+    
+    try{
+
+    const res = await axios.get(`http://192.168.0.69:8080/QnA/view/${idx}`, {
+        headers: {
+          Authorization: `Bearer ${ttk}`
+        }
+      });
+
+    return res
+
+    }catch(e){
+        console.log(e)
+    }
+}
+
+
+export const stQnAboardsaveapi = async(data)=>{
+
+    const ttk = Cookies.get('ttk')
+
+    try{
+
+        const res = await axios.post(`http://192.168.0.69:8080/QnA/save`, data,
+            {
+                headers: {
+                  Authorization: `Bearer ${ttk}`
+                }
+              });
+
+        return res
+
+    }catch(e){
+        console.log(e)
+    }
+
+}
+
+
+export const stgetuserapi = async()=>{
+
+    const ttk = Cookies.get('ttk')
+
+    try{
+        const res = await axios.get(`http://192.168.0.69:8080/user/getuser`, {
+            headers: {
+              Authorization: `Bearer ${ttk}`
+            }
+          });
 
         return res.data
     }catch(e){
