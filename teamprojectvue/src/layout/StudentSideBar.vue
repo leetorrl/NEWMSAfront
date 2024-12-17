@@ -69,6 +69,7 @@
               </div>
             </li>
           </RouterLink>
+<<<<<<< HEAD
 
           <hr class="border-gray-300"/>
           <RouterLink to="/qnaborad">
@@ -83,6 +84,9 @@
               </div>
             </li>
           </RouterLink>
+=======
+          
+>>>>>>> 우혁
         </ul>
         <div @click="logout"
         class=" font-[GmarketSansMedium] mt-10 text-black border-gray-300 bg-slate-100 m-3 rounded-md cursor-pointer hover:bg-red-400">
