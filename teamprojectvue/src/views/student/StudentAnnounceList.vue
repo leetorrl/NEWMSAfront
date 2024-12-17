@@ -9,8 +9,8 @@
 
     <main class="flex justify-center w-[68rem]">
       <section class="flex-1 p-6 m-2 bg-white">
-        <div v-if="lecturelist.length > 0">
-          <select class="mr-3 border border-gray-500" v-model="selectedlecture" name="" id="">
+        <div v-if="lecturelist.length > 0" class="mb-5">
+          <select class="w-32 mr-3 border border-gray-500" v-model="selectedlecture" name="" id="">
             <option value="전체">전체</option>
             <option v-for="lecture in lecturelist" :key="lecture.idx" :value="lecture.idx">
               {{ lecture.title }}
@@ -24,23 +24,23 @@
           <table class="w-full mb-5 border border-collapse border-gray-300">
             <thead>
               <tr class="bg-gray-100">
-                <th class="p-1 border border-gray-300 w-[30vw]">제목</th>
-                <th class="p-1 border border-gray-300">대상</th>
-                <th class="p-1 border border-gray-300">글쓴이</th>
-                <th class="p-1 border border-gray-300">작성일</th>
+                <th class="p-4 border border-gray-300 w-[30vw]">제목</th>
+                <th class="p-4 border border-gray-300">구분</th>
+                <th class="p-4 border border-gray-300">글쓴이</th>
+                <th class="p-4 border border-gray-300">작성일</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(announce, index) in announcelist" :key="index" class="text-center">
                 <td @click="viewPage(announce.idx)"
-                  class="p-1 pl-4 text-left border border-gray-300 hover:underline hover:cursor-pointer hover:bg-gray-200">
+                  class="p-4 pl-4 text-left border border-gray-300 hover:underline hover:cursor-pointer hover:bg-gray-200">
                   {{ announce.title.length > 35 ? announce.title.substring(0, 35) + '...' : announce.title }}
                 </td>
                 <td @click="lectureclick(announce.lecture)"
-                  class="p-1 border border-gray-300 hover:underline hover:cursor-pointer hover:bg-gray-200">{{
+                  class="p-4 border border-gray-300 hover:underline hover:cursor-pointer hover:bg-gray-200">{{
                     announce.lecture }}</td>
-                <td class="p-1 border border-gray-300">{{ announce.user }}</td>
-                <td class="p-1 border border-gray-300">{{ announce.wdate }}</td>
+                <td class="p-4 border border-gray-300">{{ announce.user }}</td>
+                <td class="p-4 border border-gray-300">{{ announce.wdate }}</td>
               </tr>
             </tbody>
           </table>
@@ -60,9 +60,6 @@
           <button @click="nextPageGroup" :disabled="currentPageGroup >= maxPageGroup"
             class="px-3 py-1 bg-white border border-gray-300 hover:bg-gray-100">&gt;</button>
         </div>
-        <router-link to="questionboard">
-        <button type="button" class="absolute right-24 bg-indigo-300 hover:scale-110"> 문의 게시판</button>
-      </router-link>
       </section>
     </main>
   </div>
