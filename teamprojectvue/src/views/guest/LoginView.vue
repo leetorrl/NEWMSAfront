@@ -105,7 +105,6 @@ const isClicked2 = ref(false)
 const isClicked3 = ref(false)
 
 const getannounce = async () => {
-
   const res = await loginannounceapi();
   arr.value = res.data.list;
 }
