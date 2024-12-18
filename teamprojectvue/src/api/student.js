@@ -270,6 +270,7 @@ export const stQnAlistapi = async () => {
     const resss = await axios.get(`${qna_url}/QnA/list`,
       { params: { token } }
     );
+    
     console.log(resss);
     return resss.data;
   } catch (e) {
