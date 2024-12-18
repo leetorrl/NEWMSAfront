@@ -81,7 +81,6 @@ const sub = async () => {
     "body": body.value,
     "lecture": lecturelist.value.find(lecture => lecture.title == selectedlecture.value).idx
 }
-
   try {
     const res = subapi(data)
     console.log(res)
