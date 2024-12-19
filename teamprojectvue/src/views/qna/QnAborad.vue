@@ -37,6 +37,7 @@
           <table class="w-full mb-5 border border-collapse border-gray-300">
             <thead>
               <tr class="bg-gray-100">
+                
                 <th class="w-1/12 p-3 border border-gray-300">구분</th>
                 <th class="w-4/12 p-3 border border-gray-300">제목</th>
                 <th class="w-1/12 p-3 border border-gray-300">글쓴이</th>
@@ -46,26 +47,25 @@
             </thead>
             <tbody>
               <tr
-                v-for="item in arr"
+                v-for="item in QnAlistarr"
                 :key="item.idx"
                 class="text-center hover:cursor-pointer hover:bg-gray-200"
-                @click="goQnAboradView(item.idx)"
+                @click="goQnAboradView(item.idx)" 
               >
-                <td class="p-1 border border-gray-300">{{ item.type }}</td>
-                <td class="p-1 border border-gray-300">
-                  {{ item.title.length > 20 ? item.title.substring(0, 20) + '...' : item.title }}
-                </td>
-                <td class="p-3 border border-gray-300">{{ item.user }}</td>
-                <td class="p-3 border border-gray-300">{{ item.wdate }}</td>
-                <td class="p-3 border border-gray-300">
+              <td class="p-3 border border-gray-300" >{{ item.type }}</td>
+      <td class="p-3 border border-gray-300" >{{ item.title.length > 20 ? item.title.substring(0, 20) + '...' : item.title }}</td>
+      <td class="p-3 border border-gray-300">{{ item.userid }}</td>
+      <td class="p-3 border border-gray-300" >{{ item.wdate }}</td>
+                <td class="p-3 border border-gray-300" >
                   {{
-                    item.qnastate === 'QnA_Hold'
-                      ? '문의대기'
-                      : item.qnastate === 'QnA_Complete'
+                    item.qnaState === 'WAITING'
+                      ? '답변대기'
+                      : item.qnaState === 'COMPLETE'
                         ? '답변완료'
-                        : item.qnastate
+                        : item.qnaState
                   }}
                 </td>
+             <!-- /// <td colspan="5" class="p-3 border border-gray-300">비공개글 입니다.</td> -->
               </tr>
             </tbody>
           </table>
@@ -82,15 +82,17 @@
           글쓰기
         </button>
         <div class="flex justify-center mt-5 space-x-2">
-          <button class="px-3 py-1 bg-white border border-gray-300 hover:bg-gray-100">&lt;</button>
+          <button class="px-3 py-1 bg-white border border-gray-300 hover:bg-gray-100" @click="prevPageGroup" :disabled="currentPageGroup === 0">&lt;</button>
           <span
-            v-for="page in currentPageNumbers"
+            v-for="page in QnAlistpage"
             :key="page"
             class="px-3 py-1 border border-gray-300 cursor-pointer hover:bg-gray-100"
+             @click="(ascdesc) ? getPage(page) : getdescPage(page)"
           >
-            {{}}
+            {{page}}
           </span>
-          <button class="px-3 py-1 bg-white border border-gray-300 hover:bg-gray-100">&gt;</button>
+          <button class="px-3 py-1 bg-white border border-gray-300 hover:bg-gray-100"
+          @click="nextPageGroup" :disabled="currentPageGroup >= maxPageGroup" >&gt;</button>
         </div>
       </section>
     </main>
@@ -102,9 +104,24 @@ import { ref } from 'vue';
 import { stQnAlistapi } from '../../api/student.js';
 import { onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import { useloginStore } from '@/stores/loginpinia.js';
+import { storeToRefs } from 'pinia';
+import { computed } from 'vue';
 
-const arr = ref([]);
+const loginStore = useloginStore();
+const {userloginid} = storeToRefs(loginStore)
+
+const QnAlistarr = ref([]);
 const router = useRouter();
+const QnAlistpage = ref()
+const totalPages = ref(0);
+const itemsPerPage = 10; // 페이지당 항목 수
+const currentPageGroup = ref(0); // 현재 페이지 그룹
+const totalElements = ref(0);
+const totalPageGroups = computed(() => Math.ceil(totalPages.value / itemsPerPage));
+const maxPageGroup = computed(() => totalPageGroups.value - 1);
+
+const currentPage = ref(1); // 현재 페이지를 관리하는 상태
 
 const goQnAsave = () => {
   router.push('/qnaboradsave');
@@ -114,7 +131,11 @@ const QnAlist = async () => {
   try {
     const res = await stQnAlistapi();
 
-    arr.value = res.list;
+    QnAlistarr.value = res.list;
+    QnAlistpage.value = res.totalPages
+ console.log(userloginid.value)
+    
+    console.log(QnAlistarr.value)
   } catch (e) {
     console.log(e);
   }
@@ -124,8 +145,86 @@ const goQnAboradView = (idx) => {
   router.push(`/qnaboradview/${idx}`);
 };
 
-onMounted(() => {
-  QnAlist();
+
+
+// 다음 페이지 그룹으로 이동
+const nextPageGroup = () => {
+  if (currentPageGroup.value < maxPageGroup.value) {
+    currentPageGroup.value++;
+    // getPage(currentPage.value); // 첫 페이지로 이동
+  }
+};
+
+
+// 이전 페이지 그룹으로 이동
+const prevPageGroup = () => {
+  if (currentPageGroup.value > 0) {
+    currentPageGroup.value--;
+    // getPage(currentPage.value); // 첫 페이지로 이동
+  }
+};
+
+
+// const getPage = (index) => {
+//   if (selectedlecture.value == null) {
+//     fetchannounce(index);
+//     return;
+//   } else if (selectedlecture.value == '전체') {
+//     fetchannounceForAll(index);
+//     return;
+//   } else {
+//     fetchannounceByLecture(selectedlecture.value, index);
+//     return;
+//   }
+// };
+
+// const fetchannounce = async (pageNum = 1) => {
+//   try {
+//     const response = await mngfetchannounceapi(pageNum)
+//     announcelist.value = response.data.list;
+//     announcelist.value.sort((a, b) => b.idx - a.idx);
+//     totalElements.value = response.data.totalElements;
+//     totalPages.value = response.data.totalPages;
+//     currentPage.value = pageNum;
+//     selectedlecture.value = null;
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
+
+// const fetchannounceForAll = async (pageNum = 1) => {
+//   try {
+//     const response = await mngfetchannounceForAllapi(pageNum)
+//     announcelist.value = response.data.list;
+//     announcelist.value.sort((a, b) => b.idx - a.idx);
+//     totalElements.value = response.data.totalElements;
+//     totalPages.value = response.data.totalPages;
+//     currentPage.value = pageNum; // 페이지 번호 갱신
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
+
+
+// 특정 강의를 선택했을 때의 요청
+// const fetchannounceByLecture = async (lectureIdx, pageNum = 1) => {
+//   try {
+//     const response = await mngfetchannounceByLectureapi(lectureIdx, pageNum)
+//     announcelist.value = response.data.list;
+//     announcelist.value.sort((a, b) => b.idx - a.idx);
+//     totalElements.value = response.data.totalElements;
+//     totalPages.value = response.data.totalPages;
+//     currentPage.value = pageNum; // 페이지 번호 갱신
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
+
+
+
+
+onMounted( async() => {
+  await QnAlist();
 });
 </script>
 

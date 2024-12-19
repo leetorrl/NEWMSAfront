@@ -14,14 +14,14 @@
             {{ title }}
             <span class="text-sm"
               >({{ type }}) ({{
-                status === 'QnA_Hold'
+                qnaState === 'WAITING'
                   ? '문의대기'
-                  : status === 'QnA_Complete'
+                  : qnaState === 'COMPLETE'
                     ? '답변완료'
-                    : status
+                    : qnaState
               }})</span
             >
-            <span class="inline-block mt-2 mr-5 text-sm float-end">{{ user }} {{ wdate }} </span>
+            <span class="inline-block mt-2 mr-5 text-sm float-end">[ {{ userid }} ]  {{ wdate }} </span>
           </h1>
           <hr class="m-1 ml-2 mr-2 border border-blue-500" />
           <div class="p-5">
@@ -52,17 +52,19 @@
         <div class="border border-gray-300 w-[63rem]">
           <div class="p-1">
             <textarea
-              v-model="comment"
+             
+              v-model="commentmodel"
               class="border mt-2 w-11/12 resize-none h-16"
               name=""
               id=""
               placeholder="답변기입"
             ></textarea>
-            <button
+            <button  @click="savecomment"
               class="w-1/12 mt-2 text-center h-16 rounded bg-blue-800 opacity-80 text-white float-right"
             >
               답글입력
             </button>
+            <div>{{comment}} 왜 안뜸{{commentuser}}</div>
           </div>
         </div>
       </div>
@@ -75,27 +77,34 @@ import { useRoute } from 'vue-router';
 import { useRouter } from 'vue-router';
 import { onMounted } from 'vue';
 import { ref } from 'vue';
-import { stQnAviewapi } from '@/api/student.js';
+import { savecommentapi, stQnAviewapi } from '@/api/student.js';
+
+
 
 const route = useRoute();
 const router = useRouter();
 
 const title = ref('');
 const type = ref('');
-const user = ref('');
+const userid = ref('');
 const wdate = ref('');
 const content = ref('');
-const status = ref('');
+const qnaState = ref('');
+const commentmodel = ref('')
+const comment = ref('');
+const commentuser = ref('')
 
 const QnAview = async () => {
   const res = await stQnAviewapi(route.params.idx);
 
   title.value = res.data.title;
-  type.value = res.data.type;
-  user.value = res.data.user;
+  qnaState.value = res.data.qnaState;
+  userid.value = res.data.userid;
   wdate.value = res.data.wdate;
   content.value = res.data.content;
-  status.value = res.data.qnastate;
+  type.value = res.data.type;
+  comment.value = res.comment
+  commentuser.value = res.commentuser
 };
 
 const goQnAboradsave = () => {
@@ -105,6 +114,31 @@ const goQnAboradsave = () => {
 const goQnAboradList = () => {
   router.go(-1);
 };
+
+
+const savecomment = async() => {
+
+  const data = {
+    comment: commentmodel.value,
+  }
+
+  try{
+   await savecommentapi(route.params.idx, data)
+
+   commentmodel.value =''
+
+   alert('댓글입력 완료')
+  }catch(e){
+
+    console.log(e)
+
+  }
+
+
+
+  
+
+}
 
 onMounted(() => {
   console.log(route.params.idx);

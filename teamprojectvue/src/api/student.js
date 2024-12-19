@@ -267,12 +267,12 @@ export const stfetchannouncedescapi = async (pageNum) => {
 export const stQnAlistapi = async () => {
   try {
     const token = Cookies.get('token');
-    const resss = await axios.get(`${qna_url}/QnA/list`,
+    const res = await axios.get(`${qna_url}/QnA/list`,
       { params: { token } }
     );
     
-    console.log(resss);
-    return resss.data;
+    console.log(res);
+    return res.data;
   } catch (e) {
     console.log(e);
   }
@@ -293,12 +293,12 @@ export const stQnAlistapi = async () => {
 };
 
 export const stQnAviewapi = async (idx) => {
-  const ttk = Cookies.get('ttk');
+  const token = Cookies.get('token');
 
   try {
-    const res = await axios.get(`http://192.168.0.69:8080/QnA/view/${idx}`, {
+    const res = await axios.get(`${qna_url}/QnA/view/${idx}`, {
       headers: {
-        Authorization: `Bearer ${ttk}`
+        Authorization: `Bearer ${token}`
       }
     });
 
@@ -314,7 +314,7 @@ export const stQnAboardsaveapi = async (data) => {
   try {
     const res = await axios.post(`${qna_url}/QnA/save`, data, {
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `${token}`
       }
     });
 
@@ -339,3 +339,19 @@ export const stgetuserapi = async () => {
     console.log(e);
   }
 };
+
+
+export const savecommentapi = async (idx, data) => {
+
+  const token = Cookies.get('token')
+
+  try{
+    const res = axios.post(`${qna_url}/QnA/comment/${idx}`,data, { params: { token } })
+
+    console.log(JSON.stringify(res))
+    return res.date
+
+  }catch(e){
+    console.log(e)
+  }
+}
