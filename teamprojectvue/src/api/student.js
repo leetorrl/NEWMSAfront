@@ -309,12 +309,12 @@ export const stQnAviewapi = async (idx) => {
 };
 
 export const stQnAboardsaveapi = async (data) => {
-  const ttk = Cookies.get('ttk');
+  const token = Cookies.get('token');
 
   try {
-    const res = await axios.post(`http://192.168.0.69:8080/QnA/save`, data, {
+    const res = await axios.post(`${qna_url}/QnA/save`, data, {
       headers: {
-        Authorization: `Bearer ${ttk}`
+        Authorization: `Bearer ${token}`
       }
     });
 
