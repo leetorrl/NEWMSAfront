@@ -8,13 +8,13 @@
     <div class="w-5/12 mt-4 ml-8 mr-8 border border-gray-300">
       <h1 class="m-2 border-b">◎자주하는 질문</h1>
       <ul class="m-2">
-        <li class="p-1 ml-4 border-b hover:cursor-pointer">
+        <li class="p-1 ml-4 border-b">
           Q : 출결 증빙자료가 없어요. 어떡하죠?
         </li>
-        <li class="p-1 ml-4 border-b hover:cursor-pointer">
+        <li class="p-1 ml-4 border-b">
           Q : 당일에 증빙자료 제출을 까먹었어요.
         </li>
-        <li class="p-1 ml-4 border-b hover:cursor-pointer">
+        <li class="p-1 ml-4 border-b">
           Q : 휴가 신청서 제출은 어떻게 하나요?
         </li>
       </ul>

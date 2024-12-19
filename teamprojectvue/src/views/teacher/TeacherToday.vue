@@ -1,6 +1,7 @@
 <template>
   <div class="ml-5 m-3 border border-gray-400 w-full">
     <div class="">
+      금일 출결
       <div class="m-10">
         <div class="flex justify-between">
           <h1 class="m-3 inline-block text-2xl font-bold" v-if="user">

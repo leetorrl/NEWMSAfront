@@ -72,13 +72,13 @@ if(await Cookies.get('token') !== null){
     console.log('로그인 유지');
     if (userrl.value == 'ROLE_STUDENT') {
       console.log('학생계정');
-      router.push({ name: 'stdatt' });
+      router.push({ name: 'studentmain' });
     } else if (userrl.value == 'ROLE_TEACHER') {
       console.log('선생계정');
-      router.push({ name: 'teachertoday' });
+      router.push({ name: 'teacherdashboard' });
     } else if (userrl.value == 'ROLE_MANAGER') {
       console.log('매니저계정');
-      router.push({ name: 'deskcalander' });
+      router.push({ name: 'deskdashboard' });
     } else {
       console.log('맵핑문제');
     }

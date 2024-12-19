@@ -13,7 +13,6 @@ import JoinComplete from '@/views/JoinComplete.vue'
 import LectureInsert from '@/views/LectureInsert.vue'
 import StudentAttendance from '@/views/student/StudentAttendance.vue'
 import TeacherCalander from '@/views/teacher/TeacherCalander.vue'
-import TeacherToday from '@/views/teacher/TeacherToday.vue'
 
 import VacationManage from '@/views/Desk/VacationManage.vue'
 import DeskCalander from '@/views/Desk/DeskCalander.vue'
@@ -29,6 +28,9 @@ import StudentDashBoard from '@/views/student/StudentDashBoard.vue'
 import QnAborad from '@/views/qna/QnAborad.vue'
 import QnAboradView from '@/views/qna/QnAboradView.vue'
 import QnAboardsave from '@/views/qna/QnAboardsave.vue'
+import TeacherToday from '@/views/teacher/TeacherToday.vue'
+import TeacherDashBoard from '@/views/teacher/TeacherDashBoard.vue'
+import DeskDashBoard from '@/views/Desk/DeskDashBoard.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -104,7 +106,7 @@ const router = createRouter({
       component: StudentVacation
     },
     {
-      path: '/TeacherToday',
+      path: '/teachertoday',
       name: 'teachertoday',
       component: TeacherToday
     },
@@ -199,6 +201,16 @@ const router = createRouter({
       path: '/studentvacation',
       name: 'studentvacation',
       component: StudentVacation
+    },
+    {
+      path: '/teacherdashboard',
+      name: 'teacherdashboard',
+      component: TeacherDashBoard
+    },
+    {
+      path: '/deskdashboard',
+      name: 'deskdashboard',
+      component: DeskDashBoard
     },
   ],
 

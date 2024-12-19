@@ -10,7 +10,7 @@
     </div>
     <div class="w-[1000px] flex mt-8 bg-white shadow-md rounded-lg">
       <!-- 로그인 섹션 -->
-      <div class="w-[60%] flex flex-col items-center ">
+      <div class="w-[60%] flex flex-col items-center">
         <div class="w-full space-y-3">
           <div class="flex w-full">
             <div
@@ -24,27 +24,27 @@
           </div>
         </div>
         <div class="flex flex-col items-center justify-center">
-          <div class="py-20">
+          <div class="py-16">
             <div class="flex flex-col justify-between space-y-10 text-center">
-              <div class="flex flex-col justify-between space-y-10 text-center">
-                <div class="flex">
-                  <p class="text-left w-36">ID</p>
+              <div class="flex flex-col justify-between h-32 space-y-10 text-center mt-5">
+                <div class="flex h-8">
+                  <p class="text-left w-36 items-center flex">ID</p>
                   <input class="flex-1 transition duration-200 border-b border-gray-400 w-80 focus:outline-none"
                     type="text" name="userid" id="userid" placeholder="아이디를 입력해주세요" v-model="userid" />
                 </div>
-                <div class="flex">
-                  <p class="text-left w-36">PASSWORD</p>
-                  <input class="flex-1 transition duration-200 border-b border-gray-400 w-80 focus:outline-none"
+                <div class="flex h-8">
+                  <p class="text-left w-36 items-center flex">PASSWORD</p>
+                  <input class=" flex-1 transition duration-200 border-b border-gray-400 w-80 focus:outline-none"
                     type="password" name="password" id="password" v-model="password" placeholder="비밀번호를 입력해주세요"
                     @keydown.enter="LoginSequence" />
                 </div>
               </div>
-              <div>
-                <div class="h-20">
+              <div class="h-20">
+                <div class="h-16">
                   <input @click="LoginSequence"
-                    class="px-16 py-3 font-bold text-white transition duration-200 ease-in-out transform bg-blue-500 rounded-lg shadow-md hover:bg-blue-300 hover:scale-x-105"
+                    class="px-16 py-2 mt-2 font-bold text-white transition duration-200 ease-in-out transform bg-blue-500 rounded-lg shadow-md hover:bg-blue-300 hover:scale-x-105"
                     type="button" value="로그인" />
-                  <p class="block mt-3 font-bold text-rose-600" v-if="loginError">{{ loginError }}</p>
+                <p class="block mt-2 font-bold text-rose-600" v-if="loginError">{{ loginError }}</p>
                 </div>
                 <div class="mt-5">
                   <router-link to="jointermsofuse">
@@ -88,7 +88,7 @@ import Cookies from 'js-cookie';
 const loginpinia = useloginStore();
 
 const { userrl, useraccept } = storeToRefs(loginpinia);
-const { userL, userA } = loginpinia;
+const { userL } = loginpinia;
 
 const userid = ref('');
 const password = ref('');
@@ -129,8 +129,6 @@ const LoginSequence = async () => {
 
     if (await !useraccept.value) {
       userL();
-
-
       await Cookies.remove('token')
 
       // localStorage.removeItem('token');
@@ -140,23 +138,21 @@ const LoginSequence = async () => {
 
     await userrole();
 
-
     if (userrl.value == 'ROLE_STUDENT') {
       console.log('학생계정');
-      router.push({ name: 'stdatt' });
+      router.push({ name: 'studentmain' });
     } else if (userrl.value == 'ROLE_TEACHER') {
       console.log('선생계정');
-      router.push({ name: 'teachertoday' });
+      router.push({ name: 'teacherdashboard' });
     } else if (userrl.value == 'ROLE_MANAGER') {
       console.log('매니저계정');
-      router.push({ name: 'deskcalander' });
+      router.push({ name: 'deskdashboard' });
     } else {
       console.log('맵핑문제');
     }
 
   } catch (e) {
     console.log('로그인실패 ' + e);
-
     loginError.value = '아이디와 비밀번호를 확인해 주세요';
     return;
   }
@@ -169,7 +165,6 @@ const Choicest = () => {
   isClicked3.value = false
   radiocheck.value = 'ROLE_STUDENT'
   console.log(radiocheck.value)
-
 }
 const Choicete = () => {
   isClicked1.value = false
@@ -177,7 +172,6 @@ const Choicete = () => {
   isClicked3.value = false
   radiocheck.value = 'ROLE_TEACHER'
   console.log(radiocheck.value)
-
 }
 const Choicema = () => {
   isClicked1.value = false
@@ -185,7 +179,6 @@ const Choicema = () => {
   isClicked3.value = true
   radiocheck.value = 'ROLE_MANAGER'
   console.log(radiocheck.value)
-
 }
 
 
