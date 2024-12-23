@@ -15,15 +15,15 @@ export const userdata = async () => {
   const loginStore = useloginStore();
   const { doLogin } = loginStore;
 
-  try {
-    const res = await axios.get(`http://192.168.0.103:8100/user/sign/signup`, {
+  try {  //갯유저 api 완료시 집어넣기
+    const res = await axios.get(`${url}/user/getuser`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
     });
-    // res.data.accept,
+
     console.log('res' + JSON.stringify(res.data.role));
-    doLogin(res.data.name, res.data.role,  res.data.userid);
+    doLogin(res.data.name, res.data.role, res.data.accept, res.data.userid);
 
   } catch (e) {
     const logincheck = useloginStore();
