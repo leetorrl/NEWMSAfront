@@ -180,7 +180,7 @@ if (!phoneNumbersecond.value || !phoneNumberthird.value) {
     
   }
 
-   phoneNumber.value = `${phoneNumberfirst.value}-${phoneNumbersecond.value}-${phoneNumberthird.value}`;
+   phoneNumber.value = `${phoneNumberfirst.value}${phoneNumbersecond.value}${phoneNumberthird.value}`;
 
  //맵핑 메서드
 

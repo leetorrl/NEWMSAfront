@@ -92,6 +92,7 @@ const { userL } = loginpinia;
 
 const userid = ref('');
 const password = ref('');
+const role = ref('ROLE_STUDENT')
 
 const loginError = ref('');
 const router = useRouter();
@@ -112,14 +113,15 @@ const getannounce = async () => {
 const LoginSequence = async () => {
   const data = {
     userid: userid.value,
-    password: password.value
+    password: password.value,
+    role: role.value
   };
   // 백엔드로 보낼 데이터
   try {
     const token = await logincontrol(data);
 
     if (await token === undefined) {
-      loginError.value = '아이디와 비밀번호를 확인해 주세요'
+      loginError.value = '아이디와 비밀번호, 권한체크를 확인해 주세요'
       return;
     }
 
@@ -127,19 +129,18 @@ const LoginSequence = async () => {
 
     await userdata();
 
-    if (await !useraccept.value) {
+    if ( !useraccept.value) {
       userL();
 
-
-      await Cookies.remove('token')
+       Cookies.remove('token')
 
       // localStorage.removeItem('token');
+
       loginError.value = '가입 승인 후에 활동 가능합니다.'
       return;
     }
 
     await userrole();
-
 
     if (userrl.value == 'ROLE_STUDENT') {
       console.log('학생계정');
@@ -168,6 +169,7 @@ const Choicest = () => {
   isClicked2.value = false
   isClicked3.value = false
   radiocheck.value = 'ROLE_STUDENT'
+  role.value=radiocheck.value
   console.log(radiocheck.value)
 
 }
@@ -176,6 +178,7 @@ const Choicete = () => {
   isClicked2.value = true
   isClicked3.value = false
   radiocheck.value = 'ROLE_TEACHER'
+  role.value=radiocheck.value
   console.log(radiocheck.value)
 
 }
@@ -184,6 +187,7 @@ const Choicema = () => {
   isClicked2.value = false
   isClicked3.value = true
   radiocheck.value = 'ROLE_MANAGER'
+  role.value=radiocheck.value
   console.log(radiocheck.value)
 
 }

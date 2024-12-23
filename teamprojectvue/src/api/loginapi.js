@@ -16,14 +16,14 @@ export const userdata = async () => {
   const { doLogin } = loginStore;
 
   try {
-    const res = await axios.get(`${url}/user/getuser`, {
+    const res = await axios.get(`http://192.168.0.103:8100/user/sign/signup`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
     });
-
+    // res.data.accept,
     console.log('res' + JSON.stringify(res.data.role));
-    doLogin(res.data.name, res.data.role, res.data.accept, res.data.userid);
+    doLogin(res.data.name, res.data.role,  res.data.userid);
 
   } catch (e) {
     const logincheck = useloginStore();
@@ -59,7 +59,7 @@ export const logincontrol = async (data) => {
   const { logincheckfalse } = logincheck;
 
   try {
-    const response = await axios.post(`${url}/sign/login`, data);
+    const response = await axios.post(`http://192.168.0.103:8100/user/sign/signup`, data);
 
     Cookies.set('token', response.data ,{ sameSite: 'Strict' })
 

@@ -16,6 +16,8 @@
               >({{ type }}) ({{
                 qnaState === 'WAITING'
                   ? '문의대기'
+                  : qnaState === 'IN_PROGRESS'
+                  ? '답변중'
                   : qnaState === 'COMPLETE'
                     ? '답변완료'
                     : qnaState
