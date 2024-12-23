@@ -75,7 +75,7 @@
 <script setup>
 import { useRoute } from 'vue-router';
 import { useRouter } from 'vue-router';
-import { onMounted } from 'vue';
+import { onMounted, watchEffect } from 'vue';
 import { ref } from 'vue';
 import { savecommentapi, stQnAviewapi } from '@/api/student.js';
 
@@ -105,6 +105,8 @@ const QnAview = async () => {
   type.value = res.data.type;
   comment.value = res.comment
   commentuser.value = res.commentuser
+
+  console.log(comment.value)
 };
 
 const goQnAboradsave = () => {
@@ -125,8 +127,6 @@ const savecomment = async() => {
   try{
    await savecommentapi(route.params.idx, data)
 
-   commentmodel.value =''
-
    alert('댓글입력 완료')
   }catch(e){
 
@@ -140,10 +140,11 @@ const savecomment = async() => {
 
 }
 
-onMounted(() => {
+watchEffect(() => {
   console.log(route.params.idx);
   QnAview();
 });
+
 </script>
 
 <style lang="scss" scoped></style>
