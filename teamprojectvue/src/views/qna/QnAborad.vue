@@ -110,14 +110,14 @@
 </template>
 
 <script setup>
-import { ref, watchEffect } from 'vue';
+import { ref } from 'vue';
 import { onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useloginStore } from '@/stores/loginpinia.js';
 import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
 import { qna_list_api } from '@/api/qnaApi.js';
-import { commnet_list_api } from '@/api/commentApi.js';
+import Cookies from 'js-cookie';
 
 const loginStore = useloginStore();
 const { userloginid } = storeToRefs(loginStore);
@@ -229,7 +229,19 @@ const prevPageGroup = () => {
 //   }
 // };
 
-watchEffect(async () => await QnAlist());
+
+onMounted( async()=>{
+  
+  if(!Cookies.get('token')){
+  router.push({name:'loginview'})
+}
+
+  await QnAlist()
+
+
+})
+
+
 </script>
 
 <style lang="scss" scoped></style>

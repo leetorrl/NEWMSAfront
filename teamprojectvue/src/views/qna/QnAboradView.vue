@@ -66,11 +66,11 @@
             >
               답글입력
             </button>
-            <div class="flex flex-col" v-for="comment in comments" key="comment.idx">
+            <div class="flex flex-col" v-for=" item in comments" :key="item.idx">
               <h3 class="text-[1.2rem]">답글 내용 :</h3>
-              <div class="border border-gray-200 p-3 m-3 rounded-sm">{{ comment.comment }}</div>
+              <div class="border border-gray-200 p-3 m-3 rounded-sm">{{ item.comment }}</div>
               <div class="flex justify-end mr-3">
-                <h3 class="text-[1.2rem] p-3">작성자 : {{ comment.name }}</h3>
+                <h3 class="text-[1.2rem] p-3">작성자 : {{ item.name }}</h3>
               </div>
             </div>
           </div>
