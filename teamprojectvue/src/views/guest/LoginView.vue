@@ -82,13 +82,13 @@ import { useloginStore } from '@/stores/loginpinia';
 import { storeToRefs } from 'pinia';
 import { userdata, userrole, logincontrol } from '@/api/loginapi';
 import { onMounted } from 'vue';
-import { loginannounceapi } from '@/api/announceapi';
 import Cookies from 'js-cookie';
+import { announce_list_api } from '@/api/announceApi.js';
 
 const loginpinia = useloginStore();
 
 const { userrl, useraccept } = storeToRefs(loginpinia);
-const { userL, userA } = loginpinia;
+const { userL } = loginpinia;
 
 const userid = ref('');
 const password = ref('');
@@ -105,7 +105,7 @@ const isClicked2 = ref(false)
 const isClicked3 = ref(false)
 
 const getannounce = async () => {
-  const res = await loginannounceapi();
+  const res = await announce_list_api();
   arr.value = res.data.list;
 }
 

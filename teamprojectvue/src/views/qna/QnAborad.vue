@@ -25,9 +25,7 @@
         <div class="mb-3">
           <select class="w-32 mr-3 border border-gray-500" v-model="selectedlecture" name="" id="">
             <option value="전체">전체</option>
-            <option v-for="item in arr" :key="item.idx" :value="item.idx">
-              {{}}
-            </option>
+            <option v-for="item in arr" :key="item.idx" :value="item.idx">{{}}</option>
           </select>
           <button class="px-2 py-1 mr-1 text-white bg-blue-600 rounded hover:opacity-80">
             초기화
@@ -37,7 +35,6 @@
           <table class="w-full mb-5 border border-collapse border-gray-300">
             <thead>
               <tr class="bg-gray-100">
-                
                 <th class="w-1/12 p-3 border border-gray-300">구분</th>
                 <th class="w-4/12 p-3 border border-gray-300">제목</th>
                 <th class="w-1/12 p-3 border border-gray-300">글쓴이</th>
@@ -50,13 +47,15 @@
                 v-for="item in QnAlistarr"
                 :key="item.idx"
                 class="text-center hover:cursor-pointer hover:bg-gray-200"
-                @click="goQnAboradView(item.idx)" 
+                @click="goQnAboradView(item.idx)"
               >
-              <td class="p-3 border border-gray-300" >{{ item.type }}</td>
-      <td class="p-3 border border-gray-300" >{{ item.title.length > 20 ? item.title.substring(0, 20) + '...' : item.title }}</td>
-      <td class="p-3 border border-gray-300">{{ item.userid }}</td>
-      <td class="p-3 border border-gray-300" >{{ item.wdate }}</td>
-                <td class="p-3 border border-gray-300" >
+                <td class="p-3 border border-gray-300">{{ item.type }}</td>
+                <td class="p-3 border border-gray-300">
+                  {{ item.title.length > 20 ? item.title.substring(0, 20) + '...' : item.title }}
+                </td>
+                <td class="p-3 border border-gray-300">{{ item.userid }}</td>
+                <td class="p-3 border border-gray-300">{{ item.wdate }}</td>
+                <td class="p-3 border border-gray-300">
                   {{
                     item.qnaState === 'WAITING'
                       ? '답변대기'
@@ -65,7 +64,7 @@
                         : item.qnaState
                   }}
                 </td>
-             <!-- /// <td colspan="5" class="p-3 border border-gray-300">비공개글 입니다.</td> -->
+                <!-- /// <td colspan="5" class="p-3 border border-gray-300">비공개글 입니다.</td> -->
               </tr>
             </tbody>
           </table>
@@ -82,17 +81,28 @@
           글쓰기
         </button>
         <div class="flex justify-center mt-5 space-x-2">
-          <button class="px-3 py-1 bg-white border border-gray-300 hover:bg-gray-100" @click="prevPageGroup" :disabled="currentPageGroup === 0">&lt;</button>
+          <button
+            class="px-3 py-1 bg-white border border-gray-300 hover:bg-gray-100"
+            @click="prevPageGroup"
+            :disabled="currentPageGroup === 0"
+          >
+            &lt;
+          </button>
           <span
             v-for="page in QnAlistpage"
             :key="page"
             class="px-3 py-1 border border-gray-300 cursor-pointer hover:bg-gray-100"
-             @click="(ascdesc) ? getPage(page) : getdescPage(page)"
+            @click="ascdesc ? getPage(page) : getdescPage(page)"
           >
-            {{page}}
+            {{ page }}
           </span>
-          <button class="px-3 py-1 bg-white border border-gray-300 hover:bg-gray-100"
-          @click="nextPageGroup" :disabled="currentPageGroup >= maxPageGroup" >&gt;</button>
+          <button
+            class="px-3 py-1 bg-white border border-gray-300 hover:bg-gray-100"
+            @click="nextPageGroup"
+            :disabled="currentPageGroup >= maxPageGroup"
+          >
+            &gt;
+          </button>
         </div>
       </section>
     </main>
@@ -100,24 +110,28 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { stQnAlistapi } from '../../api/student.js';
+import { ref, watchEffect } from 'vue';
 import { onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useloginStore } from '@/stores/loginpinia.js';
 import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
+import { qna_list_api } from '@/api/qnaApi.js';
+import { commnet_list_api } from '@/api/commentApi.js';
 
 const loginStore = useloginStore();
-const {userloginid} = storeToRefs(loginStore)
+const { userloginid } = storeToRefs(loginStore);
+
+const router = useRouter();
 
 const QnAlistarr = ref([]);
-const router = useRouter();
-const QnAlistpage = ref()
+const QnAlistpage = ref();
+
 const totalPages = ref(0);
 const itemsPerPage = 10; // 페이지당 항목 수
 const currentPageGroup = ref(0); // 현재 페이지 그룹
 const totalElements = ref(0);
+
 const totalPageGroups = computed(() => Math.ceil(totalPages.value / itemsPerPage));
 const maxPageGroup = computed(() => totalPageGroups.value - 1);
 
@@ -129,13 +143,13 @@ const goQnAsave = () => {
 
 const QnAlist = async () => {
   try {
-    const res = await stQnAlistapi();
+    const res_qna = await qna_list_api();
 
-    QnAlistarr.value = res.list;
-    QnAlistpage.value = res.totalPages
- console.log(userloginid.value)
-    
-    console.log(QnAlistarr.value)
+    QnAlistarr.value = res_qna.list;
+    QnAlistpage.value = res_qna.totalPages;
+
+    console.log(userloginid.value);
+    console.log(QnAlistarr.value);
   } catch (e) {
     console.log(e);
   }
@@ -145,8 +159,6 @@ const goQnAboradView = (idx) => {
   router.push(`/qnaboradview/${idx}`);
 };
 
-
-
 // 다음 페이지 그룹으로 이동
 const nextPageGroup = () => {
   if (currentPageGroup.value < maxPageGroup.value) {
@@ -155,7 +167,6 @@ const nextPageGroup = () => {
   }
 };
 
-
 // 이전 페이지 그룹으로 이동
 const prevPageGroup = () => {
   if (currentPageGroup.value > 0) {
@@ -163,7 +174,6 @@ const prevPageGroup = () => {
     // getPage(currentPage.value); // 첫 페이지로 이동
   }
 };
-
 
 // const getPage = (index) => {
 //   if (selectedlecture.value == null) {
@@ -205,7 +215,6 @@ const prevPageGroup = () => {
 //   }
 // };
 
-
 // 특정 강의를 선택했을 때의 요청
 // const fetchannounceByLecture = async (lectureIdx, pageNum = 1) => {
 //   try {
@@ -220,12 +229,7 @@ const prevPageGroup = () => {
 //   }
 // };
 
-
-
-
-onMounted( async() => {
-  await QnAlist();
-});
+watchEffect(async () => await QnAlist());
 </script>
 
 <style lang="scss" scoped></style>

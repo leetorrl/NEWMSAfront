@@ -21,7 +21,9 @@
                     : qnaState
               }})</span
             >
-            <span class="inline-block mt-2 mr-5 text-sm float-end">[ {{ userid }} ]  {{ wdate }} </span>
+            <span class="inline-block mt-2 mr-5 text-sm float-end"
+              >[ {{ userid }} ] {{ wdate }}
+            </span>
           </h1>
           <hr class="m-1 ml-2 mr-2 border border-blue-500" />
           <div class="p-5">
@@ -52,19 +54,25 @@
         <div class="border border-gray-300 w-[63rem]">
           <div class="p-1">
             <textarea
-             
-              v-model="commentmodel"
+              v-model="commentInput"
               class="border mt-2 w-11/12 resize-none h-16"
               name=""
               id=""
-              placeholder="답변기입"
+              placeholder="답변을 작성하세요"
             ></textarea>
-            <button  @click="savecomment"
+            <button
+              @click="savecomment"
               class="w-1/12 mt-2 text-center h-16 rounded bg-blue-800 opacity-80 text-white float-right"
             >
               답글입력
             </button>
-            <div>{{comment}} 왜 안뜸{{commentuser}}</div>
+            <div class="flex flex-col" v-for="comment in comments" key="comment.idx">
+              <h3 class="text-[1.2rem]">답글 내용 :</h3>
+              <div class="border border-gray-200 p-3 m-3 rounded-sm">{{ comment.comment }}</div>
+              <div class="flex justify-end mr-3">
+                <h3 class="text-[1.2rem] p-3">작성자 : {{ comment.name }}</h3>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -75,11 +83,10 @@
 <script setup>
 import { useRoute } from 'vue-router';
 import { useRouter } from 'vue-router';
-import { onMounted, watchEffect } from 'vue';
+import { watchEffect } from 'vue';
 import { ref } from 'vue';
-import { savecommentapi, stQnAviewapi } from '@/api/student.js';
-
-
+import { qna_one_api } from '@/api/qnaApi.js';
+import { commnet_list_api, save_comment_api } from '@/api/commentApi.js';
 
 const route = useRoute();
 const router = useRouter();
@@ -90,12 +97,12 @@ const userid = ref('');
 const wdate = ref('');
 const content = ref('');
 const qnaState = ref('');
-const commentmodel = ref('')
-const comment = ref('');
-const commentuser = ref('')
+const commentInput = ref('');
+const comments = ref([]);
 
 const QnAview = async () => {
-  const res = await stQnAviewapi(route.params.idx);
+  const res = await qna_one_api(route.params.idx);
+  console.log(res.data);
 
   title.value = res.data.title;
   qnaState.value = res.data.qnaState;
@@ -103,10 +110,9 @@ const QnAview = async () => {
   wdate.value = res.data.wdate;
   content.value = res.data.content;
   type.value = res.data.type;
-  comment.value = res.comment
-  commentuser.value = res.commentuser
 
-  console.log(comment.value)
+  const res_comments = await commnet_list_api(route.params.idx);
+  comments.value = res_comments.data;
 };
 
 const goQnAboradsave = () => {
@@ -117,34 +123,24 @@ const goQnAboradList = () => {
   router.go(-1);
 };
 
-
-const savecomment = async() => {
-
+const savecomment = async () => {
   const data = {
-    comment: commentmodel.value,
+    comment: commentInput.value
+  };
+
+  try {
+    await save_comment_api(route.params.idx, data);
+
+    alert('댓글입력 완료');
+  } catch (e) {
+    console.log(e);
   }
-
-  try{
-   await savecommentapi(route.params.idx, data)
-
-   alert('댓글입력 완료')
-  }catch(e){
-
-    console.log(e)
-
-  }
-
-
-
-  
-
-}
+};
 
 watchEffect(() => {
   console.log(route.params.idx);
   QnAview();
 });
-
 </script>
 
 <style lang="scss" scoped></style>

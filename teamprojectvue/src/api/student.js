@@ -264,65 +264,9 @@ export const stfetchannouncedescapi = async (pageNum) => {
   }
 };
 
-export const stQnAlistapi = async () => {
-  try {
-    const token = Cookies.get('token');
-    const res = await axios.get(`${qna_url}/QnA/list`,
-      { params: { token } }
-    );
-    
-    console.log(res);
-    return res.data;
-  } catch (e) {
-    console.log(e);
-  }
 
-  // const token = Cookies.get('token')
 
-  // try{
-  //     const res = await axios.get(`${url}/announce/student?pageNum=${pageNum - 1}`, {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`
-  //       }
-  //     });
 
-  //     return res.data
-  // }catch(e){
-  //     console.log(e)
-  // }
-};
-
-export const stQnAviewapi = async (idx) => {
-  const token = Cookies.get('token');
-
-  try {
-    const res = await axios.get(`${qna_url}/QnA/view/${idx}`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    });
-
-    return res;
-  } catch (e) {
-    console.log(e);
-  }
-};
-
-export const stQnAboardsaveapi = async (data) => {
-  const token = Cookies.get('token');
-
-  try {
-    const res = await axios.post(`${qna_url}/QnA/save`, data, {
-      headers: {
-        Authorization: `${token}`
-      }
-    });
-
-    return res;
-  } catch (e) {
-    console.log(e);
-  }
-};
 
 export const stgetuserapi = async () => {
   const ttk = Cookies.get('ttk');
@@ -341,17 +285,3 @@ export const stgetuserapi = async () => {
 };
 
 
-export const savecommentapi = async (idx, data) => {
-
-  const token = Cookies.get('token')
-
-  try{
-    const res = axios.post(`${qna_url}/QnA/comment/${idx}`,data, { params: { token } })
-
-    console.log(JSON.stringify(res))
-    return res.date
-
-  }catch(e){
-    console.log(e)
-  }
-}

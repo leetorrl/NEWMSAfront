@@ -53,9 +53,9 @@
 </template>
 
 <script setup>
-import { stgetuserapi, stQnAboardsaveapi } from '@/api/student.js';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { qna_save_api } from '@/api/qnaApi.js';
 
 const router = useRouter();
 const typelist = ref([]);
@@ -76,7 +76,7 @@ const QnAboardsave = async () => {
   };
 
   try {
-    const res = await stQnAboardsaveapi(data);
+    const res = await qna_save_api(data);
 
     console.log(res.data);
 

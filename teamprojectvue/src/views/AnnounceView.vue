@@ -35,7 +35,7 @@
 <script setup>
 import { onMounted } from 'vue';
 import { useRoute } from 'vue-router';
-import { getAnnounceview } from '@/api/boradapi';
+import { announce_list_api } from '@/api/announceApi.js';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import Cookies from 'js-cookie';
@@ -56,8 +56,7 @@ const godeskannouncelist = () => {
 }
 
 onMounted(async () => {
-
-  const res = await getAnnounceview(route.params.idx)
+  const res = await announce_list_api(route.params.idx)
 
   title.value = res.data.title
   body.value = res.data.body
