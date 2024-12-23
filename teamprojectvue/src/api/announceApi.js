@@ -5,8 +5,7 @@ import Cookies from 'js-cookie';
 
 const url = `${GLOBAL_URL}`;
 
-export const getAnnounceview = async(idx) => {
-
+export const announce_list_api = async(idx) => {
     try{
         const token = Cookies.get('token')
         // const token = localStorage.getItem('token')

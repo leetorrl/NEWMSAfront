@@ -27,14 +27,6 @@
           placeholder="내용을 입력하세요"
         ></textarea>
       </div>
-      <div class="mb-24">
-        <select v-model="typelist" name="" id="">
-          <option value="전체">전체</option>
-          <option v-for="lecture in lecturelist" :key="lecture.idx" :value="lecture.title">
-            {{}}
-          </option>
-        </select>
-      </div>
 
       <div class="flex justify-end">
         <button
@@ -61,9 +53,9 @@
 </template>
 
 <script setup>
-import { stgetuserapi, stQnAboardsaveapi } from '@/api/student.js';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { qna_save_api } from '@/api/qnaApi.js';
 
 const router = useRouter();
 const typelist = ref([]);
@@ -81,15 +73,12 @@ const QnAboardsave = async () => {
     title: title.value,
     content: content.value,
     type: type.value,
-    qnAstate: 'QnA_Hold',
-    qnASecret: 'QnA_private'
   };
 
   try {
-    const res = await stQnAboardsaveapi(data);
+    const res = await qna_save_api(data);
 
     console.log(res.data);
-    alert('글작성 완료');
 
     router.push('/qnaborad');
   } catch (e) {

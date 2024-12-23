@@ -23,7 +23,7 @@ export const userdata = async () => {
     });
 
     console.log('res' + JSON.stringify(res.data.role));
-    doLogin(res.data.name, res.data.role, res.data.accept);
+    doLogin(res.data.name, res.data.role, res.data.accept, res.data.userid);
 
   } catch (e) {
     const logincheck = useloginStore();
