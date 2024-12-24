@@ -32,6 +32,9 @@
             <div class="mt-8 mb-10">
               {{ content }}
             </div>
+
+            <div @click="chkcomment"><h1>답변체크</h1></div>
+
           </div>
         </div>
         <div class="bg-gray-300">
@@ -55,19 +58,22 @@
       <div class="flex justify-center w-full">
         <div class="border border-gray-300 w-[63rem]">
           <div class="p-1">
-            <textarea
+
+            <textarea v-if="commentchk"
               v-model="commentInput"
               class="border mt-2 w-11/12 resize-none h-16"
               name=""
               id=""
               placeholder="답변을 작성하세요"
             ></textarea>
+
             <button
               @click="savecomment"
               class="w-1/12 mt-2 text-center h-16 rounded bg-blue-800 opacity-80 text-white float-right"
             >
               답글입력
             </button>
+
             <div class="flex flex-col" v-for=" item in comments" :key="item.idx">
               <h3 class="text-[1.2rem]">답글 내용 :</h3>
               <div class="border border-gray-200 p-3 m-3 rounded-sm">{{ item.comment }}</div>
@@ -87,7 +93,7 @@ import { useRoute } from 'vue-router';
 import { useRouter } from 'vue-router';
 import { watchEffect } from 'vue';
 import { ref } from 'vue';
-import { qna_one_api } from '@/api/qnaApi.js';
+import { qna_chkcomment_api, qna_one_api } from '@/api/qnaApi.js';
 import { commnet_list_api, save_comment_api } from '@/api/commentApi.js';
 
 const route = useRoute();
@@ -101,6 +107,8 @@ const content = ref('');
 const qnaState = ref('');
 const commentInput = ref('');
 const comments = ref([]);
+
+const commentchk = ref(true) //텍스트 에리어 숨김 체크
 
 const QnAview = async () => {
   const res = await qna_one_api(route.params.idx);
@@ -138,6 +146,25 @@ const savecomment = async () => {
     console.log(e);
   }
 };
+
+const chkcomment = async() => {
+ 
+  try{
+    
+    confirm("문의체크 하쉴?")
+
+    const res = await qna_chkcomment_api(route.params.idx)
+    commentchk.value = false
+
+    console.log(res)
+
+    alert(res)
+
+  }catch(e){
+    console.log(e)
+  }
+}
+
 
 watchEffect(() => {
   console.log(route.params.idx);

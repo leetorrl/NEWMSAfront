@@ -59,6 +59,8 @@
                   {{
                     item.qnaState === 'WAITING'
                       ? '답변대기'
+                      : qnaState === 'IN_PROGRESS'
+                      ? '답변중'
                       : item.qnaState === 'COMPLETE'
                         ? '답변완료'
                         : item.qnaState
@@ -69,37 +71,53 @@
             </tbody>
           </table>
         </div>
-
+<!-- 
         <button class="px-4 py-2 mr-3 text-white bg-green-600 rounded hover:opacity-80">
           최신순
         </button>
-        <button class="px-4 py-2 text-white bg-blue-600 rounded hover:opacity-80">과거순</button>
+        <button class="px-4 py-2 text-white bg-blue-600 rounded hover:opacity-80">과거순</button> -->
         <button
           @click="goQnAsave"
           class="float-right px-4 py-2 text-white bg-blue-600 rounded hover:opacity-80"
         >
           글쓰기
         </button>
+
+
+
+        
+        <!-- 페이지 네이션 -->
+
         <div class="flex justify-center mt-5 space-x-2">
+
+            <!-- 앞페이지 -->
+
           <button
             class="px-3 py-1 bg-white border border-gray-300 hover:bg-gray-100"
-            @click="prevPageGroup"
-            :disabled="currentPageGroup === 0"
+            @click="fetchPageData(currentPage - 1)"
+            :disabled="currentPage === 0"
+            aria-label="이전 페이지"
           >
             &lt;
           </button>
+
+          <!-- 현페이지 -->
           <span
-            v-for="page in QnAlistpage"
+            v-for="page in totalPages"
             :key="page"
             class="px-3 py-1 border border-gray-300 cursor-pointer hover:bg-gray-100"
-            @click="ascdesc ? getPage(page) : getdescPage(page)"
+            @click="fetchPageData(page - 1)"
           >
             {{ page }}
           </span>
+
+         <!-- 뒷페이지 -->
           <button
             class="px-3 py-1 bg-white border border-gray-300 hover:bg-gray-100"
-            @click="nextPageGroup"
-            :disabled="currentPageGroup >= maxPageGroup"
+
+            @click="fetchPageData(currentPage + 1)"
+            :disabled="currentPage === totalPages - 1" 
+            aria-label="다음 페이지"
           >
             &gt;
           </button>
@@ -115,7 +133,7 @@ import { onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useloginStore } from '@/stores/loginpinia.js';
 import { storeToRefs } from 'pinia';
-import { computed } from 'vue';
+// import { computed } from 'vue';
 import { qna_list_api } from '@/api/qnaApi.js';
 import Cookies from 'js-cookie';
 
@@ -125,31 +143,28 @@ const { userloginid } = storeToRefs(loginStore);
 const router = useRouter();
 
 const QnAlistarr = ref([]);
-const QnAlistpage = ref();
 
-const totalPages = ref(0);
-const itemsPerPage = 10; // 페이지당 항목 수
-const currentPageGroup = ref(0); // 현재 페이지 그룹
-const totalElements = ref(0);
-
-const totalPageGroups = computed(() => Math.ceil(totalPages.value / itemsPerPage));
-const maxPageGroup = computed(() => totalPageGroups.value - 1);
-
-const currentPage = ref(1); // 현재 페이지를 관리하는 상태
+const currentPage = ref(0)       // 현재 페이지 번호 (0부터 시작)
+const totalPages = ref (0)        // 전체 페이지 수
+const totalElements = ref(0)     // 전체 항목 수
+const pageSize= ref(10)           // 한 페이지에 표시할 항목 수
 
 const goQnAsave = () => {
   router.push('/qnaboradsave');
 };
 
-const QnAlist = async () => {
+const QnAlist = async (pageNum) => {
   try {
-    const res_qna = await qna_list_api();
+    const res_qna = await qna_list_api(pageNum);
 
     QnAlistarr.value = res_qna.list;
-    QnAlistpage.value = res_qna.totalPages;
+    totalElements.value = res_qna.totalElements;
+    totalPages.value = res_qna.totalPages;
+    currentPage.value = pageNum;
 
     console.log(userloginid.value);
     console.log(QnAlistarr.value);
+
   } catch (e) {
     console.log(e);
   }
@@ -159,86 +174,11 @@ const goQnAboradView = (idx) => {
   router.push(`/qnaboradview/${idx}`);
 };
 
-// 다음 페이지 그룹으로 이동
-const nextPageGroup = () => {
-  if (currentPageGroup.value < maxPageGroup.value) {
-    currentPageGroup.value++;
-    // getPage(currentPage.value); // 첫 페이지로 이동
-  }
-};
-
-// 이전 페이지 그룹으로 이동
-const prevPageGroup = () => {
-  if (currentPageGroup.value > 0) {
-    currentPageGroup.value--;
-    // getPage(currentPage.value); // 첫 페이지로 이동
-  }
-};
-
-// const getPage = (index) => {
-//   if (selectedlecture.value == null) {
-//     fetchannounce(index);
-//     return;
-//   } else if (selectedlecture.value == '전체') {
-//     fetchannounceForAll(index);
-//     return;
-//   } else {
-//     fetchannounceByLecture(selectedlecture.value, index);
-//     return;
-//   }
-// };
-
-// const fetchannounce = async (pageNum = 1) => {
-//   try {
-//     const response = await mngfetchannounceapi(pageNum)
-//     announcelist.value = response.data.list;
-//     announcelist.value.sort((a, b) => b.idx - a.idx);
-//     totalElements.value = response.data.totalElements;
-//     totalPages.value = response.data.totalPages;
-//     currentPage.value = pageNum;
-//     selectedlecture.value = null;
-//   } catch (error) {
-//     console.error(error);
-//   }
-// };
-
-// const fetchannounceForAll = async (pageNum = 1) => {
-//   try {
-//     const response = await mngfetchannounceForAllapi(pageNum)
-//     announcelist.value = response.data.list;
-//     announcelist.value.sort((a, b) => b.idx - a.idx);
-//     totalElements.value = response.data.totalElements;
-//     totalPages.value = response.data.totalPages;
-//     currentPage.value = pageNum; // 페이지 번호 갱신
-//   } catch (error) {
-//     console.error(error);
-//   }
-// };
-
-// 특정 강의를 선택했을 때의 요청
-// const fetchannounceByLecture = async (lectureIdx, pageNum = 1) => {
-//   try {
-//     const response = await mngfetchannounceByLectureapi(lectureIdx, pageNum)
-//     announcelist.value = response.data.list;
-//     announcelist.value.sort((a, b) => b.idx - a.idx);
-//     totalElements.value = response.data.totalElements;
-//     totalPages.value = response.data.totalPages;
-//     currentPage.value = pageNum; // 페이지 번호 갱신
-//   } catch (error) {
-//     console.error(error);
-//   }
-// };
-
-
 onMounted( async()=>{
-  
   if(!Cookies.get('token')){
   router.push({name:'loginview'})
 }
-
   await QnAlist()
-
-
 })
 
 
