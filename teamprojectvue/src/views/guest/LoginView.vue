@@ -129,16 +129,17 @@ const LoginSequence = async () => {
 
     await userdata();
 
-    if ( !useraccept.value) {
-      userL();
+    userL()
+    // if ( !useraccept.value) {
+    //   userL();
 
-       Cookies.remove('token')
+    //    Cookies.remove('token')
 
-      // localStorage.removeItem('token');
+    //   // localStorage.removeItem('token');
 
-      loginError.value = '가입 승인 후에 활동 가능합니다.'
-      return;
-    }
+    //   loginError.value = '가입 승인 후에 활동 가능합니다.'
+    //   return;
+    // }
 
     await userrole();
 

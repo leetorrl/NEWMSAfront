@@ -33,7 +33,13 @@
               {{ content }}
             </div>
 
-            <div @click="chkcomment"><h1>답변체크</h1></div>
+        
+            <div @click="chkcomment" 
+            :class="{'bg-blue-900 text-white': !commentchk, 'bg-gray-300 text-black': commentchk}"
+            class="cursor-pointer border-1 p-4">
+            <h1 v-if="commentchk">답변체크</h1>
+            <h1 v-else>답변완료</h1>
+          </div>
 
           </div>
         </div>
@@ -109,6 +115,7 @@ const commentInput = ref('');
 const comments = ref([]);
 
 const commentchk = ref(true) //텍스트 에리어 숨김 체크
+const commentchksettime = ref(true)
 
 const QnAview = async () => {
   const res = await qna_one_api(route.params.idx);
@@ -134,6 +141,7 @@ const goQnAboradList = () => {
 };
 
 const savecomment = async () => {
+  
   const data = {
     comment: commentInput.value
   };
@@ -142,6 +150,9 @@ const savecomment = async () => {
     await save_comment_api(route.params.idx, data);
 
     alert('댓글입력 완료');
+
+    commentchksettime.value = false
+
   } catch (e) {
     console.log(e);
   }
@@ -150,7 +161,6 @@ const savecomment = async () => {
 const chkcomment = async() => {
  
   try{
-    
     confirm("문의체크 하쉴?")
 
     const res = await qna_chkcomment_api(route.params.idx)
@@ -167,9 +177,36 @@ const chkcomment = async() => {
 
 
 watchEffect(() => {
+
   console.log(route.params.idx);
   QnAview();
-});
+
+
+  // if(commentchksettime.value===false){
+    
+  //   const savedTime = localStorage.getItem('lastCommentCheckTime');
+  //   const currentTime = new Date().getTime();
+
+  //   if (savedTime && currentTime - savedTime < 10 * 60 * 1000) {
+    
+  //     return;
+  // }
+
+  // const timer = setTimeout(async () => {
+
+  //     try {
+  //       await qna_chkcomment_api(route.params.idx);
+      
+  //       localStorage.setItem('lastCommentCheckTime', new Date().getTime());
+
+  //     } catch (error) {
+
+  //       console.error("API 호출 중 오류 발생:", error);
+  //     }
+
+  //   }, 10 * 60 * 1000); 
+})
+
 </script>
 
 <style lang="scss" scoped></style>

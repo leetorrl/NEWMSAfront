@@ -91,6 +91,12 @@ if(await Cookies.get('token') !== null){
 
 onMounted(async () => {
  
+console.log("、ヽ｀、ヽ｀｀｀、ヽ｀｀、ヽ｀、ヽ｀ヽ｀、、ヽ｀ヽ｀、ヽ｀、ヽ｀")
+console.log("｀、ヽ｀ヽ｀、、ヽ｀ヽ｀、ヽ(ノ；Д；)ノ ｀、、ヽ｀ヽ｀、ヽ｀｀、")
+console.log("｀ヽ｀、ヽ｀、ヽ｀｀、ヽ｀、ヽ｀ヽ｀、、ヽ｀ヽヽ｀、ヽ｀｀、ヽ｀")
+
+
+
   if(!Cookies.get("token")){
     router.push({name:'loginview'})
   }

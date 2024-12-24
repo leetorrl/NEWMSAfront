@@ -20,6 +20,13 @@
       </ul>
     </div>
 
+    <div>
+      <form action="">
+        <label for="">서치 테스트</label><input type="search" v-model="query">
+        <button @click="qnasearch(query)">검색</button>
+      </form>
+    </div>
+
     <main class="flex justify-center w-[68rem]">
       <section class="flex-1 p-6 m-2 bg-white">
         <div class="mb-3">
@@ -128,13 +135,12 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { onMounted } from 'vue';
+import { ref, watchEffect } from 'vue';
 import { useRouter } from 'vue-router';
 import { useloginStore } from '@/stores/loginpinia.js';
 import { storeToRefs } from 'pinia';
 // import { computed } from 'vue';
-import { qna_list_api } from '@/api/qnaApi.js';
+import { qna_list_api, qna_search_api } from '@/api/qnaApi.js';
 import Cookies from 'js-cookie';
 
 const loginStore = useloginStore();
@@ -143,6 +149,8 @@ const { userloginid } = storeToRefs(loginStore);
 const router = useRouter();
 
 const QnAlistarr = ref([]);
+
+const query = ref()
 
 const currentPage = ref(0)       // 현재 페이지 번호 (0부터 시작)
 const totalPages = ref (0)        // 전체 페이지 수
@@ -153,14 +161,15 @@ const goQnAsave = () => {
   router.push('/qnaboradsave');
 };
 
-const QnAlist = async (pageNum) => {
+const QnAlist = async () => {
+
   try {
-    const res_qna = await qna_list_api(pageNum);
+    const res_qna = await qna_list_api();
 
     QnAlistarr.value = res_qna.list;
     totalElements.value = res_qna.totalElements;
     totalPages.value = res_qna.totalPages;
-    currentPage.value = pageNum;
+    // currentPage.value = pageNum;
 
     console.log(userloginid.value);
     console.log(QnAlistarr.value);
@@ -170,15 +179,37 @@ const QnAlist = async (pageNum) => {
   }
 };
 
+
+const qnasearch =  async (query) => {
+
+  const searchquery = query.value
+
+  try{
+    const res_search_qna = qna_search_api(searchquery)
+    
+    QnAlistarr.value = res_search_qna.list;
+    totalElements.value = res_search_qna.totalElements;
+    totalPages.value = res_search_qna.totalPages;
+
+  }catch(e){
+    console.log(e);
+  }
+}
+
 const goQnAboradView = (idx) => {
   router.push(`/qnaboradview/${idx}`);
 };
 
-onMounted( async()=>{
+watchEffect( async()=>{
   if(!Cookies.get('token')){
   router.push({name:'loginview'})
 }
-  await QnAlist()
+  if(query.value===null){
+    await QnAlist()
+  }
+  else{
+    await qnasearch(query)
+  }
 })
 
 

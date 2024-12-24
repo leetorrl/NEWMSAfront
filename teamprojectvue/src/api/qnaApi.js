@@ -6,10 +6,10 @@ const url = `${GLOBAL_URL}`;
 const qna_url = `${GLOBAL_QNA_URL}`;
 const announce_url = `${GLOBAL_ANNOUNCE_URL}`;
 
-export const qna_list_api = async (pageNum) => {
+export const qna_list_api = async () => {
   try {
     const token = Cookies.get('token');
-    const res = await axios.get(`${qna_url}/QnA/list?pageNum=${pageNum}`, { params: { token } });
+    const res = await axios.get(`${qna_url}/QnA/list`, { params: { token } });
 
     console.log(res);
     return res.data;
@@ -56,6 +56,24 @@ export const qna_chkcomment_api = async(idx) => {
 
   try{
      const res = await axios.post(`${qna_url}/QnA/qnacheck/${idx}`,{
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+    return res
+
+  }catch(e){
+    console.log(e)
+  }
+}
+
+export const qna_search_api = async(query) => {
+
+  const token = Cookies.get('token')
+
+  try{
+     const res = await axios.get(`${qna_url}/QnA/search?query=${query}`,{
       headers: {
         Authorization: `Bearer ${token}`
       }

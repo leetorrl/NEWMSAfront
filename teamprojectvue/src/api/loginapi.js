@@ -16,13 +16,18 @@ export const userdata = async () => {
   const { doLogin } = loginStore;
 
   try {  //갯유저 api 완료시 집어넣기
-    const res = await axios.get(`${url}/user/getuser`, {
+    const res = await axios.get(`http://192.168.0.103:8100/user/sign/getuser`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
     });
 
+    if(!Cookies.get('token')){
+      res.data.role = null
+    }
+
     console.log('res' + JSON.stringify(res.data.role));
+
     doLogin(res.data.name, res.data.role, res.data.accept, res.data.userid);
 
   } catch (e) {
@@ -40,7 +45,7 @@ export const userrole = async () => {
     return;
   }
 
-  const res = await axios.get(`${url}/user/getrole`, {
+  const res = await axios.get(`http://192.168.0.103:8100/user/sign/getuser`, {
     headers: {
       Authorization: `Bearer ${token}`
     }
@@ -48,18 +53,19 @@ export const userrole = async () => {
 
   
   const logincheck = useloginStore();
-  console.log(res.data);
-  logincheck.userR(res.data);
+  console.log(res.data.role);
+  logincheck.userR(res.data.role);
 
 
 };
+
 
 export const logincontrol = async (data) => {
   const logincheck = useloginStore();
   const { logincheckfalse } = logincheck;
 
   try {
-    const response = await axios.post(`http://192.168.0.103:8100/user/sign/signup`, data);
+    const response = await axios.post(`http://192.168.0.103:8100/user/sign/signin`, data);
 
     Cookies.set('token', response.data ,{ sameSite: 'Strict' })
 

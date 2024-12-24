@@ -126,6 +126,7 @@ function mapUserRole(userRole) {
 
 let deferredPrompt = null;
 watchEffect(() => {
+  console.log(username)
   window.addEventListener('beforeinstallprompt', (event) => {
     event.preventDefault();
     deferredPrompt = event;
