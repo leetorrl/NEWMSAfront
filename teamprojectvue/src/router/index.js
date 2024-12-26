@@ -29,6 +29,7 @@ import StudentDashBoard from '@/views/student/StudentDashBoard.vue'
 import QnAborad from '@/views/qna/QnAborad.vue'
 import QnAboradView from '@/views/qna/QnAboradView.vue'
 import QnAboardsave from '@/views/qna/QnAboardsave.vue'
+import QnAboardchange from '@/views/qna/QnAboardchange.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -38,6 +39,11 @@ const router = createRouter({
     //   name: 'loginhome',
     //   component: LoginHome
     // },
+    {
+      path: '/qnaboardchange/:idx',
+      name: 'qnaboardchange',
+      component: QnAboardchange
+    },
     {
       path: '/qnaboradsave',
       name: 'qnaboradsave',

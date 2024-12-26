@@ -34,21 +34,39 @@
             </div>
 
         
-            <div @click="chkcomment" 
-            :class="{'bg-blue-900 text-white': !commentchk, 'bg-gray-300 text-black': commentchk}"
-            class="cursor-pointer border-1 p-4">
-            <h1 v-if="commentchk">답변체크</h1>
+            <div v-if="WAITINGQnAch" @click="chkcomment" 
+            :class="{'bg-blue-900 text-white ': !commentchk, 'bg-gray-300 text-black cursor-pointer': commentchk}"
+            class=" border-1 p-4">
+            <h1 v-if="commentchk">문의완료</h1>
             <h1 v-else>답변완료</h1>
           </div>
 
           </div>
         </div>
-        <div class="bg-gray-300">
+
+
+
+        
+        <div class="">
+         
           <div
             @click="goQnAboradList"
             class="flex float-left p-1 pl-3 pr-3 my-8 text-xl border-2 rounded cursor-pointer bg-blue-800 opacity-80 text-white"
           >
             문의사항 리스트
+          </div>
+                                 
+          <div
+          @click=""
+            class="flex float-right p-1 pl-3 pr-3 my-8 text-xl border-2 rounded cursor-pointer bg-red-400 opacity-80 text-white"
+          >
+            삭제
+          </div>
+          <div
+          @click="changeQnAborad()"
+            class="flex float-right p-1 pl-3 pr-3 my-8 text-xl border-2 rounded cursor-pointer bg-blue-400 opacity-80 text-white"
+          >
+            수정
           </div>
           <div
             @click="goQnAboradsave"
@@ -57,6 +75,7 @@
             글쓰기
           </div>
         </div>
+
         <div class=""></div>
       </div>
       <br />
@@ -64,29 +83,61 @@
       <div class="flex justify-center w-full">
         <div class="border border-gray-300 w-[63rem]">
           <div class="p-1">
-
+            <div class="m-2" v-if="commentchk"> 댓글 작성자 : - {{username}}<span class="text-xs">({{
+    userrl === 'ROLE_STUDENT'
+      ? '학생'
+      : userrl === 'ROLE_TEACHER'
+      ? '강사'
+      : userrl === 'ROLE_MANAGER'
+      ? '매니저'
+      : '미확인 유저'}})</span> - </div>
             <textarea v-if="commentchk"
               v-model="commentInput"
-              class="border mt-2 w-11/12 resize-none h-16"
+              class="border mt-2  w-11/12 resize-none h-16"
               name=""
               id=""
               placeholder="답변을 작성하세요"
             ></textarea>
 
-            <button
+            <button v-if="commentchk"
               @click="savecomment"
               class="w-1/12 mt-2 text-center h-16 rounded bg-blue-800 opacity-80 text-white float-right"
             >
               답글입력
             </button>
-
-            <div class="flex flex-col" v-for=" item in comments" :key="item.idx">
-              <h3 class="text-[1.2rem]">답글 내용 :</h3>
-              <div class="border border-gray-200 p-3 m-3 rounded-sm">{{ item.comment }}</div>
+            <h1 class="mt-10" v-if="commentlistchk">-답변항목-</h1>
+            <div class="flex flex-col mb-5  rounded-md" :class="item.name === username ? 'bg-blue-100' : 'bg-red-100'" v-for=" item in comments" :key="item.idx">
+              <div class="border ">
+              <h3 class="text-[1.2rem] mt-2 ml-2">답변 : </h3>
+              
+              <div class=" border-gray-200 m-3 rounded-sm">{{ item.comment }}</div>
               <div class="flex justify-end mr-3">
-                <h3 class="text-[1.2rem] p-3">작성자 : {{ item.name }}</h3>
+                <h3 class="text-[1rem] p-3">작성자 : {{ item.name }}<span class="text-xs">({{
+    item.role === 'ROLE_STUDENT'
+      ? '학생'
+      : item.role === 'ROLE_TEACHER'
+      ? '강사'
+      : item.role === 'ROLE_MANAGER'
+      ? '매니저'
+      : '미확인 유저'}})</span></h3>
               </div>
+<h3 class="flex justify-end mb-3 mr-3">{{
+      new Date(item.wdate).getFullYear() + '-' +
+      String(new Date(item.wdate).getMonth() + 1).padStart(2, '0') + '-' +
+      String(new Date(item.wdate).getDate()).padStart(2, '0') + ' ' +
+      String(new Date(item.wdate).getHours()).padStart(2, '0') + ':' +
+      String(new Date(item.wdate).getMinutes()).padStart(2, '0')
+    }}</h3>
+              </div>
+
+              <div v-if="commentchk" class=""> 
+                <button v-if="commentlistchk" @click="deletecomment(item.idx)" class="float-end mb-1 ml-1 mr-1 pl-1 pr-1 text-white bg-red-400">삭제</button>
+              <button v-if="commentlistchk" @click="changecomment" class="float-end mb-1 ml-1 mr-1 pl-1 pr-1 bg-blue-800 text-white ">수정</button>
+              
             </div>
+
+          </div>
+
           </div>
         </div>
       </div>
@@ -100,10 +151,13 @@ import { useRouter } from 'vue-router';
 import { watchEffect } from 'vue';
 import { ref } from 'vue';
 import { qna_chkcomment_api, qna_one_api } from '@/api/qnaApi.js';
-import { commnet_list_api, save_comment_api } from '@/api/commentApi.js';
-
+import { commnet_list_api, deletecommentapi, save_comment_api } from '@/api/commentApi.js';
+import { useloginStore } from '@/stores/loginpinia';
+import { storeToRefs } from 'pinia';
 const route = useRoute();
 const router = useRouter();
+const loginStore = useloginStore();
+const { username,userrl } = storeToRefs(loginStore); 
 
 const title = ref('');
 const type = ref('');
@@ -114,8 +168,9 @@ const qnaState = ref('');
 const commentInput = ref('');
 const comments = ref([]);
 
+const WAITINGQnAch = ref(false)
 const commentchk = ref(true) //텍스트 에리어 숨김 체크
-const commentchksettime = ref(true)
+const commentlistchk = ref(false)
 
 const QnAview = async () => {
   const res = await qna_one_api(route.params.idx);
@@ -129,8 +184,30 @@ const QnAview = async () => {
   type.value = res.data.type;
 
   const res_comments = await commnet_list_api(route.params.idx);
-  comments.value = res_comments.data;
+  comments.value = res_comments;
+
+  if(qnaState.value==='COMPLETE'){
+
+    commentchk.value = false
+  }
+
+  if(comments.value.length > 0){
+    
+    commentlistchk.value = true
+    WAITINGQnAch.value = true
+  }
+  else{
+    commentlistchk.value = false
+    WAITINGQnAch.value = false
+  }
+
 };
+
+const changeQnAborad = () => {
+
+  router.push(`/qnaboardchange/${route.params.idx}`)
+
+}
 
 const goQnAboradsave = () => {
   router.push('/qnaboradsave');
@@ -140,9 +217,20 @@ const goQnAboradList = () => {
   router.go(-1);
 };
 
+
+
+
+
 const savecomment = async () => {
   
-  const data = {
+  if(commentInput.value.trim()===''){
+    
+    alert("내용을 입력 바랍니다.")
+    return
+  }
+
+  else{
+    const data = {
     comment: commentInput.value
   };
 
@@ -150,37 +238,72 @@ const savecomment = async () => {
     await save_comment_api(route.params.idx, data);
 
     alert('댓글입력 완료');
-
-    commentchksettime.value = false
+    QnAview();
+    commentInput.value = null
+    // router.push(`/qnaboradview/${route.params.idx}`)
+    // commentchksettime.value = false
 
   } catch (e) {
     console.log(e);
   }
+  }
 };
 
+
+const changecomment = () => {
+
+  alert('아직 못만듬')
+
+}
+
 const chkcomment = async() => {
- 
+
+  if(commentchk.value===false){
+    return
+  }
+  const commentalert = confirm("문의체크?")
+
+  if(commentalert){
   try{
-    confirm("문의체크 하쉴?")
-
     const res = await qna_chkcomment_api(route.params.idx)
-    commentchk.value = false
-
-    console.log(res)
-
-    alert(res)
-
+    alert(res.data)
+    QnAview();
   }catch(e){
     console.log(e)
   }
+
+}else{
+  return
+}
+}
+   
+
+
+const deletecomment = async(idx) => {
+
+  const deletealert = confirm("해당 댓글을 삭제하시겠습니까")
+
+  if(deletealert){
+  try{
+   const res = await deletecommentapi(idx)
+   
+   console.log(res)
+   QnAview();
+  }catch(e){
+    console.log(e)
+  }
+
+}else{
+  return
+}
 }
 
 
-watchEffect(() => {
-
+watchEffect(()=>{
   console.log(route.params.idx);
   QnAview();
-
+  
+})
 
   // if(commentchksettime.value===false){
     
@@ -205,7 +328,7 @@ watchEffect(() => {
   //     }
 
   //   }, 10 * 60 * 1000); 
-})
+
 
 </script>
 

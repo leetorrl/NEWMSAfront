@@ -8,10 +8,8 @@ const announce_url = `${GLOBAL_ANNOUNCE_URL}`;
 
 export const commnet_list_api = async (qna_idx) => {
   try {
-    const token = Cookies.get('token');
-    const res = await axios.get(`${qna_url}/comment/${qna_idx}/list`, { params: { token } });
-
-    console.log(res);
+    // const token = Cookies.get('token');
+    const res = await axios.get(`${qna_url}/comment/${qna_idx}/list`);
     return res.data;
   } catch (e) {
     console.log(e);
@@ -34,3 +32,22 @@ export const save_comment_api = async (qna_idx, data) => {
     console.log(e);
   }
 };
+
+
+export const deletecommentapi = async(idx) => {
+
+  const token = Cookies.get('token')
+
+  try{
+       const res = axios.delete(`${qna_url}/comment/delete/${idx}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+       return res
+
+  }catch(e){
+    console.log(e)
+  }
+
+}
