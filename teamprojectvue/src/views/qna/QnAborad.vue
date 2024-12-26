@@ -204,12 +204,12 @@ watchEffect( async()=>{
   if(!Cookies.get('token')){
   router.push({name:'loginview'})
 }
-  if(query.value===null){
+  // if(query.value===null){
     await QnAlist()
-  }
-  else{
-    await qnasearch(query)
-  }
+  // }
+  // else{
+  //   await qnasearch(query)
+  // }
 })
 
 
