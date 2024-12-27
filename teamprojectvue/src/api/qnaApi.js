@@ -50,6 +50,24 @@ export const qna_save_api = async (data) => {
   }
 };
 
+export const qna_delete_api = async(idx) => {
+
+  const token = Cookies.get('token')
+
+  try{
+    const res = await axios.delete(`${qna_url}/QnA/delete/${idx}`,{
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+    return res
+
+  }catch(e){
+    console.log(e)
+  }
+}
+
 
 export const qna_change_api = async (data, idx) => {
 
@@ -67,7 +85,6 @@ export const qna_change_api = async (data, idx) => {
   }catch(e){
     console.log(e)
   }
-
 }
 
 export const qna_chkcomment_api = async(idx) => {
@@ -83,7 +100,6 @@ export const qna_chkcomment_api = async(idx) => {
         },
       }
     );
-
     return res
 
   }catch(e){
@@ -101,11 +117,9 @@ export const qna_search_api = async(query) => {
         Authorization: `Bearer ${token}`
       }
     });
-
     return res
 
   }catch(e){
     console.log(e)
   }
-
 }

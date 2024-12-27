@@ -57,7 +57,7 @@
           </div>
                                  
           <div
-          @click=""
+          @click="deleteqnaborad()"
             class="flex float-right p-1 pl-3 pr-3 my-8 text-xl border-2 rounded cursor-pointer bg-red-400 opacity-80 text-white"
           >
             삭제
@@ -150,7 +150,7 @@ import { useRoute } from 'vue-router';
 import { useRouter } from 'vue-router';
 import { watchEffect } from 'vue';
 import { ref } from 'vue';
-import { qna_chkcomment_api, qna_one_api } from '@/api/qnaApi.js';
+import { qna_chkcomment_api, qna_delete_api, qna_one_api } from '@/api/qnaApi.js';
 import { commnet_list_api, deletecommentapi, save_comment_api } from '@/api/commentApi.js';
 import { useloginStore } from '@/stores/loginpinia';
 import { storeToRefs } from 'pinia';
@@ -218,7 +218,27 @@ const goQnAboradList = () => {
 };
 
 
+const deleteqnaborad = async () => {
 
+  const deleteqnaalert = confirm("정말 삭제하시겠습니까?")
+
+  if(deleteqnaalert){
+try{
+
+const res = await qna_delete_api(route.params.idx)
+
+alert(res.data)
+router.push({name:'qnaborad'})
+
+}catch(e){
+console.log(e)
+}
+
+  }else{
+    alert('삭제취소'+route.params.idx)
+    return
+  }
+}
 
 
 const savecomment = async () => {
