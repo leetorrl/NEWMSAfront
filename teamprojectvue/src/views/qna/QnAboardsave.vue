@@ -16,7 +16,28 @@
           class="w-full pl-4 pr-4 py-2 transition-all duration-300 ease-in-out border border-gray-300 rounded-md resize-none focus:outline-none focus:ring-2 focus:border-transparent"
         />
       </div>
+      
+      <div>
+        <p class="py-4 font-bold text-xl text-blue-900">구분선택</p>
+
+      <div >
+
+        <ul class="border rounded-md py-4">
+          <li
+      class="rounded-md p-2 ml-5 m-2 inline cursor-pointer"
+      :class="{ 'bg-blue-200': item === type, 'bg-gray-100': item !== type }"
+      v-for="(item, index) in typelist"
+      :key="index"
+      @click="selectType(item)"
+    >
+      {{ item }}
+    </li>
+        </ul>
+
+      </div>
+    </div>
       <br />
+      <br>
       <div>
         <p class="py-6 font-bold text-xl text-blue-900">내용</p>
         <textarea
@@ -58,11 +79,17 @@ import { useRouter } from 'vue-router';
 import { qna_save_api } from '@/api/qnaApi.js';
 
 const router = useRouter();
-const typelist = ref([]);
+const typelist = ref(['강좌', '시설', '환불', '기타']);
 
 const title = ref('');
 const content = ref('');
 const type = ref('기타');
+
+
+const selectType = (selectedType) => {
+      type.value = selectedType;
+
+    };
 
 const goback = () => {
   router.go(-1);

@@ -10,7 +10,7 @@ export const profiledata = async () => {
   try {
     const token = Cookies.get('token');
     // const token = localStorage.getItem('token')
-    const profileres = await axios.get(`http://192.168.0.103:8100/user/sign/getuser`, {
+    const profileres = await axios.get(`${url}/user/sign/getuser`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -51,7 +51,7 @@ export const subapi = async (data) => {
 export const showuserresuserapi = async () => {
   try {
     const token = Cookies.get('token');
-    const resuser = await axios.get(`http://192.168.0.103:8100/user/sign/getuser`, {
+    const resuser = await axios.get(`${url}/user/sign/getuser`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -110,7 +110,7 @@ export const stshowuserapi = async () => {
     const token = Cookies.get('token');
     // const token = localStorage.getItem('token');
 
-    const resuser = await axios.get(`http://192.168.0.103:8100/user/sign/getuser`, {
+    const resuser = await axios.get(`${url}/user/sign/getuser`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -137,7 +137,7 @@ export const stshowuserattapi = async () => {
     const token = Cookies.get('token');
     // const token = localStorage.getItem('token');
 
-    const resuser = await axios.get(`http://192.168.0.103:8100/user/sign/getuser`, {
+    const resuser = await axios.get(`${url}/user/sign/getuser`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -267,7 +267,7 @@ export const stfetchannouncedescapi = async (pageNum) => {
 export const stQnAlistapi = async () => {
   try {
     const token = Cookies.get('token');
-    const res = await axios.get(`${qna_url}/QnA/list`,
+    const res = await axios.get(`${url}/QnA/list`,
       { params: { token } }
     );
     
@@ -296,7 +296,7 @@ export const stQnAviewapi = async (idx) => {
   const token = Cookies.get('token');
 
   try {
-    const res = await axios.get(`${qna_url}/QnA/view/${idx}`, {
+    const res = await axios.get(`${url}/QnA/view/${idx}`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -312,7 +312,7 @@ export const stQnAboardsaveapi = async (data) => {
   const token = Cookies.get('token');
 
   try {
-    const res = await axios.post(`${qna_url}/QnA/save`, data, {
+    const res = await axios.post(`${url}/QnA/save`, data, {
       headers: {
         Authorization: `${token}`
       }
@@ -328,7 +328,7 @@ export const stgetuserapi = async () => {
   const token = Cookies.get('token');
 
   try {
-    const res = await axios.get(`http://192.168.0.103:8100/user/sign/getuser`, {
+    const res = await axios.get(`${url}/user/sign/getuser`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -346,7 +346,7 @@ export const savecommentapi = async (idx, data) => {
   const token = Cookies.get('token')
 
   try{
-    const res = axios.post(`${qna_url}/QnA/comment/${idx}`,data, { params: { token } })
+    const res = axios.post(`${url}/QnA/comment/${idx}`,data, { params: { token } })
 
     return res
 

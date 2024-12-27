@@ -66,7 +66,7 @@
                   {{
                     item.qnaState === 'WAITING'
                       ? '답변대기'
-                      : qnaState === 'IN_PROGRESS'
+                      : item.qnaState === 'IN_PROGRESS'
                       ? '답변중'
                       : item.qnaState === 'COMPLETE'
                         ? '답변완료'

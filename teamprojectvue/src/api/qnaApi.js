@@ -50,16 +50,39 @@ export const qna_save_api = async (data) => {
   }
 };
 
-export const qna_chkcomment_api = async(idx) => {
+
+export const qna_change_api = async (data, idx) => {
 
   const token = Cookies.get('token')
 
   try{
-     const res = await axios.post(`${qna_url}/QnA/qnacheck/${idx}`,{
-      headers: {
-        Authorization: `Bearer ${token}`
+   const res = await axios.post(`${qna_url}/QnA/change/${idx}`,data ,{
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+
+  return res.data
+
+  }catch(e){
+    console.log(e)
+  }
+
+}
+
+export const qna_chkcomment_api = async(idx) => {
+
+  const token = Cookies.get('token');
+
+  try{
+     const res = await axios.post(`${qna_url}/QnA/qnacheck/${idx}`,
+      {}, // 본문이 필요 없다면 빈 객체를 전달, ex) data객체
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, // 'Bearer ' 접두사를 추가한 Authorization 헤더
+        },
       }
-    });
+    );
 
     return res
 
