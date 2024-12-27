@@ -55,7 +55,7 @@
             </div>
           </li>
           <hr class="border-gray-300" />
-          <li @click="setActiveItem('studentQnA', 'qnaborad')">
+          <li @click="setActiveItem('studentQnA', 'qnaborad')" >
             <div :class="{ 'bg-blue-200 rounded-md': activeItem === 'studentQnA' }"
               class="flex items-center py-1 my-2 text-sm">
               <img src="../images/announ.png" alt="" class="mr-2" />
