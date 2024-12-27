@@ -100,7 +100,7 @@ export const qna_chkcomment_api = async(idx) => {
         },
       }
     );
-    return res
+    return res.data
 
   }catch(e){
     console.log(e)

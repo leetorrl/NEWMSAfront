@@ -22,7 +22,7 @@
 
     <div>
       <form action="">
-        <label for="">서치 테스트</label><input type="search" v-model="query">
+        <label for="">서치 테스트</label><input class="border" type="search" v-model="query">
         <button @click="qnasearch(query)">검색</button>
       </form>
     </div>
@@ -91,8 +91,6 @@
         </button>
 
 
-
-        
         <!-- 페이지 네이션 -->
 
         <div class="flex justify-center mt-5 space-x-2">
@@ -100,7 +98,7 @@
             <!-- 앞페이지 -->
 
           <button
-            class="px-3 py-1 bg-white border border-gray-300 hover:bg-gray-100"
+            class="px-3 py-1 bg-white border cursor-pointer border-gray-300 hover:bg-gray-100"
             @click="fetchPageData(currentPage - 1)"
             :disabled="currentPage === 0"
             aria-label="이전 페이지"
