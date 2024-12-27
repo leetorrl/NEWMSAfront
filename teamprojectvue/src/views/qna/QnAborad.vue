@@ -91,42 +91,39 @@
         </button>
 
 
-        <!-- 페이지 네이션 -->
+     <!-- 페이지 네이션 부분 -->
+<div class="flex justify-center mt-5 space-x-2">
+  <!-- 이전 페이지 버튼 -->
+  <button
+    class="px-3 py-1 bg-white border cursor-pointer border-gray-300 hover:bg-gray-100"
+    @click="fetchPageData(currentPage - 1)"  
+    :disabled="currentPage === 0"  
+    aria-label="이전 페이지"
+  >
+    &lt;
+  </button>
 
-        <div class="flex justify-center mt-5 space-x-2">
+  <!-- 페이지 번호 버튼 -->
+  <span
+    v-for="page in totalPages"
+    :key="page"
+    class="px-3 py-1 border border-gray-300 cursor-pointer hover:bg-gray-100"
+    :class="{ 'bg-blue-500 text-white': currentPage === page - 1 }" 
+    @click="fetchPageData(page - 1)"  
+  >
+    {{ page }}
+  </span>
 
-            <!-- 앞페이지 -->
-
-          <button
-            class="px-3 py-1 bg-white border cursor-pointer border-gray-300 hover:bg-gray-100"
-            @click="fetchPageData(currentPage - 1)"
-            :disabled="currentPage === 0"
-            aria-label="이전 페이지"
-          >
-            &lt;
-          </button>
-
-          <!-- 현페이지 -->
-          <span
-            v-for="page in totalPages"
-            :key="page"
-            class="px-3 py-1 border border-gray-300 cursor-pointer hover:bg-gray-100"
-            @click="fetchPageData(page - 1)"
-          >
-            {{ page }}
-          </span>
-
-         <!-- 뒷페이지 -->
-          <button
-            class="px-3 py-1 bg-white border border-gray-300 hover:bg-gray-100"
-
-            @click="fetchPageData(currentPage + 1)"
-            :disabled="currentPage === totalPages - 1" 
-            aria-label="다음 페이지"
-          >
-            &gt;
-          </button>
-        </div>
+  <!-- 다음 페이지 버튼 -->
+  <button
+    class="px-3 py-1 bg-white border border-gray-300 hover:bg-gray-100"
+    @click="fetchPageData(currentPage + 1)"  
+    :disabled="currentPage === totalPages - 1"  
+    aria-label="다음 페이지"
+  >
+    &gt;
+  </button>
+</div>
       </section>
     </main>
   </div>
@@ -147,70 +144,65 @@ const { userloginid } = storeToRefs(loginStore);
 const router = useRouter();
 
 const QnAlistarr = ref([]);
+const query = ref();
 
-const query = ref()
-
-const currentPage = ref(0)       // 현재 페이지 번호 (0부터 시작)
-const totalPages = ref (0)        // 전체 페이지 수
-const totalElements = ref(0)     // 전체 항목 수
-const pageSize= ref(10)           // 한 페이지에 표시할 항목 수
+const currentPage = ref(0);       // 현재 페이지 번호 (0부터 시작)
+const totalPages = ref(0);        // 전체 페이지 수
+const totalElements = ref(0);     // 전체 항목 수
+const pageSize = ref(5);         // 한 페이지에 표시할 항목 수
 
 const goQnAsave = () => {
   router.push('/qnaboradsave');
 };
 
-const QnAlist = async () => {
+const fetchPageData = async (pageNum = 0) => {
 
   try {
-    const res_qna = await qna_list_api();
+    const res_qna = await qna_list_api(pageNum,pageSize.value );
 
-    QnAlistarr.value = res_qna.list;
-    totalElements.value = res_qna.totalElements;
-    totalPages.value = res_qna.totalPages;
-    // currentPage.value = pageNum;
-
-    console.log(userloginid.value);
-    console.log(QnAlistarr.value);
+    if (res_qna.list && res_qna.list.length) {
+      QnAlistarr.value = res_qna.list;
+      totalElements.value = res_qna.totalElements;
+      totalPages.value = res_qna.totalPages;
+      currentPage.value = pageNum;  // currentPage를 올바르게 업데이트
+  
+    } else {
+      console.log("No data found for the current page.");
+    }
 
   } catch (e) {
     console.log(e);
   }
 };
 
+// 검색 기능
+// const qnasearch = async (query) => {
+//   const searchquery = query.value;
 
-const qnasearch =  async (query) => {
+//   try {
+//     const res_search_qna = await qna_search_api(searchquery);
 
-  const searchquery = query.value
+//     QnAlistarr.value = res_search_qna.list;
+//     totalElements.value = res_search_qna.totalElements;
+//     totalPages.value = res_search_qna.totalPages;
+//     currentPage.value = 0; // 검색 결과는 첫 페이지부터 표시
+//   } catch (e) {
+//     console.log(e);
+//   }
+// };
 
-  try{
-    const res_search_qna = qna_search_api(searchquery)
-    
-    QnAlistarr.value = res_search_qna.list;
-    totalElements.value = res_search_qna.totalElements;
-    totalPages.value = res_search_qna.totalPages;
-
-  }catch(e){
-    console.log(e);
-  }
-}
-
+// 글 보기로 이동
 const goQnAboradView = (idx) => {
   router.push(`/qnaboradview/${idx}`);
 };
 
-watchEffect( async()=>{
-  if(!Cookies.get('token')){
-  router.push({name:'loginview'})
-}
-  // if(query.value===null){
-    await QnAlist()
-  // }
-  // else{
-  //   await qnasearch(query)
-  // }
-})
-
-
+// 초기 데이터 로드
+watchEffect(async () => {
+  if (!Cookies.get('token')) {
+    router.push({ name: 'loginview' });
+  }
+  await fetchPageData(currentPage.value);
+});
 </script>
 
 <style lang="scss" scoped></style>

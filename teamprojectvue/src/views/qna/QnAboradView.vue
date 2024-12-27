@@ -130,11 +130,12 @@
     }}</h3>
               </div>
 
+             <div v-if="userchk">
               <div v-if="commentchk" class=""> 
                 <button v-if="commentlistchk" @click="deletecomment(item.idx)" class="float-end mb-1 ml-1 mr-1 pl-1 pr-1 text-white bg-red-400">삭제</button>
               <button v-if="commentlistchk" @click="changecomment" class="float-end mb-1 ml-1 mr-1 pl-1 pr-1 bg-blue-800 text-white ">수정</button>
-              
             </div>
+          </div>
 
           </div>
 
@@ -148,7 +149,7 @@
 <script setup>
 import { useRoute } from 'vue-router';
 import { useRouter } from 'vue-router';
-import { watchEffect } from 'vue';
+import { onMounted, watchEffect } from 'vue';
 import { ref } from 'vue';
 import { qna_chkcomment_api, qna_delete_api, qna_one_api } from '@/api/qnaApi.js';
 import { commnet_list_api, deletecommentapi, save_comment_api } from '@/api/commentApi.js';
@@ -173,6 +174,7 @@ const WAITINGQnAch = ref(false)
 const commentchk = ref(true) //텍스트 에리어 숨김 체크
 const commentlistchk = ref(false)
 
+const userchk = ref(false)
 
 
 const changeQnAborad = () => {
@@ -278,9 +280,8 @@ const deletecomment = async(idx) => {
   if(deletealert){
 
   try{
-    
-   await deletecommentapi(idx, route.params.idx)
-   alert("삭제완료")
+   const res = await deletecommentapi(idx, route.params.idx)
+   alert("삭제완료"+res.data)
   await QnAview();
 
   }catch(e){
@@ -320,11 +321,21 @@ else{
   commentlistchk.value = false
   WAITINGQnAch.value = false
 }
+
+//반복 비교문 제작중...
+console.log(comments.value[0])
+console.log(res.data.uuid)
+
+
 };
 
-watchEffect(async()=>{
-   await QnAview();
+onMounted( async()=>{
+  await QnAview();
 })
+
+// watchEffect(async()=>{
+//    await QnAview();
+// })
 
   // if(commentchksettime.value===false){
     
