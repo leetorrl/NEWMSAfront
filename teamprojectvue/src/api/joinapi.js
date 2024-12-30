@@ -17,14 +17,12 @@ export const checkI = async (userid) => {
 };
 
 export const joinU = async (data) => {
-  console.log(data);
-  await axios.post(`${url}/user/sign/signin`, data);
-  // if (localStorage.getItem('token') !== null) {
-  //   localStorage.removeItem('token');
-  // }
 
-  // } catch (e) {
-  //   console.log(e)
-  //   alert('에러')
-  // }
+ try{
+  const res = await axios.post(`${url}/user/sign/signup`, data);
+  return res.data
+ }catch(e){
+console.log(e)
+ }
+
 };

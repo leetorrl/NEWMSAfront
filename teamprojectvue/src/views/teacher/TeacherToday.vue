@@ -53,6 +53,9 @@
             <router-link to="teachercalander" class=""> 학생출결 조회 </router-link>
           </div>
         </div>
+        <div v-else>
+<h1>불러올 정보가 없습니다.</h1>
+        </div>
       </div>
       <div class=""></div>
     </div>

@@ -43,8 +43,8 @@
             <thead>
               <tr class="bg-gray-100">
                 <th class="w-1/12 p-3 border border-gray-300">구분</th>
-                <th class="w-4/12 p-3 border border-gray-300">제목</th>
-                <th class="w-1/12 p-3 border border-gray-300">글쓴이</th>
+                <th class="w-5/12 p-3 border border-gray-300">제목</th>
+                <th class="w-2/12 p-3 border border-gray-300">글쓴이</th>
                 <th class="w-2/12 p-3 border border-gray-300">작성일</th>
                 <th class="w-1/12 p-3 border border-gray-300">진행상태</th>
               </tr>
@@ -60,7 +60,7 @@
                 <td class="p-3 border border-gray-300">
                   {{ item.title.length > 20 ? item.title.substring(0, 20) + '...' : item.title }}
                 </td>
-                <td class="p-3 border border-gray-300">{{ item.userid }}</td>
+                <td class="p-3 border border-gray-300"> <span>{{item.name}}</span><span class="text-xs">({{ item.userid }})</span></td>
                 <td class="p-3 border border-gray-300">{{ item.wdate }}</td>
                 <td class="p-3 border border-gray-300">
                   {{

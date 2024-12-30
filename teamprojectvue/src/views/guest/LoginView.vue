@@ -127,17 +127,22 @@ const LoginSequence = async () => {
     console.log('최종 토큰' + token);
     await userdata();
     userL()
-    if (await !useraccept.value) {
+    if ( !useraccept.value) {
       userL();
-      await Cookies.remove('token')
+      Cookies.remove('token')
+      alert("승인요청이 되지 않은 계정입니다.")
+      return
     }
     await userrole();
     if (userrl.value == 'ROLE_STUDENT') {
       console.log('학생계정');
       router.push({ name: 'studentmain' });
     } else if (userrl.value == 'ROLE_TEACHER') {
-      console.log('선생계정');
-      router.push({ name: 'teacherdashboard' });
+
+      console.log(useraccept.value)
+        console.log('선생계정');
+        router.push({ name: 'teacherdashboard' });
+     
     } else if (userrl.value == 'ROLE_MANAGER') {
       console.log('매니저계정');
       router.push({ name: 'deskdashboard' });

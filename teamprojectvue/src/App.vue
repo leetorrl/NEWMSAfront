@@ -118,7 +118,8 @@ const homelogin = async () => {
     // e.response나 e.data가 있을 경우에만 접근하도록 처리
     if (e && e.response && e.response.data && e.response.data.status === 401) {
       // 401 오류인 경우 처리
-      localStorage.removeItem('token');
+      
+      Cookies.removeItem('token');
       userL(); // 로그아웃 함수 (로그아웃 관련 로직이 제대로 구현되어 있어야 함)
       router.push({ name: 'loginview' }); // 로그인 화면으로 이동
     } else {

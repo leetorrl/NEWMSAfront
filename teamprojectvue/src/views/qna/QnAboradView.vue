@@ -24,7 +24,7 @@
               }})</span
             >
             <span class="inline-block mt-2 mr-5 text-sm float-end"
-              >[ {{ userid }} ] {{ wdate }}
+              >{{name}} [ {{ userid }} ] -{{ wdate }}-
             </span>
           </h1>
           <hr class="m-1 ml-2 mr-2 border border-blue-500" />
@@ -33,19 +33,17 @@
               {{ content }}
             </div>
 
-        
+        <div v-if="userchk">
             <div v-if="WAITINGQnAch" @click="chkcomment" 
             :class="{'bg-blue-900 text-white ': !commentchk, 'bg-gray-300 text-black cursor-pointer': commentchk}"
             class=" border-1 p-4">
             <h1 v-if="commentchk">문의완료</h1>
             <h1 v-else>답변완료</h1>
           </div>
+        </div>
 
           </div>
         </div>
-
-
-
         
         <div class="">
          
@@ -56,13 +54,13 @@
             문의사항 리스트
           </div>
                                  
-          <div
+          <div v-if="userchk"
           @click="deleteqnaborad()"
             class="flex float-right p-1 pl-3 pr-3 my-8 text-xl border-2 rounded cursor-pointer bg-red-400 opacity-80 text-white"
           >
             삭제
           </div>
-          <div
+          <div v-if="userchk"
           @click="changeQnAborad()"
             class="flex float-right p-1 pl-3 pr-3 my-8 text-xl border-2 rounded cursor-pointer bg-blue-400 opacity-80 text-white"
           >
@@ -112,7 +110,7 @@
               
               <div class=" border-gray-200 m-3 rounded-sm">{{ item.comment }}</div>
               <div class="flex justify-end mr-3">
-                <h3 class="text-[1rem] p-3">작성자 : {{ item.name }}<span class="text-xs">({{
+                <h3 class="text-[1rem] p-3">작성자 : {{ item.name }}({{item.userid}})<span class="text-xs">({{
     item.role === 'ROLE_STUDENT'
       ? '학생'
       : item.role === 'ROLE_TEACHER'
@@ -130,10 +128,10 @@
     }}</h3>
               </div>
 
-             <div v-if="userchk">
+             <div >
               <div v-if="commentchk" class=""> 
-                <button v-if="commentlistchk" @click="deletecomment(item.idx)" class="float-end mb-1 ml-1 mr-1 pl-1 pr-1 text-white bg-red-400">삭제</button>
-              <button v-if="commentlistchk" @click="changecomment" class="float-end mb-1 ml-1 mr-1 pl-1 pr-1 bg-blue-800 text-white ">수정</button>
+                <button v-if="commentlistchk && item.userid === userloginid" @click="deletecomment(item.idx)" class="float-end mb-1 ml-1 mr-1 pl-1 pr-1 text-white bg-red-400">삭제</button>
+              <button v-if="commentlistchk && item.userid === userloginid" @click="changecomment" class="float-end mb-1 ml-1 mr-1 pl-1 pr-1 bg-blue-800 text-white ">수정</button>
             </div>
           </div>
 
@@ -159,8 +157,10 @@ import { storeToRefs } from 'pinia';
 const route = useRoute();
 const router = useRouter();
 const loginStore = useloginStore();
-const { username,userrl } = storeToRefs(loginStore); 
+const { username,userrl,userloginid } = storeToRefs(loginStore); 
 
+const name = ref('')
+const uuid = ref('');
 const title = ref('');
 const type = ref('');
 const userid = ref('');
@@ -169,6 +169,7 @@ const content = ref('');
 const qnaState = ref('');
 const commentInput = ref('');
 const comments = ref([]);
+
 
 const WAITINGQnAch = ref(false)
 const commentchk = ref(true) //텍스트 에리어 숨김 체크
@@ -263,8 +264,10 @@ const chkcomment = async() => {
   try{
     const res = await qna_chkcomment_api(route.params.idx)
     console.log("문의체크"+res)
+
     await QnAview();
   }catch(e){
+    
     console.log(e)
   }
 
@@ -297,12 +300,25 @@ const QnAview = async () => {
 
 const res = await qna_one_api(route.params.idx);
 
+name.value = res.data.name
 title.value = res.data.title;
 qnaState.value = res.data.qnaState;
 userid.value = res.data.userid;
 wdate.value = res.data.wdate;
 content.value = res.data.content;
 type.value = res.data.type;
+uuid.value = res.data.uuid
+
+console.log(userid.value)
+console.log(userloginid._object.userloginid)
+
+if(userid.value === userloginid._object.userloginid){ //수정 삭제버튼 드러나기
+
+  userchk.value = true
+}else{
+  userchk.value = false
+}
+
 
 const res_comments = await commnet_list_api(route.params.idx);
 comments.value = res_comments;
@@ -322,44 +338,11 @@ else{
   WAITINGQnAch.value = false
 }
 
-//반복 비교문 제작중...
-console.log(comments.value[0])
-console.log(res.data.uuid)
-
 
 };
-
-onMounted( async()=>{
+watchEffect(async()=>{
   await QnAview();
 })
-
-// watchEffect(async()=>{
-//    await QnAview();
-// })
-
-  // if(commentchksettime.value===false){
-    
-  //   const savedTime = localStorage.getItem('lastCommentCheckTime');
-  //   const currentTime = new Date().getTime();
-
-  //   if (savedTime && currentTime - savedTime < 10 * 60 * 1000) {
-    
-  //     return;
-  // }
-
-  // const timer = setTimeout(async () => {
-
-  //     try {
-  //       await qna_chkcomment_api(route.params.idx);
-      
-  //       localStorage.setItem('lastCommentCheckTime', new Date().getTime());
-
-  //     } catch (error) {
-
-  //       console.error("API 호출 중 오류 발생:", error);
-  //     }
-
-  //   }, 10 * 60 * 1000); 
 
 
 </script>
