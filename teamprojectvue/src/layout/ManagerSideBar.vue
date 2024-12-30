@@ -3,10 +3,18 @@
     <div class="rounded-md bg-blue-50 cursor-pointer">
       <img src="../images/LOGO2.png" alt="Logo" @click="setActiveItem(null,'deskdashboard')" />
     </div>
-    <div class="bg-blue-900 h-[650px]">
+    <div class="bg-blue-900 h-[680px]">
       <aside class="p-3 text-gray-100 font-bold font-[GmarketSansMedium]">
         <div class="h-16 text-lg font-bold">매니저</div>
         <ul class="flex flex-col justify-center p-1 space-y-3 text-gray-800 rounded-lg bg-slate-100">
+          <li @click="setActiveItem('deskdashboard', 'deskdashboard')">
+            <div :class="{ 'bg-blue-200 rounded-md': activeItem === 'deskdashboard' }"
+                 class="flex items-center py-1 my-2 text-sm cursor-pointer">
+              <img src="../images/announ.png" alt="" class="mr-2" />
+              대시보드
+            </div>
+          </li>
+          <hr class="p-0 m-0 border-gray-300" />
           <li @click="setActiveItem('deskcalander', 'deskcalander')" class="cursor-pointer">
             <div :class="{ 'bg-blue-200 rounded-md': activeItem === 'deskcalander' }"
               class="flex items-center py-1 my-2 text-sm ">
@@ -57,7 +65,7 @@
         </ul>
       </aside>
 
-      <div @click="logout" class=" font-[GmarketSansMedium] mt-24 border-gray-300 bg-slate-100 m-3 rounded-md cursor-pointer hover:bg-red-400"><span class="flex justify-center p-2 pb-1 ">로그아웃</span></div>
+      <div @click="logout" class=" font-[GmarketSansMedium] mt-8 border-gray-300 bg-slate-100 m-3 rounded-md cursor-pointer hover:bg-red-400"><span class="flex justify-center p-2 pb-1 ">로그아웃</span></div>
 
     </div>
   </div>

@@ -1,7 +1,12 @@
 <template>
-  <div class="ml-5 m-3 border border-gray-400 w-full">
+  <div class="ml-5 m-3 border-gray-400 w-full p-10">
     <div class="">
-      금일 출결
+      <div>
+            <h1 class="text-3xl font-bold text-blue-900">금일 출결
+            </h1>
+        </div>
+        <hr class="border-b border-[#eee] mt-4" />
+        <hr class="mt-3 border-b-4 border-blue-900" />
       <div class="m-10">
         <div class="flex justify-between">
           <h1 class="m-3 inline-block text-2xl font-bold" v-if="user">
