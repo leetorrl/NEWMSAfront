@@ -14,9 +14,7 @@
             <img v-if="role === '학원생'" src="../images/stude.jpg" alt="Student Image" class="w-40" />
             <img v-else-if="role === '선생님'" src="../images/Teacha.jpg" alt="Teacher Image" class="w-40" />
             <img v-else-if="role === '매니저'" src="../images/manager.jpg" alt="Manager Image" class="w-40" />
-            <!-- <img v-else src="../images/default.jpg" alt="Default Image" class="w-40" />/ -->
           </aside>
-
           <!-- 사용자 정보 영역 -->
           <div class="px-10 py-6 space-y-4">
             <!-- 이름 -->
@@ -35,6 +33,9 @@
               <span class="text-gray-500">{{ email }}</span>
             </div>
           </div>
+          <!--정보 수정 버튼-->
+          <button class="flex bg-blue-900 text-white justify-center my-auto items-center border h-8 w-24">
+            수정하기</button>
         </div>
       </div>
     </div>
@@ -66,6 +67,11 @@
       </div>
     </div>
   </div>
+<!-- 모달 창(openModal)-->
+<div class="bg-gray-800 w-full h-full hidden">
+  
+</div>
+
 </template>
 
 <script setup>
@@ -84,6 +90,10 @@ const lecturelist = ref([]);
 const lecturecheck = ref(false)
 const managercheck = ref(false)
 
+const isopenModal = ref(false);
+const openModal = () => {
+  isopenModal.value = !isopenModal.value
+}
 
 onMounted(async () => {
   const profileres = await profiledata();

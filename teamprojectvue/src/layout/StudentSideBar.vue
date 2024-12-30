@@ -1,21 +1,21 @@
 <template>
   <div class="w-40 rounded-sm">
-    <div class="rounded-md bg-blue-50">
-      <img src="../images/LOGO2.png" alt="Logo" />
+    <div class="rounded-md bg-blue-50 cursor-pointer">
+      <img src="../images/LOGO2.png" alt="Logo" @click="setActiveItem(null,'studentmain')"/>
     </div>
     <div class="bg-blue-900 h-[650px]">
       <aside class="p-3 text-gray-100 font-bold font-[GmarketSansMedium]">
         <div class="h-16 text-lg font-bold"> 학생</div>
-        <ul class="flex flex-col justify-center p-1 space-y-3 text-gray-800 rounded-lg cursor-pointer bg-slate-100">
-          <li @click="setActiveItem('studentmain', 'studentmain')">
+        <ul class="flex flex-col justify-center p-1 space-y-3 text-gray-800 rounded-lg bg-slate-100">
+          <!-- <li @click="setActiveItem('studentmain', 'studentmain')" class="cursor-pointer">
             <div :class="{ 'bg-blue-200 rounded-md': activeItem === 'studentmain' }"
-              class="flex items-center py-1 my-2 text-sm">
+              class="flex items-center py-1 my-2 text-sm ">
               <img src="../images/announ.png" alt="" class="mr-2" />
               대시보드
             </div>
           </li>
-          <hr class="p-0 m-0 border-gray-300" />
-          <li @click="setActiveItem('attendance', 'stdatt')">
+          <hr class="p-0 m-0 border-gray-300" /> -->
+          <li @click="setActiveItem('attendance', 'stdatt')" class="cursor-pointer">
             <div :class="{ 'bg-blue-200 rounded-md': activeItem === 'attendance' }"
               class="flex items-center py-1 my-1 mt-2 text-sm">
               <img src="../images/AtenCheck.png" alt="" class="mr-2" />
@@ -23,7 +23,7 @@
             </div>
           </li>
           <hr class="p-0 m-0 border-gray-300" />
-          <li @click="setActiveItem('vacation', 'studentvacation')">
+          <li @click="setActiveItem('vacation', 'studentvacation')" class="cursor-pointer">
             <div :class="{ 'bg-blue-200 rounded-md': activeItem === 'vacation' }"
               class="flex items-center py-1 mt-2 text-sm">
               <img src="../images/VacaSub.png" alt="" class="mr-2" />
@@ -31,7 +31,7 @@
             </div>
           </li>
           <hr class="p-0 m-0 border-gray-300" />
-          <li @click="setActiveItem('course', 'lectureselect')">
+          <li @click="setActiveItem('course', 'lectureselect')" class="cursor-pointer">
             <div :class="{ 'bg-blue-200 rounded-md': activeItem === 'course' }"
               class="flex items-center py-1 mt-2 text-sm">
               <img src="../images/stuhead.png" alt="" class="mr-2" />
@@ -39,7 +39,7 @@
             </div>
           </li>
           <hr class="p-0 m-0 border-gray-300" />
-          <li @click="setActiveItem('mypage', 'mypage')">
+          <li @click="setActiveItem('mypage', 'mypage')" class="cursor-pointer">
             <div :class="{ 'bg-blue-200 rounded-md': activeItem === 'mypage' }"
               class="flex items-center py-1 my-2 text-sm">
               <img src="../images/mycon.png" alt="" class="mr-2" />
@@ -47,7 +47,7 @@
             </div>
           </li>
           <hr class="p-0 m-0 border-gray-300" />
-          <li @click="setActiveItem('studentannouncelist', 'studentannouncelist')">
+          <li @click="setActiveItem('studentannouncelist', 'studentannouncelist')" class="cursor-pointer">
             <div :class="{ 'bg-blue-200 rounded-md': activeItem === 'studentannouncelist' }"
               class="flex items-center py-1 my-2 text-sm">
               <img src="../images/announ.png" alt="" class="mr-2" />
@@ -55,7 +55,7 @@
             </div>
           </li>
           <hr class="border-gray-300" />
-          <li @click="setActiveItem('studentQnA', 'qnaborad')" >
+          <li @click="setActiveItem('studentQnA', 'qnaborad')" class="cursor-pointer">
             <div :class="{ 'bg-blue-200 rounded-md': activeItem === 'studentQnA' }"
               class="flex items-center py-1 my-2 text-sm">
               <img src="../images/announ.png" alt="" class="mr-2" />
