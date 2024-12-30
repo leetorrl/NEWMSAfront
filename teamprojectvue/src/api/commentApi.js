@@ -25,8 +25,6 @@ export const save_comment_api = async (qna_idx, data) => {
         Authorization: `Bearer ${token}`
       }
     });
-
-    console.log(JSON.stringify(res));
     return res.date;
   } catch (e) {
     console.log(e);
@@ -34,17 +32,17 @@ export const save_comment_api = async (qna_idx, data) => {
 };
 
 
-export const deletecommentapi = async(idx) => {
+export const deletecommentapi = async(idx, qnaidx) => {
 
   const token = Cookies.get('token')
 
   try{
-       const res = axios.delete(`${qna_url}/comment/delete/${idx}`, {
+       const res = axios.delete(`${qna_url}/comment/delete/${idx}/${qnaidx}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
-       return res
+       return res.date
 
   }catch(e){
     console.log(e)

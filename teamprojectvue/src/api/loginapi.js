@@ -25,9 +25,6 @@ export const userdata = async () => {
     if(!Cookies.get('token')){
       res.data.role = null
     }
-
-    console.log('res' + JSON.stringify(res.data.role));
-
     doLogin(res.data.name, res.data.role, res.data.accept, res.data.userid);
 
   } catch (e) {
@@ -35,7 +32,6 @@ export const userdata = async () => {
     logincheck.loginchecktrue();
   }
 };
-
 
 export const userrole = async () => {
 
@@ -51,11 +47,9 @@ export const userrole = async () => {
     }
   });
 
-  
   const logincheck = useloginStore();
   console.log(res.data.role);
   logincheck.userR(res.data.role);
-
 
 };
 

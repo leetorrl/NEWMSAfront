@@ -13,7 +13,6 @@ import JoinComplete from '@/views/JoinComplete.vue'
 import LectureInsert from '@/views/LectureInsert.vue'
 import StudentAttendance from '@/views/student/StudentAttendance.vue'
 import TeacherCalander from '@/views/teacher/TeacherCalander.vue'
-import TeacherToday from '@/views/teacher/TeacherToday.vue'
 
 import VacationManage from '@/views/Desk/VacationManage.vue'
 import DeskCalander from '@/views/Desk/DeskCalander.vue'

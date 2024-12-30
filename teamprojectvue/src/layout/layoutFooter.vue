@@ -24,9 +24,7 @@
               <div class="mr-10 text-2xl">
                 {{ username }} {{ mapUserRole(userrl) }}님 반갑습니다.
               </div>
-              <!-- <div class="px-3 pt-1 text-xl rounded hover:bg-blue-800" @click="logout">
-                <RouterLink to="/loginview" class="flex text-white items-center font-[GmarketSansMedium]"> 로그아웃 </RouterLink>
-              </div> -->
+
             </div>
           </template>
           <button

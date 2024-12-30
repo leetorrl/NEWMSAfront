@@ -126,46 +126,40 @@ const homelogin = async () => {
     }
   }
 
-  if ((await Cookies.get('token')) !== null) {
-    // if (localStorage.getItem('token') !== null) {
-    console.log('로그인 유지');
-    if (userrl.value == 'ROLE_STUDENT') {
-      console.log('학생계정');
-      router.push({ name: 'studentmain' });
-    } else if (userrl.value == 'ROLE_TEACHER') {
-      console.log('선생계정');
-      router.push({ name: 'teacherdashboard' });
-    } else if (userrl.value == 'ROLE_MANAGER') {
-      console.log('매니저계정');
-      router.push({ name: 'deskdashboard' });
-    } else {
-      console.log('맵핑문제');
-    }
-  } else {
-    console.log('로그아웃 상태');
-    router.push({ name: 'loginview' });
-  }
+// if(await Cookies.get('token') !== null){
+//   // if (localStorage.getItem('token') !== null) {
+//     console.log('로그인 유지');
+//     if (userrl.value == 'ROLE_STUDENT') {
+//       console.log('학생계정');
+//       router.push({ name: 'studentmain' });
+//     } else if (userrl.value == 'ROLE_TEACHER') {
+//       console.log('선생계정');
+//       router.push({ name: 'teachertoday' });
+//     } else if (userrl.value == 'ROLE_MANAGER') {
+//       console.log('매니저계정');
+//       router.push({ name: 'deskcalander' });
+//     } else {
+//       console.log('맵핑문제');
+//     }
+//   } else {
+//     console.log('로그아웃 상태');
+//     router.push({ name: 'loginview' });
+//   }
 };
 
-onMounted(async () => {
-  console.log('、ヽ｀、ヽ｀｀｀、ヽ｀｀、ヽ｀、ヽ｀ヽ｀、、ヽ｀ヽ｀、ヽ｀、ヽ｀');
-  console.log('｀、ヽ｀ヽ｀、、ヽ｀ヽ｀、ヽ(ノ；Д；)ノ ｀、、ヽ｀ヽ｀、ヽ｀｀、');
-  console.log('｀ヽ｀、ヽ｀、ヽ｀｀、ヽ｀、ヽ｀ヽ｀、、ヽ｀ヽヽ｀、ヽ｀｀、ヽ｀');
+const homepage = () => {
 
-  if (!Cookies.get('token')) {
-    router.push({ name: 'loginview' });
-  }
-
-  userdata();
-
-  if (Cookies.get('token')) {
-    // if (localStorage.getItem('token') !== null) {
+  if(!Cookies.get("token")){
+    router.push({name:'loginview'})
+  }else{
     userdata();
-    //토큰 체크
     logincheckfalse();
-    //권한 체크
-    //사이드바 체크
   }
+}
+
+onMounted(async () => {
+  homepage();
+  userdata();
   homelogin();
 });
 const isOpen = ref(false);

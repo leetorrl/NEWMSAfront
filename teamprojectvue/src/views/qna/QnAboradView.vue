@@ -130,11 +130,12 @@
     }}</h3>
               </div>
 
+             <div v-if="userchk">
               <div v-if="commentchk" class=""> 
                 <button v-if="commentlistchk" @click="deletecomment(item.idx)" class="float-end mb-1 ml-1 mr-1 pl-1 pr-1 text-white bg-red-400">삭제</button>
               <button v-if="commentlistchk" @click="changecomment" class="float-end mb-1 ml-1 mr-1 pl-1 pr-1 bg-blue-800 text-white ">수정</button>
-              
             </div>
+          </div>
 
           </div>
 
@@ -148,12 +149,13 @@
 <script setup>
 import { useRoute } from 'vue-router';
 import { useRouter } from 'vue-router';
-import { watchEffect } from 'vue';
+import { onMounted, watchEffect } from 'vue';
 import { ref } from 'vue';
 import { qna_chkcomment_api, qna_delete_api, qna_one_api } from '@/api/qnaApi.js';
 import { commnet_list_api, deletecommentapi, save_comment_api } from '@/api/commentApi.js';
 import { useloginStore } from '@/stores/loginpinia';
 import { storeToRefs } from 'pinia';
+
 const route = useRoute();
 const router = useRouter();
 const loginStore = useloginStore();
@@ -172,36 +174,8 @@ const WAITINGQnAch = ref(false)
 const commentchk = ref(true) //텍스트 에리어 숨김 체크
 const commentlistchk = ref(false)
 
-const QnAview = async () => {
-  const res = await qna_one_api(route.params.idx);
-  console.log(res.data);
+const userchk = ref(false)
 
-  title.value = res.data.title;
-  qnaState.value = res.data.qnaState;
-  userid.value = res.data.userid;
-  wdate.value = res.data.wdate;
-  content.value = res.data.content;
-  type.value = res.data.type;
-
-  const res_comments = await commnet_list_api(route.params.idx);
-  comments.value = res_comments;
-
-  if(qnaState.value==='COMPLETE'){
-
-    commentchk.value = false
-  }
-
-  if(comments.value.length > 0){
-    
-    commentlistchk.value = true
-    WAITINGQnAch.value = true
-  }
-  else{
-    commentlistchk.value = false
-    WAITINGQnAch.value = false
-  }
-
-};
 
 const changeQnAborad = () => {
 
@@ -257,8 +231,10 @@ const savecomment = async () => {
   try {
     await save_comment_api(route.params.idx, data);
 
-    alert('댓글입력 완료');
-    QnAview();
+    // alert('댓글입력 완료');
+    await QnAview();
+    await QnAview(); //리렌더링(화면갱신) 이슈 때문에 두번 부름 삭제 ㄴㄴ
+    
     commentInput.value = null
     // router.push(`/qnaboradview/${route.params.idx}`)
     // commentchksettime.value = false
@@ -286,8 +262,8 @@ const chkcomment = async() => {
   if(commentalert){
   try{
     const res = await qna_chkcomment_api(route.params.idx)
-    alert(res.data)
-    QnAview();
+    console.log("문의체크"+res)
+    await QnAview();
   }catch(e){
     console.log(e)
   }
@@ -297,33 +273,69 @@ const chkcomment = async() => {
 }
 }
    
-
-
 const deletecomment = async(idx) => {
 
   const deletealert = confirm("해당 댓글을 삭제하시겠습니까")
 
   if(deletealert){
+
   try{
-   const res = await deletecommentapi(idx)
-   
-   console.log(res)
-   QnAview();
+   const res = await deletecommentapi(idx, route.params.idx)
+   alert("삭제완료"+res.data)
+  await QnAview();
+
   }catch(e){
     console.log(e)
   }
-
 }else{
   return
 }
 }
 
 
-watchEffect(()=>{
-  console.log(route.params.idx);
-  QnAview();
+const QnAview = async () => {
+
+const res = await qna_one_api(route.params.idx);
+
+title.value = res.data.title;
+qnaState.value = res.data.qnaState;
+userid.value = res.data.userid;
+wdate.value = res.data.wdate;
+content.value = res.data.content;
+type.value = res.data.type;
+
+const res_comments = await commnet_list_api(route.params.idx);
+comments.value = res_comments;
+
+if(qnaState.value==='COMPLETE'){
+
+  commentchk.value = false
+}
+
+if(comments.value.length > 0){
   
+  commentlistchk.value = true
+  WAITINGQnAch.value = true
+}
+else{
+  commentlistchk.value = false
+  WAITINGQnAch.value = false
+}
+
+//반복 비교문 제작중...
+console.log(comments.value[0])
+console.log(res.data.uuid)
+
+
+};
+
+onMounted( async()=>{
+  await QnAview();
 })
+
+// watchEffect(async()=>{
+//    await QnAview();
+// })
 
   // if(commentchksettime.value===false){
     

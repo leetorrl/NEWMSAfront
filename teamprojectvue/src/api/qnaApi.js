@@ -6,13 +6,19 @@ const url = `${GLOBAL_URL}`;
 const qna_url = `${GLOBAL_QNA_URL}`;
 const announce_url = `${GLOBAL_ANNOUNCE_URL}`;
 
-export const qna_list_api = async () => {
+
+export const qna_list_api = async ( pageNum=0 , size ) => {
   try {
     const token = Cookies.get('token');
-    const res = await axios.get(`${qna_url}/QnA/list`, { params: { token } });
-
-    console.log(res);
+    const res = await axios.get(`${qna_url}/QnA/list`, {
+      params: {
+        token,
+        pageNum,
+        size
+      },
+    });
     return res.data;
+
   } catch (e) {
     console.log(e);
   }
@@ -100,7 +106,7 @@ export const qna_chkcomment_api = async(idx) => {
         },
       }
     );
-    return res
+    return res.data
 
   }catch(e){
     console.log(e)
