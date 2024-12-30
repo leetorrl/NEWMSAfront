@@ -21,10 +21,10 @@
     </div>
 
     <div>
-      <form action="">
+      <!-- <form action="">
         <label for="">서치 테스트</label><input class="border" type="search" v-model="query">
         <button @click="qnasearch(query)">검색</button>
-      </form>
+      </form> -->
     </div>
 
     <main class="flex justify-center w-[68rem]">
@@ -34,9 +34,9 @@
             <option value="전체">전체</option>
             <option v-for="item in arr" :key="item.idx" :value="item.idx">{{}}</option>
           </select>
-          <button class="px-2 py-1 mr-1 text-white bg-blue-600 rounded hover:opacity-80">
+          <!-- <button class="px-2 py-1 mr-1 text-white bg-blue-600 rounded hover:opacity-80">
             초기화
-          </button>
+          </button> -->
         </div>
         <div class="overflow-x-auto">
           <table class="w-full mb-5 border border-collapse border-gray-300">
