@@ -3,10 +3,18 @@
     <div class="rounded-md bg-blue-50 cursor-pointer" @click="setActiveItem('teacherdashboard','teacherdashboard')">
       <img src="../images/LOGO2.png" alt="Logo" />
     </div>
-    <div class="bg-blue-900 h-[650px]">
+    <div class="bg-blue-900 h-[710px]">
       <aside class="p-3 text-gray-100 font-bold font-[GmarketSansMedium]">
         <div class="h-16 text-lg font-bold"> 선생님</div>
         <ul class="flex text-gray-800 flex-col justify-center p-1 space-y-3 rounded-lg bg-slate-100">
+          <li @click="setActiveItem('teacherdashboard', 'teacherdashboard')">
+            <div :class="{ 'bg-blue-200 rounded-md': activeItem === 'teacherdashboard' }"
+                 class="flex items-center py-1 my-2 text-sm cursor-pointer">
+              <img src="../images/announ.png" alt="" class="mr-2" />
+              대시보드
+            </div>
+          </li>
+          <hr class="p-0 m-0 border-gray-300" />
           <li @click="setActiveItem('teachertoday','teachertoday')" class="cursor-pointer">
             <div :class="{ 'bg-blue-200 rounded-md': activeItem === 'teachertoday' }"
               class="flex items-center py-1 my-2 text-sm ">
