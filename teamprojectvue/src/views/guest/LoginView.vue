@@ -124,28 +124,14 @@ const LoginSequence = async () => {
       loginError.value = '아이디와 비밀번호, 권한체크를 확인해 주세요'
       return;
     }
-
     console.log('최종 토큰' + token);
-
     await userdata();
-
     userL()
-    // if ( !useraccept.value) {
-    //   userL();
-
-    //    Cookies.remove('token')
-
-    //   // localStorage.removeItem('token');
     if (await !useraccept.value) {
       userL();
       await Cookies.remove('token')
-
-    //   loginError.value = '가입 승인 후에 활동 가능합니다.'
-    //   return;
-    // }
-
+    }
     await userrole();
-
     if (userrl.value == 'ROLE_STUDENT') {
       console.log('학생계정');
       router.push({ name: 'studentmain' });
@@ -158,7 +144,6 @@ const LoginSequence = async () => {
     } else {
       console.log('맵핑문제');
     }
-
   } catch (e) {
     console.log('로그인실패 ' + e);
     loginError.value = '아이디와 비밀번호를 확인해 주세요';
