@@ -37,8 +37,8 @@
             <div v-if="WAITINGQnAch" @click="chkcomment" 
             :class="{'bg-blue-900 text-white ': !commentchk, 'bg-gray-300 text-black cursor-pointer': commentchk}"
             class=" border-1 p-4">
-            <h1 v-if="commentchk">문의완료</h1>
-            <h1 v-else>답변완료</h1>
+            <h1 v-if="commentchk">문의해결</h1>
+            <h1 v-else>문의완료 게시물 입니다.</h1>
           </div>
         </div>
 
@@ -258,7 +258,7 @@ const chkcomment = async() => {
   if(commentchk.value===false){
     return
   }
-  const commentalert = confirm("문의체크?")
+  const commentalert = confirm("문의해결 체크시 문의완료 게시물로 변경되며 더이상 답글을 추가하실 수 없습니다.")
 
   if(commentalert){
   try{

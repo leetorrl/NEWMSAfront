@@ -3,11 +3,11 @@
     <nav class="mx-0 shadow-md">
       <div class="fixed bottom-0 left-0 right-0 h-12 p-2 text-gray-100 bg-blue-900">
         <div class="flex items-start justify-between">
-          <div class="text-xs text-gray-400">
+          <div class="text-xs text-gray-400 hidden md:block">
             <p>주소 : 대구광역시 중구 중앙대로 394, 제일빌딩 5F</p>
             <p>전화 : 053-572-1005 / FAX : 053-422-9122</p>
           </div>
-          <div>
+          <div class="invisible 1920px:visible">
             <a href="https://greenart.co.kr/" target="_blank">
               <div class="absolute flex items-center left-[41%]">
                 <img src="../images/LOGO.png" alt="" class="h-8 cursor-pointer max-md:w-28 cover" />
@@ -18,7 +18,6 @@
           </div>
 
           <div v-if="logincheckpinia"></div>
-
           <template v-else>
             <div class="flex space-x-5">
               <div class="mr-10 text-2xl">

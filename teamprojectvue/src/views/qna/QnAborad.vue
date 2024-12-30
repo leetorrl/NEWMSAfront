@@ -30,10 +30,18 @@
     <main class="flex justify-center w-[68rem]">
       <section class="flex-1 p-6 m-2 bg-white">
         <div class="mb-3">
-          <select class="w-32 mr-3 border border-gray-500" v-model="selectedlecture" name="" id="">
+          <select class="w-32 mr-3 border border-gray-500" v-model="type" name="type" id="type"
+          @change="fetchPageData(type)">
+  <option value="구분">구분</option>
+  <option value="강좌">강좌</option>
+  <option value="시설">시설</option>
+  <option value="환불">환불</option>
+  <option value="기타">기타</option>
+</select>
+          <!-- <select class="w-32 mr-3 border border-gray-500" v-model="selectedlecture" name="" id="">
             <option value="전체">전체</option>
             <option v-for="item in arr" :key="item.idx" :value="item.idx">{{}}</option>
-          </select>
+          </select> -->
           <!-- <button class="px-2 py-1 mr-1 text-white bg-blue-600 rounded hover:opacity-80">
             초기화
           </button> -->
@@ -141,6 +149,8 @@ import Cookies from 'js-cookie';
 const loginStore = useloginStore();
 const { userloginid } = storeToRefs(loginStore);
 
+const type = ref('구분')
+
 const router = useRouter();
 
 const QnAlistarr = ref([]);
@@ -155,10 +165,10 @@ const goQnAsave = () => {
   router.push('/qnaboradsave');
 };
 
-const fetchPageData = async (pageNum = 0) => {
+const fetchPageData = async (type ,pageNum = 0) => {
 
   try {
-    const res_qna = await qna_list_api(pageNum,pageSize.value );
+    const res_qna = await qna_list_api(type ,pageNum,pageSize.value );
 
     if (res_qna.list && res_qna.list.length) {
       QnAlistarr.value = res_qna.list;
@@ -201,7 +211,7 @@ watchEffect(async () => {
   if (!Cookies.get('token')) {
     router.push({ name: 'loginview' });
   }
-  await fetchPageData(currentPage.value);
+  await fetchPageData(type.value ,currentPage.value);
 });
 </script>
 

@@ -45,7 +45,7 @@
           v-model="content"
           rows="5"
           class="w-full p-4 transition-all duration-300 ease-in-out border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:border-transparent"
-          placeholder="내용을 입력하세요"
+          placeholder="바르고 고운말을 사용합시다 ㅎㅎ"
         ></textarea>
       </div>
 

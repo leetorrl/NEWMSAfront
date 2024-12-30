@@ -17,6 +17,7 @@ user5~15 학생
     <LayoutFooter class=""></LayoutFooter>
 
     <button
+      v-if="Cookies.get('token')"
       @click="toggleDrawer"
       class="fixed top-4 left-4 1920px:hidden p-2 bg-gray-800 text-white rounded"
     >
