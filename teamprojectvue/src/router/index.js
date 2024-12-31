@@ -158,11 +158,6 @@ const router = createRouter({
       component: Mypage
     },
     {
-      path: '/joinview',
-      name: 'joinview',
-      component: JoinView
-    },
-    {
       path: '/lectureselect',
       name: 'lectureselect',
       component: LectureSelect
