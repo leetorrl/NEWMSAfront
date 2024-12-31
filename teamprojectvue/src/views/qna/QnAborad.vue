@@ -30,8 +30,13 @@
     <main class="flex justify-center w-[68rem]">
       <section class="flex-1 p-6 m-2 bg-white">
         <div class="mb-3">
-          <select class="w-32 mr-3 border border-gray-500" v-model="type" name="type" id="type"
-          @change="fetchPageData(type)">
+          <select
+  class="w-32 mr-3 border border-gray-500"
+  v-model="type"
+  name="type"
+  id="type"
+  @change="fetchPageData(type, 0)"
+>
   <option value="구분">구분</option>
   <option value="강좌">강좌</option>
   <option value="시설">시설</option>
@@ -103,34 +108,34 @@
 <div class="flex justify-center mt-5 space-x-2">
   <!-- 이전 페이지 버튼 -->
   <button
-    class="px-3 py-1 bg-white border cursor-pointer border-gray-300 hover:bg-gray-100"
-    @click="fetchPageData(currentPage - 1)"  
-    :disabled="currentPage === 0"  
-    aria-label="이전 페이지"
-  >
-    &lt;
-  </button>
+  class="px-3 py-1 bg-white border cursor-pointer border-gray-300 hover:bg-gray-100"
+  @click="fetchPageData(type, currentPage - 1)"
+  :disabled="currentPage === 0"
+  aria-label="이전 페이지"
+>
+  &lt;
+</button>
 
-  <!-- 페이지 번호 버튼 -->
-  <span
-    v-for="page in totalPages"
-    :key="page"
-    class="px-3 py-1 border border-gray-300 cursor-pointer hover:bg-gray-100"
-    :class="{ 'bg-blue-500 text-white': currentPage === page - 1 }" 
-    @click="fetchPageData(page - 1)"  
-  >
-    {{ page }}
-  </span>
+<!-- 페이지 번호 버튼 -->
+<span
+  v-for="page in totalPages"
+  :key="page"
+  class="px-3 py-1 border border-gray-300 cursor-pointer hover:bg-gray-100"
+  :class="{ 'bg-blue-500 text-white': currentPage === page - 1 }"
+  @click="fetchPageData(type, page - 1)"
+>
+  {{ page }}
+</span>
 
-  <!-- 다음 페이지 버튼 -->
-  <button
-    class="px-3 py-1 bg-white border border-gray-300 hover:bg-gray-100"
-    @click="fetchPageData(currentPage + 1)"  
-    :disabled="currentPage === totalPages - 1"  
-    aria-label="다음 페이지"
-  >
-    &gt;
-  </button>
+<!-- 다음 페이지 버튼 -->
+<button
+  class="px-3 py-1 bg-white border border-gray-300 hover:bg-gray-100"
+  @click="fetchPageData(type, currentPage + 1)"
+  :disabled="currentPage === totalPages - 1"
+  aria-label="다음 페이지"
+>
+  &gt;
+</button>
 </div>
       </section>
     </main>
@@ -165,21 +170,18 @@ const goQnAsave = () => {
   router.push('/qnaboradsave');
 };
 
-const fetchPageData = async (type ,pageNum = 0) => {
-
+const fetchPageData = async (typeValue, pageNum = 0) => {
   try {
-    const res_qna = await qna_list_api(type ,pageNum,pageSize.value );
+    const res_qna = await qna_list_api(typeValue, pageNum, pageSize.value);
 
     if (res_qna.list && res_qna.list.length) {
       QnAlistarr.value = res_qna.list;
       totalElements.value = res_qna.totalElements;
       totalPages.value = res_qna.totalPages;
-      currentPage.value = pageNum;  // currentPage를 올바르게 업데이트
-  
+      currentPage.value = pageNum; // currentPage를 올바르게 업데이트
     } else {
       console.log("No data found for the current page.");
     }
-
   } catch (e) {
     console.log(e);
   }
@@ -211,7 +213,7 @@ watchEffect(async () => {
   if (!Cookies.get('token')) {
     router.push({ name: 'loginview' });
   }
-  await fetchPageData(type.value ,currentPage.value);
+  await fetchPageData(type.value, currentPage.value);
 });
 </script>
 

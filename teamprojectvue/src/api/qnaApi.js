@@ -8,6 +8,7 @@ const announce_url = `${GLOBAL_ANNOUNCE_URL}`;
 
 
 export const qna_list_api = async ( type ,pageNum=0 , size ) => {
+  console.log(pageNum)
   try {
     const token = Cookies.get('token');
     const res = await axios.get(`${qna_url}/QnA/list`, {
