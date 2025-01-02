@@ -1,13 +1,14 @@
 import axios from "axios"
 import { GLOBAL_URL } from "./utils"
 import Cookies from "js-cookie"
-
+import { MA_URL } from './utils';
 const url = `${GLOBAL_URL}`
+const maurl = `${MA_URL}`
 
 export const mngunCheckedapi = async(pageNum = 1) => {
 
     try{
-        const response =await axios.get(`${url}/vacation/managerunchecked?pageNum=${pageNum - 1}`);
+        const response =await axios.get(`${maurl}/vacation/managerunchecked?pageNum=${pageNum - 1}`);
 
         return response
 
@@ -20,7 +21,7 @@ export const mngnameSearchapi = async (pageNum , username)=> {
 
     try{
 
-        const response = await axios.get(`${url}/vacation/managersearch?pageNum=${pageNum -1}&size=10&name=${username}`);
+        const response = await axios.get(`${maurl}/vacation/managersearch?pageNum=${pageNum -1}&size=10&name=${username}`);
 
         return response
 
@@ -32,7 +33,7 @@ export const mngnameSearchapi = async (pageNum , username)=> {
 export const mngfetchVacationsapi = async(pageNum = 1)=>{
 
     try{
-        const response = await axios.get(`${url}/vacation/manager?pageNum=${pageNum - 1}`);
+        const response = await axios.get(`${maurl}/vacation/manager?pageNum=${pageNum - 1}`);
         return response
 
     }catch(e){
@@ -44,7 +45,7 @@ export const mngfetchVacationsapi = async(pageNum = 1)=>{
 export const mnghandleApproveapi = async(idx) => {
 
     try{
-        await axios.post(`${url}/vacation/accept/${idx}`);
+        await axios.post(`${maurl}/vacation/accept/${idx}`);
 
     }catch(e){
         console.log(e)
@@ -55,7 +56,7 @@ export const mnghandleApproveapi = async(idx) => {
 export const mnghandleDenyapi = async(idx) => {
 
     try{
-        await axios.post(`${url}/vacation/deny/${idx}`);
+        await axios.post(`${maurl}/vacation/deny/${idx}`);
     }catch(e){
         console.log(e)
     }
@@ -64,7 +65,7 @@ export const mnghandleDenyapi = async(idx) => {
 export const mngdesclectrueapi = async() => {
 
     try{
-        const res = await axios.get(`${url}/lecture/list`);
+        const res = await axios.get(`${maurl}/lecture/list`);
         return res
     }catch(e){
         console.log(e)
@@ -75,7 +76,7 @@ export const mngdesclectrueapi = async() => {
 export const mnggetlectureapi = async() => {
 
     try{
-      const res =  await axios.get(`${url}/lecture/list`);
+      const res =  await axios.get(`${maurl}/lecture/list`);
       return res
 
     }catch(e){
@@ -87,7 +88,7 @@ export const mnggetmonthattapi = async(idx, month) => {
 
     try{
       const res = await axios.get(
-            `${url}/attendance/monthview?idx=${idx}&month=${month}`
+            `${maurl}/attendance/monthview?idx=${idx}&month=${month}`
           );
 
           return res
@@ -100,7 +101,7 @@ export const mnggetmonthattapi = async(idx, month) => {
 export const mnggetlectureapi2 = async() => {
 
     try{
-       const res = await axios.get(`${url}/lecture/availlist`);
+       const res = await axios.get(`${maurl}/lecture/availlist`);
 
        return res
 
@@ -116,7 +117,7 @@ export const mngsubapi = async(data) => {
 
     try{
 
-        await axios.post(`${url}/announce/save`, data, {
+        await axios.post(`${maurl}/announce/save`, data, {
             headers: {
               Authorization: `Bearer ${token}`,
             }
@@ -131,7 +132,7 @@ export const mngsubapi = async(data) => {
 export const mnggetlectureapi3 = async () => {
 
     try{
-       const res = await axios.get(`${url}/lecture/availlist`);
+       const res = await axios.get(`${maurl}/lecture/availlist`);
        return res
 
     }catch(e){
@@ -142,7 +143,7 @@ export const mnggetlectureapi3 = async () => {
 export const mngfetchannounceForAllapi = async (pageNum = 1) => {
 
     try{
-      const response = await axios.get(`${url}/announce/searchforall?pageNum=${pageNum - 1}`);
+      const response = await axios.get(`${maurl}/announce/searchforall?pageNum=${pageNum - 1}`);
       return response
 
     }catch(e){
@@ -153,7 +154,7 @@ export const mngfetchannounceForAllapi = async (pageNum = 1) => {
 export const mngfetchannounceForAlldescapi = async (pageNum = 1) => {
 
     try{
-      const response = await axios.get(`${url}/announce/searchforalldesc?pageNum=${pageNum - 1}`);
+      const response = await axios.get(`${maurl}/announce/searchforalldesc?pageNum=${pageNum - 1}`);
 
       return response
 
@@ -165,7 +166,7 @@ export const mngfetchannounceForAlldescapi = async (pageNum = 1) => {
 export const mngfetchannounceByLectureapi = async(lectureIdx, pageNum = 1) => {
 
     try{
-       const response = await axios.get(`${url}/announce/lecturesearch/${lectureIdx}?pageNum=${pageNum - 1}`);
+       const response = await axios.get(`${maurl}/announce/lecturesearch/${lectureIdx}?pageNum=${pageNum - 1}`);
        return response
     }catch(e){
         console.log(e)
@@ -175,7 +176,7 @@ export const mngfetchannounceByLectureapi = async(lectureIdx, pageNum = 1) => {
 export const mngfetchannounceapi = async (pageNum) => {
 
     try{
-      const response =  await axios.get(`${url}/announce/manager?pageNum=${pageNum - 1}`);
+      const response =  await axios.get(`${maurl}/announce/manager?pageNum=${pageNum - 1}`);
 
       return response
     }catch(e){
@@ -186,7 +187,7 @@ export const mngfetchannounceapi = async (pageNum) => {
 export const mngfetchannounceByLecturedescapi = async(lectureIdx, pageNum=1) => {
 
     try{
-        const response = await axios.get(`${url}/announce/lecturesearchdesc/${lectureIdx}?pageNum=${pageNum - 1}`);
+        const response = await axios.get(`${maurl}/announce/lecturesearchdesc/${lectureIdx}?pageNum=${pageNum - 1}`);
         return response
 
     }catch(e){
@@ -197,7 +198,7 @@ export const mngfetchannounceByLecturedescapi = async(lectureIdx, pageNum=1) => 
 export const mngfetchannouncedescapi = async (pageNum = 1) => {
 
     try{
-      const response =  await axios.get(`${url}/announce/managerdesc?pageNum=${pageNum - 1}`);
+      const response =  await axios.get(`${maurl}/announce/managerdesc?pageNum=${pageNum - 1}`);
 
       return response
     }catch(e){

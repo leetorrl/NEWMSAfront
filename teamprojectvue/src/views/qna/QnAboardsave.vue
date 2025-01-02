@@ -105,8 +105,6 @@ const QnAboardsave = async () => {
   try {
     const res = await qna_save_api(data);
 
-    console.log(res.data);
-
     router.push('/qnaborad');
   } catch (e) {
     console.log(e);
