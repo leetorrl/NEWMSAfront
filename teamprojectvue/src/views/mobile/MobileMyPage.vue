@@ -1,11 +1,11 @@
 <template>
   <div class="w-[360px] h-[640px] border">
     <!--사이드바-->
-    <MobileTopBar></MobileTopBar>
+<MobileTopBar></MobileTopBar>
     <!-- 상단 알람바, 내용-->
     <div class="flex m-4 justify-between">
       <div class="mr-4">
-        <img src="/src/image/usericon.png" alt="" class="border rounded-full w-20" />
+        <img src="/src/images/usericon.png" alt="" class="border rounded-full w-20" />
       </div>
       <div class="w-[220px]">
         <span>이름 : {{ name }}</span
@@ -91,7 +91,7 @@
 </template>
 
 <script setup>
-import MobileTopBar from '@/components/MobileTopBar.vue'
+import MobileTopBar from '@/component/MobileTopBar.vue'
 import axios from 'axios'
 import { onMounted, ref } from 'vue'
 
