@@ -67,11 +67,13 @@
                 <li v-if="index < 5" class="text-[0.7vw] text-right mb-1">{{ item.wdate.substring(0, 8) }}</li>
               </ul>
             </div>
-
           </div>
         </div>
       </div>
     </div>
+    <!--mobile-->
+    <div>모바일페이지</div>
+
   </div>
 </template>
 

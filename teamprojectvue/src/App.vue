@@ -19,7 +19,7 @@ user5~15 학생
     <button
       v-if="Cookies.get('token')"
       @click="toggleDrawer"
-      class="fixed top-4 left-4 1920px:hidden p-2 bg-gray-800 text-white rounded"
+      class="fixed top-4 left-4 2xl:hidden p-2 bg-gray-800 text-white rounded"
     >
       Menu
     </button>
@@ -76,13 +76,13 @@ user5~15 학생
       </div>
     </template>
     <template v-if="userrlvalue == 'ROLE_STUDENT'">
-      <StudentSideBar class="invisible 1920px:visible 1920px:fixed 1920px:top-[1%] 1920px:left-[11%]" />
+      <StudentSideBar class="max-2xl:hidden fixed top-[1%] 2xl:left-[5vw] 1920px:left-[11vw]" />
     </template>
     <template v-if="userrlvalue == 'ROLE_TEACHER'">
-      <TeacherSideBar class="invisible 1920px:visible 1920px:fixed 1920px:top-[1%] 1920px:left-[11%]" />
+      <TeacherSideBar class="max-2xl:hidden fixed top-[1%] 2xl:left-[5vw] 1920px:left-[11vw]" />
     </template>
     <template v-if="userrlvalue == 'ROLE_MANAGER'">
-      <ManagerSideBar class="invisible 1920px:visible 1920px:fixed 1920px:top-[1%] 1920px:left-[11%]" />
+      <ManagerSideBar class="max-2xl:hidden fixed top-[1%] 2xl:left-[5vw] 1920px:left-[11vw]" />
     </template>
   </div>
 </template>

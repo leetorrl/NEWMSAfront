@@ -1,27 +1,18 @@
 <template>
-  <div class="w-[1500px] mt-5 p-8  bg-white rounded shadow-2xl  mb-12">
-      <joinHeader />
-      
+  <div class="w-3/4 max-w-2xl mt-5 p-8 mx-auto bg-white rounded shadow-2xl min-w-80 max-lg:w-1/2">
+    <h1 class="mb-4 text-3xl  font-bold text-center">GREEN COMPUTER ACADEMY</h1>
     <form @submit.prevent="joinuser">
-      <div class="flex justify-center mt-20">
-       <div class="w-[800px]  ">
-
-        <div class="my-6">
-        <label for="role" class="inline mb-2 text-sm font-bold text-blue-900">1. 회원 유형</label>
-        <hr class="mt-2">
-        <div class="m-2 ml-4 flex w-full mt-10" style="justify-content: center;">
+      <div class="mb-6">
+        <label for="role" class="inline mb-2 text-sm font-bold  text-blue-800">1. 회원 유형</label>
+        <hr class="m-1">
+        <div class="m-2 ml-4 flex w-full" style="justify-content: center;">
           <input type="radio" value="ROLE_STUDENT" name="role" id="role-1" v-model="role" />
         <label for="role-1" class="p-1 pr-3 mr-10">학원생</label>
         <input type="radio" value="ROLE_TEACHER" name="role" id="role-2" v-model="role" />
         <label for="role-2" class="p-1 pr-3 mr-10">선생님</label>
         <input type="radio" value="ROLE_MANAGER" name="role" id="role-3" v-model="role" />
         <label for="role-3" class="p-1 pr-3 mr-10">매니저</label></div>
-        
       </div>
-
-
-
-
       <!-- 아이디 입력 -->
       <label for="role" class="inline mb-2 text-sm font-bold  text-blue-800">2. 기본 정보 입력</label>
       <hr class="m-1">
@@ -120,9 +111,6 @@
           class="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
         />
       </div>
-    </div>
-  </div>
-
       <div class="flex justify-center my-4">
       <button
         @click="joinuser"
@@ -152,8 +140,7 @@ import { useRouter } from 'vue-router'
 import { checkPhapi } from '@/api/joinapi';
 import { checkI } from '@/api/joinapi';
 import { joinU } from '@/api/joinapi';
-import joinHeader from '@/layout/joinHeader.vue';
-// import { sortUserPlugins } from 'vite';
+
 const router = useRouter()
 
 const userid = ref('')
@@ -176,7 +163,7 @@ const phoneError = ref('')
 const phoneNumber = ref('')
 
 const checkphone = async () => {
-
+// 아이디가 비어있을 경우
 if (!phoneNumbersecond.value || !phoneNumberthird.value) {
   phoneError.value = '전화번호를 입력해 주세요.'
     phoneAvailable.value = false
@@ -215,23 +202,16 @@ if (!phoneNumbersecond.value || !phoneNumberthird.value) {
 
 const checkid = async () => {
   // 아이디가 비어있을 경우
-  if (!userid.value || userid.value.trim() === '') {
+  if (!userid.value) {
     idError.value = '아이디를 입력해 주세요.'
     idAvailable.value = false
     return
   }
-  if (userid.value.length >= 15) {
-    idError.value = '15자 이하로 하셔야 합니다.'
-    idAvailable.value = false
-  return;
-}
+
 
   const idResponse = await checkI( userid.value )
 
-  
-
   try{
-    
   if (idResponse.data == false) {
           idError.value = '이미 사용 중인 아이디입니다.'
           idAvailable.value = false
@@ -246,21 +226,12 @@ const checkid = async () => {
       }
 }
 
+
+
+
+
+
 const joinuser = async () => {
-
-if(!name.value || name.value.trim() === ''){
-  alert('이름을 채워주시길 바랍니다.')
-  return
-}
-
-// if (userid.value.length > 8) {
-//   alert('이름 8자 이하로...')
-//   return
-// }
-if(!password.value || password.value.trim() === ''){
-  alert('비밀번호를 채워주시길 바랍니다.')
-  return
-}
 
 if(!idAvailable.value){
   alert('아이디를 다시 확인해주세요')
@@ -281,13 +252,11 @@ if(!phoneAvailable.value){
     role: role.value,
     // lecture: lecture.value
   }
-    const res = await joinU(data)
+    await joinU(data)
 
-    console.log(res)
+    router.push({name:'joincomplete'})
 
      alert("회원가입 완료")
-
-     router.push({name:'joincomplete'})
 
 }
 
