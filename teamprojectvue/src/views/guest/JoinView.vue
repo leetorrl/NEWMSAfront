@@ -253,10 +253,10 @@ if(!name.value || name.value.trim() === ''){
   return
 }
 
-if (userid.value.length > 8) {
-  alert('이름 8자 이하로...')
-  return
-}
+// if (userid.value.length > 8) {
+//   alert('이름 8자 이하로...')
+//   return
+// }
 if(!password.value || password.value.trim() === ''){
   alert('비밀번호를 채워주시길 바랍니다.')
   return

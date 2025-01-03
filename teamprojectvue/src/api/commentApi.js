@@ -1,10 +1,11 @@
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import { GLOBAL_ANNOUNCE_URL, GLOBAL_QNA_URL, GLOBAL_URL } from './utils';
-
+import { MA_URL } from './utils';
 const url = `${GLOBAL_URL}`;
 const qna_url = `${GLOBAL_QNA_URL}`;
 const announce_url = `${GLOBAL_ANNOUNCE_URL}`;
+const maurl = `${MA_URL}`
 
 export const commnet_list_api = async (qna_idx) => {
   try {

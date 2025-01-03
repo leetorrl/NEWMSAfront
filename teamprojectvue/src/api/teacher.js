@@ -2,8 +2,9 @@ import axios from 'axios';
 import { GLOBAL_URL } from './utils';
 import { ref } from 'vue';
 import Cookies from 'js-cookie';
-
+import { MA_URL } from './utils';
 const url = `${GLOBAL_URL}`
+const maurl = `${MA_URL}`
 
 export const fetchVacationsapi = async(pageNum) => {
 
@@ -11,7 +12,7 @@ export const fetchVacationsapi = async(pageNum) => {
         const token = Cookies.get('token')
         // const token = localStorage.getItem('token');
 
-        const response = await axios.get(`${url}/vacation/teacher?pageNum=${pageNum - 1}`, {
+        const response = await axios.get(`${maurl}/vacation/teacher?pageNum=${pageNum - 1}`, {
             headers: {
               Authorization: `Bearer ${token}`,
             }
@@ -30,7 +31,7 @@ try{
     const token = Cookies.get('token')
     // const token = localStorage.getItem('token')
 
-    const resuser = await axios.get(`${url}/user/getuser`, {
+    const resuser = await axios.get(`${maurl}/user/getuser`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -46,7 +47,7 @@ try{
 export const getattlistapi = async(data) => {
 
     try{
-        const resatt = await axios.post(`${url}/attendance/getuser`, data);
+        const resatt = await axios.post(`${maurl}/attendance/getuser`, data);
 
         return resatt.data
 
@@ -61,7 +62,7 @@ export const getuserapi = async() => {
         const token = Cookies.get('token')
         // const token =  localStorage.getItem('token');
 
-      const res = await axios.get(`${url}/user/getuser`, {
+      const res = await axios.get(`${maurl}/user/getuser`, {
             headers: {
               Authorization: `Bearer ${token}`
             }
@@ -78,7 +79,7 @@ export const teachercheckapi = async (idx) => {
 
     try{
 
-        await axios.post(`${url}/attendance/teacheraccept/${idx}`);
+        await axios.post(`${maurl}/attendance/teacheraccept/${idx}`);
     
     }catch(e){
         console.log(e)
@@ -90,7 +91,7 @@ export const todayviewapi = async() => {
     try{
         const token = Cookies.get('token')
         // const token = localStorage.getItem('token');
-        const res = await axios.get(`${url}/attendance/todayteacherview`, {
+        const res = await axios.get(`${maurl}/attendance/todayteacherview`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -110,7 +111,7 @@ export const getlectureapi =async () => {
 
         // const token = localStorage.getItem('token');
 
-         const res = await axios.get(`${url}/lecture/mylecture`, {
+         const res = await axios.get(`${maurl}/lecture/mylecture`, {
             headers: {
               Authorization: `Bearer ${token}`
             }
@@ -129,7 +130,7 @@ export const desclectureapi = async() => {
     try{
         const token = Cookies.get('token')
         // const token = localStorage.getItem('token');
-        const res = await axios.get(`${url}/lecture/mylecture`, {
+        const res = await axios.get(`${maurl}/lecture/mylecture`, {
             headers: {
               Authorization: `Bearer ${token}`
             }
@@ -147,7 +148,7 @@ export const getmonthattapi = async(idx, month) => {
     try{
 
         const res = await axios.get(
-            `${url}/attendance/monthview?idx=${idx}&month=${month}`
+            `${maurl}/attendance/monthview?idx=${idx}&month=${month}`
           );
 
           return res
@@ -164,7 +165,7 @@ export const getAnnouncelectureapi = async() => {
         const token = Cookies.get('token')
         // const token = localStorage.getItem('token');
 
-       const res = await axios.get(`${url}/lecture/mylecture`,{
+       const res = await axios.get(`${maurl}/lecture/mylecture`,{
             headers: {
               Authorization: `Bearer ${token}`,
             }
@@ -183,7 +184,7 @@ export const subapi = async(data) => {
     try{
         const token = Cookies.get('token')
         // const token = localStorage.getItem('token')
-        const res = await axios.post(`${url}/announce/save`, data, {
+        const res = await axios.post(`${maurl}/announce/save`, data, {
             headers: {
               Authorization: `Bearer ${token}`,
             }
@@ -202,7 +203,7 @@ export const getAnnouncelistlectureapi = async() => {
         const token = Cookies.get('token')
         // const token = localStorage.getItem('token');
 
-       const res = await axios.get(`${url}/lecture/mylecture`, {
+       const res = await axios.get(`${maurl}/lecture/mylecture`, {
             headers: {
               Authorization: `Bearer ${token}`
             }
@@ -218,7 +219,7 @@ export const getAnnouncelistlectureapi = async() => {
 export const fetchannounceForAllapi = async(Num=1) => {
 
     try{
-        const response = await axios.get(`${url}/announce/searchforall?pageNum=${Num- 1}`);
+        const response = await axios.get(`${maurl}/announce/searchforall?pageNum=${Num- 1}`);
 
         return response.data;
 
@@ -230,7 +231,7 @@ export const fetchannounceForAllapi = async(Num=1) => {
 export const fetchannounceForAlldescapi = async(Num = 1) => {
 
     try{
-        const response = await axios.get(`${url}/announce/searchforalldesc?pageNum=${Num - 1}`);
+        const response = await axios.get(`${maurl}/announce/searchforalldesc?pageNum=${Num - 1}`);
         return response.data
 
     }catch(e){
@@ -241,7 +242,7 @@ export const fetchannounceForAlldescapi = async(Num = 1) => {
 export const fetchannounceByLectureapi = async (lectureIdx, Num = 1) => {
 
     try{
-        const response = await axios.get(`${url}/announce/lecturesearch/${lectureIdx}?pageNum=${Num - 1}`);
+        const response = await axios.get(`${maurl}/announce/lecturesearch/${lectureIdx}?pageNum=${Num - 1}`);
         return response.data
 
     }catch(e){
@@ -252,7 +253,7 @@ export const fetchannounceByLectureapi = async (lectureIdx, Num = 1) => {
 export const fetchannounceByLecturedescapi = async(lectureIdx, Num = 1) => {
 
     try{
-        const response = await axios.get(`${url}/announce/lecturesearchdesc/${lectureIdx}?pageNum=${Num - 1}`);
+        const response = await axios.get(`${maurl}/announce/lecturesearchdesc/${lectureIdx}?pageNum=${Num - 1}`);
         return response.data
 
     }catch(e){
@@ -266,7 +267,7 @@ export const fetchannounceapi = async(Num = 1) => {
         const token = Cookies.get('token')
         // const token = localStorage.getItem('token');
   
- const response = await axios.get(`${url}/announce/teacher?pageNum=${Num - 1}`,{
+ const response = await axios.get(`${maurl}/announce/teacher?pageNum=${Num - 1}`,{
                   headers: {
                            Authorization: `Bearer ${token}`
                            }
@@ -286,7 +287,7 @@ export const fetchannouncedescapi = async(Num = 1) => {
     try{
         const token = Cookies.get('token')
         // const token = localStorage.getItem('token');
-        const response = await axios.get(`${url}/announce/teacherdesc?pageNum=${Num - 1}`,{
+        const response = await axios.get(`${maurl}/announce/teacherdesc?pageNum=${Num - 1}`,{
             headers: {
                 Authorization: `Bearer ${token}`
               }

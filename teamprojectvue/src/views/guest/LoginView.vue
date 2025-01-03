@@ -113,8 +113,8 @@ const getannounce = async () => {
 const LoginSequence = async () => {
   const data = {
     userid: userid.value,
-    password: password.value,
-    role: role.value
+    password: password.value
+    // role: role.value
   };
   // 백엔드로 보낼 데이터
   try {

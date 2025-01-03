@@ -1,16 +1,16 @@
 import axios from 'axios';
 import { GLOBAL_URL } from './utils';
 import Cookies from 'js-cookie';
-
+import { MA_URL } from './utils';
 
 const url = `${GLOBAL_URL}`
-
+const maurl = `${MA_URL}`
 
 export const getavaillectureapi = async() => {
 
     try{
     
-       const res = await axios.get(`${url}/lecture/availlist`);
+       const res = await axios.get(`${maurl}/lecture/availlist`);
 
        return res
 
@@ -26,7 +26,7 @@ export const lecturejoinapi = async(data) => {
 
     try{
 
-      const res = await axios.post(`${url}/lecture/join`, data, {
+      const res = await axios.post(`${maurl}/lecture/join`, data, {
             headers: {
               Authorization: `Bearer ${token}`
             }
@@ -43,7 +43,7 @@ export const insertlectureapi = async(data) => {
 
     try{
 
-      const res = await axios.post(`${url}/lecture/save`, data);
+      const res = await axios.post(`${maurl}/lecture/save`, data);
 
       return res
 
@@ -56,7 +56,7 @@ export const getavaillecturelistapi = async() => {
 
     try{
 
-       const res = await axios.get(`${url}/lecture/list`);
+       const res = await axios.get(`${maurl}/lecture/list`);
 
        return res
 

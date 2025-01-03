@@ -1,13 +1,14 @@
 import axios from "axios";
 import { GLOBAL_URL } from './utils';
+import { MA_URL } from './utils';
 
 const url = `${GLOBAL_URL}`;
-
+const maurl = `${MA_URL}`
 
 export const unCheckedapi = async(pageNum) => {
 
     try {
-    const response = await axios.get`${url}/vacation/managerunchecked?pageNum=${pageNum - 1}`;
+    const response = await axios.get`${maurl}/vacation/managerunchecked?pageNum=${pageNum - 1}`;
 
     console.log(response)
 

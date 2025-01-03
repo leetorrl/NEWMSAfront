@@ -3,10 +3,11 @@ import { useloginStore } from '@/stores/loginpinia';
 import { GLOBAL_URL } from './utils';
 import { useRouter } from 'vue-router';
 import Cookies from 'js-cookie';
-
+import { MA_URL } from './utils';
 
 const router = useRouter()
 const url = `${GLOBAL_URL}`;
+const maurl = `${MA_URL}`
 
 export const userdata = async () => {
 
@@ -15,12 +16,22 @@ export const userdata = async () => {
   const loginStore = useloginStore();
   const { doLogin } = loginStore;
 
+
   try {  //갯유저 api 완료시 집어넣기
-    const res = await axios.get(`${url}/user/sign/getuser`, {
+
+    // const response = await axios.get(`${url}/user/sign/getuser`, {
+    //   headers: {
+    //     Authorization: `Bearer ${token}`
+    //   }
+    // });
+
+
+    const res = await axios.get(`${maurl}/user/getuser`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
     });
+
 
     if(!Cookies.get('token')){
       res.data.role = null
@@ -41,34 +52,58 @@ export const userrole = async () => {
     return;
   }
 
-  const res = await axios.get(`${url}/user/sign/getuser`, {
+  const res = await axios.get(`${maurl}/user/getuser`, {
     headers: {
       Authorization: `Bearer ${token}`
     }
   });
 
+  // const response = await axios.get(`${url}/user/sign/getuser`, {
+  //   headers: {
+  //     Authorization: `Bearer ${token}`
+  //   }
+  // });
+
   const logincheck = useloginStore();
   console.log(res.data.role);
   logincheck.userR(res.data.role);
 
+
 };
 
-
 export const logincontrol = async (data) => {
+
+  // const data = {
+  //   userid: id,
+  //   password: pass,
+  //   role: rol
+  // }
+
+  // const dataa = {
+  //   userid: id,
+  //   password: pass
+  // }
+
   const logincheck = useloginStore();
   const { logincheckfalse } = logincheck;
 
   try {
-    const response = await axios.post(`${url}/user/sign/signin`, data);
 
-    Cookies.set('token', response.data ,{ sameSite: 'Strict' })
+    const res = await axios.post(`${maurl}/sign/login`, data);
+
+    console.log("요기오나?")
+    // const response = await axios.post(`${url}/user/sign/signin`, data);
+
+    // localStorage.set('uuid', response.data)
+
+    Cookies.set('token', res.data ,{ sameSite: 'Strict' })
 
 
     // localStorage.setItem('token', response.data);
 
     logincheckfalse();
 
-    return response.data;
+    return res.data;
   } catch (e) {
     console.log(e);
   }
