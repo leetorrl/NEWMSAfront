@@ -1,5 +1,5 @@
 <template>
-  <div class="w-[360px] h-[640px] border">
+  <div class="w-[360px] h-[640px] border ">
     <!--사이드바-->
 <MobileTopBar></MobileTopBar>
     <!-- 상단 알람바, 내용-->
@@ -33,7 +33,10 @@
         <p class="text-xs text-end">종료일 :</p>
       </div>
     </div>
-
+<div class="w-full flex justify-end items-center h-32">
+  <button @click="logout()" class="bg-red-100 text-end h-10 rounded-sm">로그아웃</button>
+  
+</div>
     <!-- 모달 -->
     <div
       v-if="isModalOpen"
@@ -94,6 +97,12 @@
 import MobileTopBar from '@/component/MobileTopBar.vue'
 import axios from 'axios'
 import { onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+// const {userrl} = storeToRefs(loginStore)
+// const { loginchecktrue } = loginStore;
 
 const name = ref('')
 const number = ref('')
@@ -149,6 +158,13 @@ const confirmEdit = async () => {
 onMounted(() => {
   fetchUserData()
 })
+
+const logout =async () => {
+
+// Cookies.remove('token')
+// localStorage.removeItem('token');
+ router.push({ name: 'loginview' });
+};
 </script>
 
 <style scoped></style>

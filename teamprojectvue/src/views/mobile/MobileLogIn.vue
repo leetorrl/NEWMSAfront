@@ -34,7 +34,8 @@
         <!-- 로그인 버튼 -->
         <div>
           <button
-            type=""
+          @click="LoginSequence()"
+            type="button"
             class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300"
           >
             로그인
@@ -58,7 +59,33 @@
 </template>
 
 <script setup>
+import { ref } from 'vue';
+import { userdata, logincontrol } from '@/api/loginapi';
+import { useRouter } from 'vue-router';
+const router = useRouter();
 
+const userid = ref('');
+const password = ref('');
+
+const LoginSequence = async () => {
+  const data = {
+    userid: userid.value,
+    password: password.value
+    // role: role.value
+  };
+  // 백엔드로 보낼 데이터
+  try {
+    const token = await logincontrol(data);
+
+
+    console.log('최종 토큰' + token);
+    await userdata();
+    router.push({ name: 'mobilemypage' });
+  } catch (e) {
+    console.log('로그인실패 ' + e);
+    return;
+  }
+};
 </script>
 
 <style lang="scss" scoped>
