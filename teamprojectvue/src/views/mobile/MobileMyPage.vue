@@ -33,8 +33,8 @@
         <p class="text-xs text-end">종료일 :</p>
       </div>
     </div>
-<div class="w-full flex justify-end items-center h-32">
-  <button @click="logout()" class="bg-red-100 text-end h-10 rounded-sm">로그아웃</button>
+<div class="w-full flex justify-end items-end h-32">
+  <button @click="logout()" class="bg-red-50 text-end px-3 py-1 rounded-md mr-10 text-sm border border-red-200">로그아웃</button>
   
 </div>
     <!-- 모달 -->

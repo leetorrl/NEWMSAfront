@@ -13,7 +13,7 @@
       </div>
 
       <!-- 우측 아이콘 -->
-      <div class="space-x-8 justify-center flex mr-3">
+      <div class="space-x-8 justify-center flex mr-3 ">
         <!-- <button type="button">
           <router-link to="/"> <img src="../images/mycon.png" alt="" /></router-link>
         </button> -->
@@ -24,7 +24,7 @@
         <!-- 토글 알림 창-->
         <div
           v-show="showNotifications"
-          class="absolute top-28 mt-2 w-60 bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden transition-all transform origin-top duration-300 ease-in-out"
+          class="absolute top-28 w-60 bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden transition-all transform origin-top duration-300 ease-in-out"
           :class="{ 'scale-y-100 ': showNotifications, 'scale-y-0': !showNotifications }"
         >
           <ul class="divide-y divide-gray-200">
