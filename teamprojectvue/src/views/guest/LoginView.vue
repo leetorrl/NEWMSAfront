@@ -72,9 +72,12 @@
       </div>
     </div>
     <!--mobile-->
-    <div>모바일페이지</div>
-
+    <router-link to="/mobilelogin">
+    <div class="absolute right-0 border border-blue-600 rounded-sm bg-blue-300 text-blue-950">모바일페이지</div>
+  </router-link>
   </div>
+
+
 </template>
 
 <script setup>

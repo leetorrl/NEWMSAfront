@@ -1,11 +1,11 @@
 <template>
-  <div class="w-[360px] h-[640px] border">
+  <div class="w-[360px] h-[640px] border ">
     <!--사이드바-->
-    <MobileTopBar></MobileTopBar>
+<MobileTopBar></MobileTopBar>
     <!-- 상단 알람바, 내용-->
     <div class="flex m-4 justify-between">
       <div class="mr-4">
-        <img src="/src/image/usericon.png" alt="" class="border rounded-full w-20" />
+        <img src="/src/images/usericon.png" alt="" class="border rounded-full w-20" />
       </div>
       <div class="w-[220px]">
         <span>이름 : {{ name }}</span
@@ -33,7 +33,10 @@
         <p class="text-xs text-end">종료일 :</p>
       </div>
     </div>
-
+<div class="w-full flex justify-end items-end h-32">
+  <button @click="logout()" class="bg-red-50 text-end px-3 py-1 rounded-md mr-10 text-sm border border-red-200">로그아웃</button>
+  
+</div>
     <!-- 모달 -->
     <div
       v-if="isModalOpen"
@@ -91,9 +94,15 @@
 </template>
 
 <script setup>
-import MobileTopBar from '@/components/MobileTopBar.vue'
+import MobileTopBar from '@/component/MobileTopBar.vue'
 import axios from 'axios'
 import { onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+// const {userrl} = storeToRefs(loginStore)
+// const { loginchecktrue } = loginStore;
 
 const name = ref('')
 const number = ref('')
@@ -149,6 +158,13 @@ const confirmEdit = async () => {
 onMounted(() => {
   fetchUserData()
 })
+
+const logout =async () => {
+
+// Cookies.remove('token')
+// localStorage.removeItem('token');
+ router.push({ name: 'loginview' });
+};
 </script>
 
 <style scoped></style>

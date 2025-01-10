@@ -32,6 +32,8 @@ import QnAboardchange from '@/views/qna/QnAboardchange.vue'
 import TeacherToday from '@/views/teacher/TeacherToday.vue'
 import TeacherDashBoard from '@/views/teacher/TeacherDashBoard.vue'
 import DeskDashBoard from '@/views/Desk/DeskDashBoard.vue'
+import MobileMyPage from '@/views/mobile/MobileMyPage.vue'
+import MobileLogIn from '@/views/mobile/MobileLogIn.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -212,6 +214,16 @@ const router = createRouter({
       path: '/deskdashboard',
       name: 'deskdashboard',
       component: DeskDashBoard
+    },
+    {
+      path: '/mobilemypage',
+      name: 'mobilemypage',
+      component: MobileMyPage
+    },
+    {
+      path: '/mobilelogin',
+      name: 'mobilelogin',
+      component: MobileLogIn
     },
   ],
 
