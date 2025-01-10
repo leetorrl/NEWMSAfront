@@ -86,16 +86,10 @@
                         : item.qnaState
                   }}
                 </td>
-                <!-- /// <td colspan="5" class="p-3 border border-gray-300">비공개글 입니다.</td> -->
               </tr>
             </tbody>
           </table>
         </div>
-<!-- 
-        <button class="px-4 py-2 mr-3 text-white bg-green-600 rounded hover:opacity-80">
-          최신순
-        </button>
-        <button class="px-4 py-2 text-white bg-blue-600 rounded hover:opacity-80">과거순</button> -->
         <button
           @click="goQnAsave"
           class="float-right px-4 py-2 text-white bg-blue-600 rounded hover:opacity-80"
@@ -187,21 +181,6 @@ const fetchPageData = async (typeValue, pageNum = 0) => {
   }
 };
 
-// 검색 기능
-// const qnasearch = async (query) => {
-//   const searchquery = query.value;
-
-//   try {
-//     const res_search_qna = await qna_search_api(searchquery);
-
-//     QnAlistarr.value = res_search_qna.list;
-//     totalElements.value = res_search_qna.totalElements;
-//     totalPages.value = res_search_qna.totalPages;
-//     currentPage.value = 0; // 검색 결과는 첫 페이지부터 표시
-//   } catch (e) {
-//     console.log(e);
-//   }
-// };
 
 // 글 보기로 이동
 const goQnAboradView = (idx) => {
