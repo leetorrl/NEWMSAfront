@@ -3,23 +3,21 @@
     <div class="flex items-center justify-between h-24">
       <!-- 토글바 -->
       <button type="button" class="p-2" @click="toggleSideBar()">
-        <img v-if="isSideBar" src="../images/baricon.png" class="" />
-        <img v-else src="../images/Xicon.png" alt="" />
+        <!-- <img v-if="isSideBar" src="../images/baricon.png" class="" />
+        <img v-else src="../images/Xicon.png" alt="" /> -->
       </button>
 
       <!-- 로고 -->
       <div>
-        <img src="../image/LOGO2.png" alt="" class="w-32" />
+        <!-- <img src="../image/LOGO2.png" alt="" class="w-32" /> -->
       </div>
 
       <!-- 우측 아이콘 -->
       <div class="space-x-8 justify-center flex mr-3 ">
-        <!-- <button type="button">
-          <router-link to="/"> <img src="../images/mycon.png" alt="" /></router-link>
-        </button> -->
+
         <button type="button" @click="toggleNotification">
-          <img v-if="isBell1" src="../images/bell1.png" alt="" />
-          <img v-else src="../images/bell2.png" alt="" />
+          <!-- <img v-if="isBell1" src="../images/bell1.png" alt="" />
+          <img v-else src="../images/bell2.png" alt="" /> -->
         </button>
         <!-- 토글 알림 창-->
         <div
@@ -87,4 +85,12 @@ const toggleSideBar = () => {
   isSideBar.value = !isSideBar.value
 }
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+header {
+  .bg-white {
+    background-color: #fff;
+  }
+}
+</style>
+
+

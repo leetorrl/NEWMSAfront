@@ -73,17 +73,6 @@ export const userrole = async () => {
 
 export const logincontrol = async (data) => {
 
-  // const data = {
-  //   userid: id,
-  //   password: pass,
-  //   role: rol
-  // }
-
-  // const dataa = {
-  //   userid: id,
-  //   password: pass
-  // }
-
   const logincheck = useloginStore();
   const { logincheckfalse } = logincheck;
 
@@ -91,13 +80,11 @@ export const logincontrol = async (data) => {
 
     const res = await axios.post(`${maurl}/sign/login`, data);
 
-    console.log("요기오나?")
     // const response = await axios.post(`${url}/user/sign/signin`, data);
 
     // localStorage.set('uuid', response.data)
 
     Cookies.set('token', res.data ,{ sameSite: 'Strict' })
-
 
     // localStorage.setItem('token', response.data);
 
