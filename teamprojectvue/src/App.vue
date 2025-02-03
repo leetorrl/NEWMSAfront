@@ -110,8 +110,6 @@ const { userL } = loginStore;
 
 const userrlvalue = computed(() => loginStore.userrl);
 
-console.log(`userrl = ${JSON.stringify(userrl)}`);
-
 const homelogin = async () => {
   try {
     await userrole();
