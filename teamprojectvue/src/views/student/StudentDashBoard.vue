@@ -10,7 +10,7 @@
             <div id="left" class="w-[34rem] relative h-[60vh]">
                 <div id="left-top" class="relative p-5 border border-black top-5 rounded-2xl">
                     <h1 class="inline-flex text-2xl">
-                        {{ username }}<span class="text-sm items-center flex">(이메일 :{{ email }})</span>
+                        {{ username }}<span class="text-sm items-center flex">({{ email }})</span>
                     </h1>
                     <div class="absolute inline-flex text-gray-100 bg-blue-900 top-5 right-5">
                         <button class="px-5 py-1 border-r border-gray-100"
@@ -22,7 +22,7 @@
                 </div>
 
                 <div id="left-bottom" class="absolute bottom-5">
-                    <h1 class="w-full text-lg">그린컴퓨터아트학원 공지사항 Top 10</h1>
+                    <h1 class="w-full text-lg">그린컴퓨터아트학원 공지사항 Top 5</h1>
                     <table class="w-[33rem]">
                         <thead class="text-gray-100 bg-blue-900">
                             <tr>
