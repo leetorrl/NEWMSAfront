@@ -12,7 +12,7 @@ export const qna_list_api = async ( type ,pageNum=0 , size ) => {
   console.log(pageNum)
   try {
     const token = Cookies.get('token');
-    const res = await axios.get(`http://192.168.0.107:8120/QnA/list`, {
+    const res = await axios.get(`${qna_url}/QnA/list`, {
       params: {
         type,
         token,
@@ -31,7 +31,7 @@ export const qna_one_api = async (idx) => {
   const token = Cookies.get('token');
 
   try {
-    const res = await axios.get(`http://192.168.0.107:8120/QnA/view/${idx}`, {
+    const res = await axios.get(`${qna_url}/QnA/view/${idx}`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -47,12 +47,13 @@ export const qna_save_api = async (data) => {
   const token = Cookies.get('token');
 
   try {
-    const res = await axios.post(`http://192.168.0.107:8120/QnA/save`, data, {
+    const res = await axios.post(`${qna_url}/QnA/save`, data, {
       headers: {
         Authorization: `${token}`
       }
     });
 
+    console.log("qna통신 완료")
     return res;
   } catch (e) {
     console.log(e);
@@ -64,7 +65,7 @@ export const qna_delete_api = async(idx) => {
   const token = Cookies.get('token')
 
   try{
-    const res = await axios.delete(`http://192.168.0.107:8120/QnA/delete/${idx}`,{
+    const res = await axios.delete(`${qna_url}/QnA/delete/${idx}`,{
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -83,7 +84,7 @@ export const qna_change_api = async (data, idx) => {
   const token = Cookies.get('token')
 
   try{
-   const res = await axios.post(`http://192.168.0.107:8120/QnA/change/${idx}`,data ,{
+   const res = await axios.post(`${qna_url}/QnA/change/${idx}`,data ,{
     headers: {
       Authorization: `Bearer ${token}`
     }
@@ -101,7 +102,7 @@ export const qna_chkcomment_api = async(idx) => {
   const token = Cookies.get('token');
 
   try{
-     const res = await axios.post(`http://192.168.0.107:8120/QnA/qnacheck/${idx}`,
+     const res = await axios.post(`${qna_url}/QnA/qnacheck/${idx}`,
       {}, // 본문이 필요 없다면 빈 객체를 전달, ex) data객체
       {
         headers: {
@@ -121,7 +122,7 @@ export const qna_search_api = async(query) => {
   const token = Cookies.get('token')
 
   try{
-     const res = await axios.get(`http://192.168.0.107:8120/QnA/search?query=${query}`,{
+     const res = await axios.get(`${qna_url}/QnA/search?query=${query}`,{
       headers: {
         Authorization: `Bearer ${token}`
       }

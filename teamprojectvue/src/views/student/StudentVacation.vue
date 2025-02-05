@@ -120,7 +120,7 @@
       <hr class="border-b border-[#eee] my-[0.5vw]" />
       <div class="flex">
         <a v-if="selectedVacation.accept === '허가됨'"
-          :href="`http://greencomart.kro.kr:716/vacation/download/hwp/${selectedVacation.idx}`"
+          :href="`http://green.leetorrl.store:8080/vacation/download/hwp/${selectedVacation.idx}`"
           class="px-2 py-1 text-xl text-white bg-blue-800 rounded hover:opacity-80 hover:cursor-pointer"
           target="_blank">다운로드</a>
         <span v-else class="px-2 py-1 text-xl text-white bg-gray-400 rounded">대기중</span>
