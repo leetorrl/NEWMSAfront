@@ -22,7 +22,7 @@
                 </div>
 
                 <div id="left-bottom" class="absolute bottom-5">
-                    <h1 class="w-full text-lg">그린컴퓨터아트학원 공지사항 Top 15</h1>
+                    <h1 class="w-full text-lg">그린컴퓨터아트학원 공지사항 Top 5</h1>
                     <table class="w-[33rem]">
                         <thead class="text-gray-100 bg-blue-900">
                             <tr>
