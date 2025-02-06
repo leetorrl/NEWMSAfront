@@ -1,8 +1,18 @@
 
+
+echo "leetorrl-frontend 컨테이너를 중지합니다..."
 docker stop leetorrl-frontend
 
+
+echo "leetorrl-frontend 컨테이너를 삭제합니다..."
 docker rm leetorrl-frontend
 
+
+echo "leetorrl/greenfront:0.1 이미지를 삭제합니다..."
 docker rmi leetorrl/greenfront:0.1
 
+
+echo "새로운 leetorrl-frontend 컨테이너를 실행합니다..."
 docker run -d --name leetorrl-frontend --network teamone -p 5173:5173 leetorrl/greenfront:0.1
+
+echo "작업 완료!"
