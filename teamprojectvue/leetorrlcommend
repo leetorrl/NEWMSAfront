@@ -1,9 +1,8 @@
-docker build -t leetorrl/greenfront:0.1 .
+TAG="0.1"
 
-docker push leetorrl/greenfront:0.1
+docker build -t leetorrl/greenfront:$TAG .
+docker push leetorrl/greenfront:$TAG
 
 git add .
-
-git commit -m "0206 젠킨스 테스트"
-
+git commit -m "0206 젠킨스 테스트 v$TAG"
 git push origin main
