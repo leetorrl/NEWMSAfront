@@ -1,6 +1,5 @@
-# 0206 테스트
-
-TAG="0.1"
+#!/bin/bash
+source commend.env
 
 echo "leetorrl-frontend 컨테이너를 중지합니다..."
 docker stop leetorrl-frontend
