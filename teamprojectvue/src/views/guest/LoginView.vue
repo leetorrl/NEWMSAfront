@@ -61,7 +61,7 @@
         <div class="text-center">
           <div>
             <div v-if="arr">
-              <p class="py-2 text-[1.5rem] font-semibold text-left text-gray-600">공지사항!</p>
+              <p class="py-2 text-[1.5rem] font-semibold text-left text-gray-600">공지사항!!!</p>
               <ul v-for="(item, index) in arr" :key="item.idx">
                 <li v-if="index < 5" class="text-[1vw] text-left mt-1">{{ item.title }}</li>
                 <li v-if="index < 5" class="text-[0.7vw] text-right mb-1">{{ item.wdate.substring(0, 8) }}</li>
