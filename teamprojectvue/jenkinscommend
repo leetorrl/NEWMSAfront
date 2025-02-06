@@ -1,5 +1,5 @@
 #!/bin/bash
-source commend.env
+TAG="0.1"
 
 echo "leetorrl-frontend 컨테이너를 중지합니다..."
 docker stop leetorrl-frontend
