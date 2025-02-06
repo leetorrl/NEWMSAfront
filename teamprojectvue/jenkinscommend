@@ -1,0 +1,8 @@
+
+docker stop leetorrl-frontend
+
+docker rm leetorrl-frontend
+
+docker rmi leetorrl/greenfront:0.1
+
+docker run -d --name leetorrl-frontend --network teamone -p 5173:5173 leetorrl/greenfront:0.1
