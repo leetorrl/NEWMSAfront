@@ -1,0 +1,9 @@
+docker build -t leetorrl/greenfront:0.1 .
+
+docker push leetorrl/greenfront:0.1
+
+git add .
+
+git commit -m "0206 젠킨스 테스트"
+
+git push origin main
