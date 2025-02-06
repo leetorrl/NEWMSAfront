@@ -1,4 +1,4 @@
-source commend.env
+TAG="0.1"
 
 docker build -t leetorrl/greenfront:$TAG .
 docker push leetorrl/greenfront:$TAG
